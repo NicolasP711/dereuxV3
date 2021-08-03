@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel article{% endblock %}
+
+{% block body %}
+    <h1 class="text-center my-4">Créer un nouvel article</h1>
+
+    {{ include('blog/_form.html.twig') }}
+
+    <a class="btn btn-primary my-4 me-1" href="{{ path('blog_index') }}">Retour au blog</a>
+    <a class="btn btn-warning my-4 me-1" href="{{ path('blog_admin') }}">Gestion du blog</a>
+
+{% endblock %}

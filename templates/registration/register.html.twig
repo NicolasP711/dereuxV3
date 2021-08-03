@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+
+{% include 'partials/flashes/error.html.twig' %}
+{% include 'partials/flashes/success.html.twig' %}
+
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+            <div class="offset-md-3 col-md-6 offset-md-3">
+                <h2 class="h1 mt-4 text-center">Inscription</h2>
+                <p class="text-center">Inscrivez vous afin d'intégrer la communauté des fans de Philippe Dereux.</p>
+
+                {{ form_start(registrationForm) }}
+                <div class="form-group mb-3">
+                    {{ form_row(registrationForm.pseudonym) }}
+                </div>
+                <div class="form-group mb-3">
+                    {{ form_row(registrationForm.email) }}
+                </div>
+                <div class="form-group mb-3">
+                    {{ form_row(registrationForm.plainPassword) }}
+                </div>
+                <div class="form-group mb-3">
+                    {{ form_row(registrationForm.save) }}
+                </div>
+                {{ form_end(registrationForm) }}
+            </div>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block body %}
+
+    <article>
+            <h1 class="blogArticle my-4 col-12"><b>{{article.title|striptags|slice(0, 100)}}</b></h1>
+            <div class="blogArticle mb-4 col-12">{{ article.content|purify }}</div>
+            <p>Publié le <b>{{ article.publicationDate ? article.publicationDate|date('Y-m-d à H:i:s') : '' }}</b> par <b>{{ article.author.pseudonym }}</b></p>
+
+    </article>
+
+
+    <div id="profilBtn" class="mt-5">
+        {% if is_granted("ROLE_ADMIN") %}
+            <a class="btn btn-warning mb-5" href="{{ path('blog_admin') }}">Gestion du blog</a>
+            <a class="btn btn-warning mb-5" href="{{ path('blog_index') }}">Retour aux articles</a>
+            <a class="btn btn-primary mb-5" href="{{ path('blog_edit', {'id': article.id}) }}">Éditer</a>
+            {{ include('blog/_delete_form.html.twig') }}
+        {% else %}
+            <a class="btn btn-warning" href="{{ path('blog_index') }}">Retour aux articles</a>
+        {% endif %}
+    </div>
+
+{% endblock %}

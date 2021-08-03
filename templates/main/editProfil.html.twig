@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+
+
+{% include 'partials/flashes/error.html.twig' %}
+{% include 'partials/flashes/success.html.twig' %}
+
+    <h1 class="text-center mt-4">Modifier mon profil</h1>
+
+    <div class="registerForm offset-3 col-6 offset-3 mt-5">
+        {{ form_start(editProfilForm) }}
+    {{ form_errors(editProfilForm) }}
+        {{ form_row(editProfilForm.pseudonym)}}
+        {{ form_row(editProfilForm.email) }}
+        {{ form_row(editProfilForm.plainPassword) }}
+        <button type="submit" id="loginBtn" class="btn btn-primary">Update!</button>
+    {{ form_end(editProfilForm) }}
+    </div>
+
+    
+
+{% endblock %}

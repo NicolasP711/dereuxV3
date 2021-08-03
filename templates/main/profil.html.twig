@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block body %}
+
+{% include 'partials/flashes/error.html.twig' %}
+{% include 'partials/flashes/success.html.twig' %}
+
+
+    <h1 class="text-center mt-4">{{app.user.pseudonym|slice(0, 10)}}</h1>
+
+    {% if app.user.photo is null %}
+
+            <img class="d-block me-auto ms-auto mt-4" src="{{ asset('img/profil_default.png')|imagine_filter('profil') }}" alt="">
+
+    {% else %}
+
+            <img class="d-block me-auto ms-auto mt-4" src="{{ asset('img/users/' ~ app.user.photo)|imagine_filter('profil') }}" alt="">
+
+    {% endif %}
+
+    <div class="profilInfos col-12 text-center mt-4">
+        <div>
+            <p><b>Pseudonyme </b>: <i>{{ app.user.pseudonym }}</i></p>
+        </div>
+        <div>
+            <p><b>Adresse email </b>: <i>{{ app.user.email }}</i></p>
+        </div>
+        <div>
+            <p><b>Mot de passe </b>: <i>**********</i></p>
+        </div>
+        <div>
+            <p><b>Rôle </b>: <i>{{ is_granted('ROLE_ADMIN') ? 'Administrateur' : 'Utilisateur'}}</i></p>
+        </div>
+
+    </div>
+    <div id="profilBtn" class="mt-5">
+        <a href="{{ path('edit_profil') }}"><button type="button" class="btn btn-primary mb-5"><i class="fas fa-user-edit me-2"></i>Modifier mon profil</button></a>
+        <a href="{{ path('edit_photo') }}"><button type="button" class="btn btn-primary mb-5"><i class="fas fa-image me-2"></i>Changer d'image de profil</button></a>
+
+        <a href="{{ path('app_logout') }}" onclick="return confirm('Souhaitez vous vraiment vous déconnecter ?');"><button type="button" class="btn btn-warning mb-5"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</button></a>
+
+        <a href="{{ path('delete_account') }}" onclick="return confirm('Souhaitez vous vraiment supprimer votre compte ?');"><button type="button" class="btn btn-danger mb-5"><i class="fas fa-trash-alt me-2"></i>Supprimer mon compte</button></a>
+    </div>
+
+    <figure class="text-center">
+        <blockquote>
+            <p>Dans une discussion j'ai plus de plaisir à avoir tort que raison. J'ai ainsi l'impression d'avoir appris quelque chose.</p>
+        </blockquote>
+        <figcaption>Citation figurant dans <cite><a target="_blank" href="https://www.babelio.com/livres/Dereux-Journal-des-epluchures/548094">Journal des épluchures</a></cite> écrit par <b>Philippe Dereux</b>.</figcaption>
+    </figure>
+
+{% endblock %}

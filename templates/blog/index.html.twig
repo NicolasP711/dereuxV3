@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog{% endblock %}
+
+{% block body %}
+{% include 'partials/flashes/error.html.twig' %}
+{% include 'partials/flashes/success.html.twig' %}
+<h1 class="text-center my-4">Blog</h1>
+<p class="text-center">Vous trouverez ici les dernières actualités du site.</p>
+        {% for article in articles %}
+          <div class="col-12 my-5">
+            <div class="card h-100">
+                <h1 class="card-title text-center my-3">{{ article.title|striptags|slice(0,50) }}</h1>
+
+                <div class="card-body">
+                    <p class="card-text">{{ article.content|striptags|slice(0,150) }}...</p>
+                </div>
+
+                <div class="card-footer">
+
+                  <div class="d-flex">
+                        <p class="card-text me-3">Publié le : <b>{{ article.publicationDate|date('d/m/Y à H:i:s') }}</b> par : <b>{{ article.author.pseudonym }}</b></p>
+                        <a href="{{ path('blog_show', {'id': article.id}) }}" class="btn cardButton ps-5 pe-5 me-3">
+                            Voir l'article
+                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                          <a href="{{ path('blog_edit', {'id': article.id}) }}" class="btn btn-primary me-3">
+                            Éditer
+                          </a>
+                          {{ include('blog/_delete_form.html.twig') }}
+                        {% endif %}
+                          </div>
+                </div>
+              </div>
+
+            </div>
+        {% endfor %}
+
+
+
+{% endblock %}

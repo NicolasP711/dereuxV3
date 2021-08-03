@@ -1,0 +1,120 @@
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+
+  figure{
+    margin-bottom: 6%;
+  }
+
+  #footerName{
+    display: block;
+  }
+
+  #homeCard{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  #profilBtn{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+}
+
+@media (max-width: 990px) {
+
+  figure{
+    display: none;
+  }
+
+   #footerName{
+    display: none;
+  }
+
+  #homeCard{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #profilBtn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card{
+    margin-bottom: 10%;
+  }
+
+}
+
+@media (max-height: 505px) {
+
+  #registerBtn{
+    margin-bottom: 5%;
+  }
+
+  #loginBtn{
+    margin-bottom: 5%;
+  }
+
+}
+
+main > .container {
+    padding: 60px 15px 0;
+}
+
+figure{
+  margin-top: 6%;
+}
+
+#header{
+  background-color: #6e3300;
+}
+
+.cardButton{
+  background-color:  #48c9b0;
+}
+
+#footer{
+  background-color: #6e3300;
+  margin-top: 10%;
+}
+
+.offcanvas-body{
+  background-color: #6e3300;
+  color: white;
+}
+
+.offcanvas-menu, .offcanvas-header{
+  background-color: #6e3300;
+}
+
+img.displayed {
+  display: block;
+  margin-left: auto;
+  margin-right: auto
+}
+
+.blogArticle{
+  overflow-wrap: break-word;
+}
+
+body{
+
+  background-color: #fcfbf0;
+}
