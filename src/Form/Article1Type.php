@@ -62,8 +62,6 @@ class Article1Type extends AbstractType
                 'class' => 'btn btn-success col-12',
             ],
         ])
-            // ->add('publicationDate')
-            // ->add('author')
         ;
     }
 

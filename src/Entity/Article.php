@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo; // Importation de la classe permettant de faire un slug
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
@@ -26,6 +27,24 @@ class Article
      * @ORM\Column(type="string", length=10000)
      */
     private $content;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Gedmo\Slug(fields={"title"})
+     */
+    private $slug;
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
 
     /**
      * @ORM\Column(type="datetime")

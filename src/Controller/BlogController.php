@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @Route("/blog")
@@ -21,10 +23,26 @@ class BlogController extends AbstractController
     /**
      * @Route("/", name="blog_index", methods={"GET"})
      */
-    public function index(ArticleRepository $articleRepository): Response
+    public function index(Request $request, PaginatorInterface $paginator)
     {
+
+        $requestedPage = $request->query->getInt('page', 1);
+
+        if($requestedPage < 1){
+            throw new NotFoundHttpException();
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $query = $em->createQuery('SELECT a FROM App\Entity\Article a');
+
+        $pageArticles = $paginator->paginate(
+            $query,     // Requête de selection des articles en BDD
+            $requestedPage,     // Numéro de la page dont on veux les articles
+            10      // Nombre d'articles par page
+        );
         return $this->render('blog/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $pageArticles,
         ]);
     }
 
@@ -33,10 +51,59 @@ class BlogController extends AbstractController
      * @Route("/admin", name="blog_admin", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function admin(ArticleRepository $articleRepository): Response
+    public function admin(Request $request, PaginatorInterface $paginator): Response
     {
+        $requestedPage = $request->query->getInt('page', 1);
+
+        if($requestedPage < 1){
+            throw new NotFoundHttpException();
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $query = $em->createQuery('SELECT a FROM App\Entity\Article a');
+
+        $pageArticles = $paginator->paginate(
+            $query,     // Requête de selection des articles en BDD
+            $requestedPage,     // Numéro de la page dont on veux les articles
+            10      // Nombre d'articles par page
+        );
         return $this->render('blog/admin.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $pageArticles,
+        ]);
+    }
+
+    /**
+     *  Page affichant les résultats de recherches faites par le formulaire de recherche dans la navbar
+     *
+     * @Route("/admin/article/recherche", name="article_search")
+     */
+    public function articleSearch(Request $request, PaginatorInterface $paginator): Response
+    {
+        // Récupération de la variable $_GET['page]
+        $requestedPage = $request->query->getInt('page', 1);
+
+        if($requestedPage < 1){
+            throw new NotFoundHttpException();
+        }
+
+        $search = $request->query->get('q');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $query = $em
+            ->createQuery('SELECT a FROM App\Entity\Article a WHERE a.id LIKE :search OR a.title LIKE :search OR a.content LIKE :search ORDER BY a.publicationDate DESC ')
+            ->setParameters(['search' => '%' . $search . '%'])
+        ;
+
+        $articles = $paginator->paginate(
+            $query,
+            $requestedPage,
+            10,
+        );
+
+        return $this->render('blog/articleSearch.html.twig', [
+            'articles' => $articles
         ]);
     }
 
@@ -67,7 +134,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/article/{id}", name="blog_show", methods={"GET"})
+     * @Route("/article/{slug}", name="blog_show", methods={"GET"})
      */
     public function show(Article $article): Response
     {
@@ -77,7 +144,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edition", name="blog_edit", methods={"GET","POST"})
+     * @Route("/{slug}/edition", name="blog_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function edit(Request $request, Article $article): Response
@@ -98,7 +165,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/suppression/{id}", name="blog_delete", methods={"GET", "POST"})
+     * @Route("/suppression/{slug}", name="blog_delete", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function delete(Request $request, Article $article): Response

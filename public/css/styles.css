@@ -36,6 +36,11 @@
 
 @media (max-width: 990px) {
 
+  .createArticleBtn{
+    width: 100%;
+    margin: auto;
+  }
+
   figure{
     display: none;
   }
@@ -115,6 +120,60 @@ img.displayed {
 }
 
 body{
-
   background-color: #fcfbf0;
+}
+
+.sortable{
+  text-decoration: none;
+  color: #382646;
+  background-color: #48c9b0;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.sortable:hover{
+  color: #382646;
+}
+
+.asc{
+  text-decoration: none;
+  color: #382646;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.asc:hover{
+  color: #382646;
+}
+
+.desc{
+  text-decoration: none;
+  color: #382646;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.desc:hover{
+  color: #382646;
+}
+
+.pagination a{
+  text-decoration: none;
+  background-color: #382646;
+  padding: 5px;
+  border-radius: 2px;
+  color: #ffffff;
+  margin: 5px;
+}
+
+.pagination a:hover{
+  text-decoration: none;
+  color: #ffffff;
+  margin: 5px;
+}
+
+.current{
+  color: #382646;
+  margin-left: 5px;
+  margin-right: 5px;
 }
