@@ -177,3 +177,23 @@ body{
   margin-left: 5px;
   margin-right: 5px;
 }
+
+#commentContent{
+  word-break: break-word;
+}
+
+.comment h4,
+.comment span,
+.darker h4,
+.darker span {
+    display: inline
+}
+
+#deleteBtn{
+  background: none;
+  border: none;
+}
+
+.fa-trash{
+  color: red;
+}

@@ -24,8 +24,11 @@
   </div>
 </div>
 <p class="text-center">Nombre total d'articles : {{ articles.getTotalItemCount }}</p>
-<a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
+{% if is_granted('ROLE_ADMIN') %}
+  <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
+  <a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('blog_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitialiser les filtres</a>
 
+{% endif %}
 <button type="button" class="createArticleBtn btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
   <i class="fas fa-search me-2"></i>Rechercher
 </button>
@@ -42,7 +45,7 @@
               <form action="{{ path('article_search') }}" method="GET">
                   <div class="mb-3">
                       <label class="form-label">Rechercher un article</label>
-                      <input type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
+                      <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
                   </div>
                   <div class="modal-footer d-block">
                       <button type="submit" class="btn btn-warning float-end">Rechercher</button>

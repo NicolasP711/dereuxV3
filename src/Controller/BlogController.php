@@ -13,6 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Entity\ArticleComment;
+use App\Form\ArticleCommentFormType;
 
 /**
  * @Route("/blog")
@@ -76,7 +78,7 @@ class BlogController extends AbstractController
     /**
      *  Page affichant les résultats de recherches faites par le formulaire de recherche dans la navbar
      *
-     * @Route("/admin/article/recherche", name="article_search")
+     * @Route("/article/recherche", name="article_search")
      */
     public function articleSearch(Request $request, PaginatorInterface $paginator): Response
     {
@@ -92,7 +94,7 @@ class BlogController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $query = $em
-            ->createQuery('SELECT a FROM App\Entity\Article a WHERE a.id LIKE :search OR a.title LIKE :search OR a.content LIKE :search ORDER BY a.publicationDate DESC ')
+            ->createQuery('SELECT a FROM App\Entity\Article a WHERE a.id LIKE :search OR a.title LIKE :search OR a.content LIKE :search OR a.publicationDate LIKE :search ORDER BY a.publicationDate DESC ')
             ->setParameters(['search' => '%' . $search . '%'])
         ;
 
@@ -108,7 +110,41 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/nouvel-article", name="blog_new", methods={"GET","POST"})
+     *  Page affichant les résultats de recherches faites par le formulaire de recherche dans la navbar
+     *
+     * @Route("/admin/article/recherche", name="admin_article_search")
+     */
+    public function adminArticleSearch(Request $request, PaginatorInterface $paginator): Response
+    {
+        // Récupération de la variable $_GET['page]
+        $requestedPage = $request->query->getInt('page', 1);
+
+        if($requestedPage < 1){
+            throw new NotFoundHttpException();
+        }
+
+        $search = $request->query->get('q');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $query = $em
+            ->createQuery('SELECT a FROM App\Entity\Article a WHERE a.id LIKE :search OR a.title LIKE :search OR a.content LIKE :search OR a.publicationDate LIKE :search ORDER BY a.publicationDate DESC ')
+            ->setParameters(['search' => '%' . $search . '%'])
+        ;
+
+        $articles = $paginator->paginate(
+            $query,
+            $requestedPage,
+            10,
+        );
+
+        return $this->render('blog/adminArticleSearch.html.twig', [
+            'articles' => $articles
+        ]);
+    }
+
+    /**
+     * @Route("/admin/nouvel-article", name="blog_new", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function new(Request $request): Response
@@ -134,12 +170,42 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/article/{slug}", name="blog_show", methods={"GET"})
+     * @Route("/article/{slug}", name="blog_show")
      */
-    public function show(Article $article): Response
+    public function show(Article $article, Request $request): Response
     {
+        $newComment = new ArticleComment();
+
+        $form = $this->createForm(ArticleCommentFormType::class, $newComment);
+
+        $form->handleRequest($request);
+
+        // Pour savoir si le formulaire a été envoyé, on a accès à cette condition :
+            if($form->isSubmitted() && $form->isValid()){
+
+                $newComment
+                    ->setPublicationDate(new DateTime())
+                    ->setAuthor($this->getUser())
+                    ->setArticle($article)
+                ;
+
+                // récupération du manager des entités et sauvegarde en BDD de $newArticle
+                $em = $this->getDoctrine()->getManager();
+
+                $em->persist($newComment);
+
+                $em->flush();
+
+                $this->addFlash('success', 'Commentaire publié avec succès.');
+
+                // On re-créé le formulaire pour pas que le texte saisi dans le dernier commentaire se remettent dans le nouveau
+                $newComment = new ArticleComment();
+                $form = $this->createForm(ArticleCommentFormType::class, $newComment);
+            }
         return $this->render('blog/show.html.twig', [
             'article' => $article,
+            'form' => $form->createView(),
+
         ]);
     }
 
@@ -165,6 +231,44 @@ class BlogController extends AbstractController
     }
 
     /**
+     * @Route("/admin/{slug}/edition", name="admin_blog_edit", methods={"GET","POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function adminEdit(Request $request, Article $article): Response
+    {
+        $form = $this->createForm(Article1Type::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'L\'article a été supprimé avec succès.');
+            return $this->redirectToRoute('blog_admin', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('blog/edit.html.twig', [
+            'article' => $article,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/suppression/{slug}", name="admin_blog_delete", methods={"GET", "POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function adminDelete(Request $request, Article $article): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($article);
+            $entityManager->flush();
+            $this->addFlash('success', 'L\'article a été supprimé avec succès.');
+        }
+
+        return $this->redirectToRoute('blog_admin', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
      * @Route("/suppression/{slug}", name="blog_delete", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
@@ -174,8 +278,41 @@ class BlogController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();
+            $this->addFlash('success', 'L\'article a été supprimé avec succès.');
         }
 
         return $this->redirectToRoute('blog_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     *  Page admin servant à supprimer un commentaire via son id passé dans l'URL
+     *
+     * @Route("/commentaire/suppression/{id}/", name="delete_article_comment")
+     * @Security("is_granted('ROLE_ADMIN')")
+     *
+     */
+    public function commentDelete(ArticleComment $comment, Request $request): Response
+    {
+
+        if(!$this->isCsrfTokenValid('delete_article_comment_' . $comment->getId(), $request->query->get('csrf_token')  )){
+
+            $this->AddFlash('error', 'Token sécurité invalide, veuillez ré-essayer.');
+
+        } else {
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->remove($comment);
+
+            $em->flush();
+
+            $this->addFlash('success', 'Le commentaire a été supprimé avec succès.');
+
+        }
+
+        return $this->redirectToRoute('blog_show', [
+            'slug' => $comment->getArticle()->getSlug()
+        ]);
+
     }
 }

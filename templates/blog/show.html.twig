@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Article{% endblock %}
+{% block title %}{{article.title}}{% endblock %}
 
 {% block body %}
+  {% include 'partials/flashes/error.html.twig' %}
+  {% include 'partials/flashes/success.html.twig' %}
 
     <article>
             <h1 class="blogArticle my-4 col-12"><b>{{article.title|striptags|slice(0, 100)}}</b></h1>
@@ -21,6 +23,39 @@
         {% else %}
             <a class="btn btn-warning" href="{{ path('blog_index') }}">Retour aux articles</a>
         {% endif %}
+    </div>
+
+    
+    {% if article.ArticleComments is empty %}
+      <p class="text-center alert alert-warning my-2">Aucun commentaire n'a été publié pour le moment.</p>
+    {% else %}
+      <h2 class="h3 text-center my-4">Commentaires: {{ article.ArticleComments|length }}</h2>
+      {% for comment in article.Articlecomments %}
+      <div class="comment mt-4 text-justify float-left">
+
+        {% if comment.author.photo is null %}
+            <img class="rounded-circle me-1" width="40" height="40" src="{{ asset('img/profil_default.png')|imagine_filter('profil') }}" alt="image de profil">
+        {% else %}
+            <img class="rounded-circle me-1" width="40" height="40" src="{{ asset('img/users/' ~ comment.author.photo)|imagine_filter('profil') }}" alt="image de profil">
+        {% endif %}
+
+        <h4><strong>{{ comment.author.pseudonym }}</strong></h4> <span>- {{ comment.publicationDate|date('d/m/Y à H\\hi') }}</span>
+        <p class="mt-2" id="commentContent">{{ comment.content|purify }}</p>
+        {% if is_granted('ROLE_ADMIN') %}
+              <a href="{{ path('delete_article_comment', {id: comment.id, csrf_token: csrf_token('delete_article_comment_' ~ comment.id)}) }}">Supprimer le commentaire</a>
+            {% endif %}
+      </div>
+      {% endfor %}
+    {% endif %}
+
+    <div>
+      {# Liste des commentaires lié à l'article #}
+      {% if is_granted('ROLE_USER') %}
+          <h2 class="text-center my-4">Ajouter un commentaire :</h2>
+          {{ form(form) }}
+      {% else %}
+        <button type="button" class="btn btn-primary ms-auto me-auto my-4"><a href="{{ path('app_login') }}" style="color: white;">Connectez vous pour ajouter un commentaire</a></button>
+      {% endif %}
     </div>
 
 {% endblock %}

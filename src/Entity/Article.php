@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo; // Importation de la classe permettant de faire un slug
 
@@ -53,9 +55,20 @@ class Article
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $author;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ArticleComment::class, mappedBy="article")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    private $articleComments;
+
+    public function __construct()
+    {
+        $this->articleComments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,6 +119,36 @@ class Article
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ArticleComment[]
+     */
+    public function getArticleComments(): Collection
+    {
+        return $this->articleComments;
+    }
+
+    public function addArticleComment(ArticleComment $articleComment): self
+    {
+        if (!$this->articleComments->contains($articleComment)) {
+            $this->articleComments[] = $articleComment;
+            $articleComment->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleComment(ArticleComment $articleComment): self
+    {
+        if ($this->articleComments->removeElement($articleComment)) {
+            // set the owning side to null (unless already changed)
+            if ($articleComment->getArticle() === $this) {
+                $articleComment->setArticle(null);
+            }
+        }
 
         return $this;
     }
