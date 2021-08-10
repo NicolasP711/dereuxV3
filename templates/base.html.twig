@@ -26,7 +26,7 @@
 
 
               <div class="container-fluid">
-                <a class="navbar-brand" href="{{path('home')}}">Les amis de Philippe Dereux</a>
+                <a class="navbar-brand" href="{{path('home')}}">Les amis de Dereux</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>
@@ -36,34 +36,39 @@
                       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                   </div>
                   <div class="offcanvas-body">
-                      <div>
-                        <ul class="list-group">
-                          <li class="list-group-item text-center"><a href="{{path('home')}}">Accueil</a></li>
-                          <li class="list-group-item text-center"><a href="#">Blog</a></li>
-                          <li class="list-group-item text-center"><a href="#">Artistes</a></li>
-                          <li class="list-group-item text-center"><a href="#">Oeuvres</a></li>
-                        </ul>
-                      </div>
-                      {% if is_granted('ROLE_USER') %}
-                        <div class="dropdown mt-3">
-                          <button class="btn btn-secondary dropdown-toggle w-100 me-auto ms-auto" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">Mon profil</button>
-                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                              <li><a class="dropdown-item" href="{{path('profil')}}"><i class="fas fa-user me-1"></i>Mon profil</a></li>
-                              {% if is_granted('ROLE_ADMIN') %}
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-users-cog me-1"></i>Gestion des utilisateurs</a></li>
-                              {% endif %}
-                              <li><Se class="dropdown-item" href="{{path('app_logout')}}" onclick="return confirm('Souhaitez vous vraiment vous déconnecter ?');"><i class="fas fa-sign-out-alt me-1"></i>Déconnexion</a></li>
-                          </ul>
-                        </div>
-                        {% else %}
-                        <div class="dropdown mt-3">
-                            <button class="btn btn-secondary dropdown-toggle w-100 me-auto ms-auto" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"> Connexion </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <li><a class="dropdown-item" href="{{path('app_login')}}">Se connecter</a></li>
-                                <li><a class="dropdown-item" href="{{path('app_register')}}">S'inscrire</a></li>
-                            </ul>
-                        </div>
-                        {% endif %}
+                    <li class="nav-item">
+                      <a class="nav-link text-center text-white" aria-current="page" href="{{ path('home') }}"><i class="fas fa-home me-1"></i>Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-center text-white" href="{{ path('blog_index') }}"><i class="fas fa-blog me-1"></i>Blog</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('blog_admin') }}"><i class="fas fa-cog me-1"></i>Gestion du blog</a>
+                      </li>
+                    {% endif %}
+                    <li class="nav-item">
+                      <a class="nav-link text-center text-white" href="#">Oeuvres</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-center text-white" href="#">Artistes</a>
+                    </li>
+                    <hr>
+                    {% if is_granted('ROLE_USER') %}
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('profil') }}"><i class="fas fa-user me-1"></i>Mon profil</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt me-1"></i>Déconnexion</a>
+                      </li>
+                    {% else %}
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('app_login') }}"><i class="fas fa-sign-in-alt me-1"></i>Connexion</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('app_register') }}"><i class="fas fa-sign-in-alt me-1"></i>Inscription</a>
+                      </li>
+                    {% endif %}
                   </div>
                 </div>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
