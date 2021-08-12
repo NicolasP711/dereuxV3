@@ -12,11 +12,11 @@
 
     {% if app.user.photo is null %}
 
-            <img class="d-block me-auto ms-auto mt-4" src="{{ asset('img/profil_default.png')|imagine_filter('profil') }}" alt="">
+            <img class="d-block rounded-circle me-auto ms-auto mt-4" src="{{ asset('img/profil_default.png')|imagine_filter('profil') }}" alt="">
 
     {% else %}
 
-            <img class="d-block me-auto ms-auto mt-4" src="{{ asset('img/users/' ~ app.user.photo)|imagine_filter('profil') }}" alt="">
+            <img id="profilImg" class="d-block rounded-circle me-auto ms-auto mt-4" src="{{ asset('img/users/' ~ app.user.photo)|imagine_filter('profil') }}" alt="">
 
     {% endif %}
 
@@ -35,9 +35,24 @@
         </div>
 
     </div>
+    
     <div id="profilBtn" class="mt-5">
-        <a href="{{ path('edit_profil') }}"><button type="button" class="btn btn-primary mb-5"><i class="fas fa-user-edit me-2"></i>Modifier mon profil</button></a>
-        <a href="{{ path('edit_photo') }}"><button type="button" class="btn btn-primary mb-5"><i class="fas fa-image me-2"></i>Changer d'image de profil</button></a>
+
+        <div class="dropdown">
+            <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              Modifier mon profil
+            </a>
+          
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="{{ path('edit_photo') }}">Changer d'image de profil</a></li>
+                <li><a class="dropdown-item" href="{{ path('edit_profil') }}">Modifier mon profil</a></li>
+              <li><a class="dropdown-item" href="{{ path('edit_password') }}">Modifier mon mot de passe</a></li>
+            </ul>
+          </div>
+        {#<a href="{{ path('edit_profil') }}"><button type="button" class="btn btn-primary mb-5"><i class="fas fa-user-edit me-2"></i>Modifier mon profil</button></a>
+        <a href="{{ path('edit_password') }}"><button type="button" class="btn btn-primary mb-5"><i class="fas fa-user-edit me-2"></i>Modifier mon mot de passe</button></a>
+
+        <a href="{{ path('edit_photo') }}"><button type="button" class="btn btn-primary mb-5"><i class="fas fa-image me-2"></i>Changer d'image de profil</button></a>#}
 
         <a href="{{ path('app_logout') }}" onclick="return confirm('Souhaitez vous vraiment vous déconnecter ?');"><button type="button" class="btn btn-warning mb-5"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</button></a>
 

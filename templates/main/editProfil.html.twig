@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Modifier mon profil{% endblock %}
 
 {% block body %}
 
@@ -13,10 +13,18 @@
     <div class="registerForm offset-3 col-6 offset-3 mt-5">
         {{ form_start(editProfilForm) }}
     {{ form_errors(editProfilForm) }}
-        {{ form_row(editProfilForm.pseudonym)}}
+        <div class="form-group mb-3">
+            {{ form_row(editProfilForm.pseudonym)}}
+        </div>
+        <div class="form-group mb-3">
         {{ form_row(editProfilForm.email) }}
-        {{ form_row(editProfilForm.plainPassword) }}
-        <button type="submit" id="loginBtn" class="btn btn-primary">Update!</button>
+        </div>
+        <div class="form-group mb-3">
+        {{ form_row(editProfilForm.currentpassword) }}
+        </div>
+        <div class="form-group mb-3">
+            <button type="submit" id="loginBtn" class="btn btn-primary">Mettre à jour mon profil</button>
+        </div>
     {{ form_end(editProfilForm) }}
     </div>
 

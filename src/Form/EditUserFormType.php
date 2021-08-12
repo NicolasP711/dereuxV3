@@ -15,6 +15,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPasswordValidator;
 
 
 
@@ -52,34 +54,18 @@ class EditUserFormType extends AbstractType
                 ]),
             ]
         ])
-        ->add('plainPassword', RepeatedType::class, [
-            'type' => PasswordType::class,
-            'invalid_message' => 'Le mot de passe ne correspond pas à sa confirmation.',
-            'first_options' => [
-                'label' => 'Mot de passe',
-                'help' => 'Le mot de passe doit contenir au minimum 8 caractères dont une minuscule, une majuscule, un chiffre et un caractère spécial.',
-            ],
-            'second_options' => [
-                'label' => 'Confirmation du mot de passe.',
-            ],
+        ->add('currentpassword', PasswordType::class, array('label'=>'Mot de passe actuel',
             'mapped' => false,
+            'required' => true,
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Veuillez renseigner un mot de passe.',
+                    'message' => 'Merci de renseigner votre mot de passe actuel.'
                 ]),
-                new Length([
-                    'min' => 8,
-                    'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
-                    // max length allowed by Symfony for security reasons
-                    'max' => 255,
-                    'maxMessage' => 'Votre mot de passe doit contenir au maximum {{ limit }} caractères.'
+                new UserPassword([
+                    'message' => 'Le mot de passe doit correspondre au mot de passe actuel.'
                 ]),
-                new Regex([
-                    'pattern' => "/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !\"\#\$%&\'\(\)*+,\-.\/:;<=>?@[\\^\]_`\{|\}~])^.{0,4096}$/",
-                    'message' => 'Le mot de passe doit contenir obligatoirement une minuscule, une majuscule, un chiffre et un caractère spécial.',
-                ])
             ]
-        ])
+        ))
 
         ;
     }

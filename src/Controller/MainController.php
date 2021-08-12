@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\EditPasswordFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,6 +50,37 @@ class MainController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
 
             $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash('success', 'Profil modifié avec succès.');
+            return $this->redirectToRoute('profil');
+        }
+
+        // Pour que la vue puisse afficher le formulaire, on doit lui envoyer le formulaire généré, avec $form->createView()
+        return $this->render('main/editProfil.html.twig', [
+            'editProfilForm' => $form->createView()
+        ]);
+    }
+
+    /** Page de modification de profil
+     *
+     * @Route("/modifier-mon-mot-de-passe/", name="edit_password")
+     * @Security("is_granted('ROLE_USER')")
+     *
+     */
+    public function editPassword(Request $request, UserPasswordEncoderInterface $encoder): Response
+    {
+
+        $user = $this->getUser();
+
+        $form = $this->createForm(EditPasswordFormType::class, $user);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $em = $this->getDoctrine()->getManager();
 
             $newPassword = $form->get('plainPassword')['first']->getData();
 
@@ -60,13 +92,13 @@ class MainController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Profil modifié avec succès.');
+            $this->addFlash('success', 'Mot de passe modifié avec succès.');
             return $this->redirectToRoute('profil');
         }
 
         // Pour que la vue puisse afficher le formulaire, on doit lui envoyer le formulaire généré, avec $form->createView()
-        return $this->render('main/editProfil.html.twig', [
-            'editProfilForm' => $form->createView()
+        return $this->render('main/editPassword.html.twig', [
+            'editPasswordForm' => $form->createView()
         ]);
     }
 

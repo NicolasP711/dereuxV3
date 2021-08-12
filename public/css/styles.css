@@ -201,3 +201,8 @@ body{
 li{
   list-style: none;
 }
+
+#profilImg{
+  width: 150px;
+  height: 150px;
+}
