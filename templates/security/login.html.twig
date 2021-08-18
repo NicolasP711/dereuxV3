@@ -28,10 +28,11 @@
             <!-- <div class="form-check mt-1"> -->
                 <div class="d-block">
                 <input type="checkbox" id="remember_me" name="_remember_me" checked/>
-                <label for="remember_me">Keep me logged in</label>
+                <label class="my-1" for="remember_me">Rester connecté</label>
             </div>
             <!-- </div> -->
             <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a><br>
+            <a href="{{ path('app_register') }}">Vous n'avez pas encore un compte ? Inscrivez-vous !</a>
 
             <input type="hidden" name="_csrf_token"
                 value="{{ csrf_token('authenticate') }}"

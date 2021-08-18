@@ -155,9 +155,7 @@ body{
 
 .sortable{
   text-decoration: none;
-  background-color: rgb(116, 82, 150);
-  color: #ffffff;
-  padding: 5px;
+  padding: 3px;
   border-radius: 5px;
 }
 

@@ -79,7 +79,13 @@
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}
                       <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle {{ currentRoute == 'blog_index'
+                        or currentRoute == 'blog_admin' or currentRoute == 'blog_show'
+                        or currentRoute == 'blog_edit' or currentRoute == 'blog_new'
+                        or currentRoute == 'admin_article_search'
+                        or currentRoute == 'article_search'
+                        or currentRoute == 'admin_article_search'
+                        or currentRoute == 'admin_blog_edit' ? ' active' }}" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                           <i class="fas fa-blog me-1"></i>Blog
                         </a>
                         <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
@@ -102,7 +108,7 @@
                   {% if is_granted('ROLE_USER') %}
                   <ul class="navbar-nav ms-auto mb-2 mb-md-0">
                     <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <a class="nav-link dropdown-toggle {{ currentRoute == 'profil' or currentRoute == 'edit_password' or currentRoute == 'edit_profil' or currentRoute == 'edit_photo' ? ' active' }}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user me-1"></i>Mon profil
                       </a>
                       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -117,7 +123,7 @@
                   {% else %}
                   <ul class="navbar-nav ms-auto mb-2 mb-md-0">
                     <li class="nav-item dropdown">
-                      <a class="nav-link {{ currentRoute == 'app_login' ? 'active' : currentRoute == 'app_register' ? 'active' }} dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <a class="nav-link {{ currentRoute == 'app_login' or currentRoute == 'app_register' ? ' active' }} dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-sign-in-alt me-1"></i>Connexion
                       </a>
                       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

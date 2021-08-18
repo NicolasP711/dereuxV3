@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Article;
+use App\Entity\ArticleComment;
 use App\Entity\User;
 use \DateTime;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -59,6 +60,20 @@ class AppFixtures extends Fixture
             ;
 
             $manager->persist($article);
+        }
+
+        for($e = 0; $e < 200; $e++){
+
+            $commentArticle = new ArticleComment();
+
+            $commentArticle
+                ->setPublicationDate( $faker->dateTimeBetween($admin->getRegistrationDate(), 'now') )
+                ->setAuthor($admin)
+                ->setArticle($article)
+                ->setContent( $faker->paragraph(15) )
+            ;
+
+            $manager->persist($commentArticle);
         }
 
         $manager->flush();
