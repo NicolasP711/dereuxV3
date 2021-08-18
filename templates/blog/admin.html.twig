@@ -69,8 +69,8 @@
             {% for article in articles %}
           <tr>
               <td>{{ article.id }}</td>
-            <td><b>{{ article.title|striptags|slice(0,40) }}</b></td>
-            <td>{{ article.content|striptags|slice(0,40) }}</td>
+            <td><b>{{ article.title|striptags|excerpt(10) }}</b></td>
+            <td>{{ article.content|striptags|excerpt(3) }}</td>
             <td>{{ article.publicationDate ? article.publicationDate|date('Y-m-d H:i:s') : '' }}</td>
             <td>{{article.author.pseudonym}}</td>
             <td>

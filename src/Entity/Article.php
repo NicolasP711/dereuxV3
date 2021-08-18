@@ -60,8 +60,8 @@ class Article
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity=ArticleComment::class, mappedBy="article")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @ORM\OneToMany(targetEntity=ArticleComment::class, mappedBy="article", orphanRemoval=true)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $articleComments;
 

@@ -15,6 +15,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Entity\ArticleComment;
 use App\Form\ArticleCommentFormType;
+use App\Form\EditArticleCommentFormType;
 
 /**
  * @Route("/blog")
@@ -210,6 +211,27 @@ class BlogController extends AbstractController
     }
 
     /**
+     * @Route("/editer-commentaire/{slug}", name="comment_edit", methods={"GET","POST"})
+     * @Security("is_granted('ROLE_USER')")
+     */
+    public function editArticleComment(Request $request, ArticleComment $articleComment): Response
+    {
+        $form = $this->createForm(ArticleCommentFormType::class, $articleComment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('blog_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('blog/editComment.html.twig', [
+            'articleComment' => $articleComment,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/{slug}/edition", name="blog_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
@@ -287,8 +309,8 @@ class BlogController extends AbstractController
     /**
      *  Page admin servant à supprimer un commentaire via son id passé dans l'URL
      *
-     * @Route("/commentaire/suppression/{id}/", name="delete_article_comment")
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Route("/commentaire/suppression/{slug}/", name="delete_article_comment")
+     * @Security("is_granted('ROLE_USER')")
      *
      */
     public function commentDelete(ArticleComment $comment, Request $request): Response

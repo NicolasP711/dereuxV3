@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ArticleCommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo; // Importation de la classe permettant de faire un slug
 
 /**
  * @ORM\Entity(repositoryClass=ArticleCommentRepository::class)
@@ -21,6 +22,24 @@ class ArticleComment
      * @ORM\Column(type="string", length=2000)
      */
     private $content;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Gedmo\Slug(fields={"content"})
+     */
+    private $slug;
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articleComments")
@@ -49,7 +68,7 @@ class ArticleComment
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    public function setContent(?string $content): self
     {
         $this->content = $content;
 

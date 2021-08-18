@@ -1,3 +1,18 @@
+@font-face {
+  font-family: 'Roboto';
+  src: url(../font/Roboto-Regular.ttf);
+}
+
+body{
+  font-family: 'Roboto';
+}
+
+#articleButton{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 .bd-placeholder-img {
   font-size: 1.125rem;
   text-anchor: middle;
@@ -34,6 +49,25 @@
 
 }
 
+@media (max-width: 768px) {
+
+  #articleButton{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  #deleteBlogIndex{
+    width: 100%;
+  }
+
+  #editBlogIndex{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+}
+
 @media (max-width: 990px) {
 
   .createArticleBtn{
@@ -61,10 +95,6 @@
     align-items: center;
   }
 
-  .card{
-    margin-bottom: 10%;
-  }
-
 }
 
 @media (max-height: 505px) {
@@ -88,25 +118,25 @@ figure{
 }
 
 #header{
-  background-color: #6e3300;
+  background-color: rgb(67, 40, 24);
 }
 
 .cardButton{
-  background-color:  #48c9b0;
+  background-color:  rgb(148, 161, 135);
 }
 
 #footer{
-  background-color: #6e3300;
+  background-color: rgb(67, 40, 24);
   margin-top: 10%;
 }
 
 .offcanvas-body{
-  background-color: #6e3300;
+  background-color: rgb(67, 40, 24);
   color: white;
 }
 
 .offcanvas-menu, .offcanvas-header{
-  background-color: #6e3300;
+  background-color: rgb(67, 40, 24);
 }
 
 img.displayed {
@@ -125,8 +155,8 @@ body{
 
 .sortable{
   text-decoration: none;
-  color: #382646;
-  background-color: #48c9b0;
+  background-color: rgb(116, 82, 150);
+  color: #ffffff;
   padding: 5px;
   border-radius: 5px;
 }
@@ -137,7 +167,8 @@ body{
 
 .asc{
   text-decoration: none;
-  color: #382646;
+  background-color: rgb(116, 82, 150);
+  color: #ffffff;
   padding: 5px;
   border-radius: 5px;
 }
@@ -148,7 +179,8 @@ body{
 
 .desc{
   text-decoration: none;
-  color: #382646;
+  background-color: rgb(116, 82, 150);
+  color: #ffffff;
   padding: 5px;
   border-radius: 5px;
 }
@@ -159,7 +191,8 @@ body{
 
 .pagination a{
   text-decoration: none;
-  background-color: #382646;
+  background-color: rgb(116, 82, 150);
+  color: #ffffff;
   padding: 5px;
   border-radius: 2px;
   color: #ffffff;
@@ -205,4 +238,20 @@ li{
 #profilImg{
   width: 150px;
   height: 150px;
+}
+
+.defaultBtn{
+  background-color: rgb(41, 82, 74);
+  color: #ffffff;
+}
+
+.altBtn{
+  background-color: rgb(116, 82, 150);
+  color: #ffffff;
+}
+
+.parent {
+  display: flex; /* contexte sur le parent */
+  flex-direction: column; /* direction d'affichage verticale */
+  justify-content: center; /* alignement vertical */
 }

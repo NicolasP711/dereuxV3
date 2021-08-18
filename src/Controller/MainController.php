@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
+use App\Form\ContactFormType;
 use App\Form\EditPasswordFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,6 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Form\EditUserFormType;
 use App\Form\EditPhotoFormType;
+use DateTime;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+
 
 class MainController extends AbstractController
 {
@@ -20,6 +27,47 @@ class MainController extends AbstractController
     public function index(): Response
     {
         return $this->render('main/index.html.twig');
+    }
+
+    /**
+     * @Route("/contact/", name="contact")
+     */
+    public function contact(Request $request, MailerInterface $mailer): Response
+    {
+        $contact = new Contact();
+        $form = $this->createForm(ContactFormType::class, $contact);
+        $form->handleRequest($request);
+        $contact->setDateSent( new DateTime() );
+
+        if($form->isSubmitted() && $form->isValid()){
+            $data = $form->getData();
+            $mail = $data->getEmail();
+            $email = (new TemplatedEmail())
+            ->from(new Address('expediteur@exemple.fr', 'noreply'))
+            ->to($mail)
+            ->subject('Sujet du mail')
+            ->htmlTemplate('test/test.html.twig')    // Fichier twig du mail en version html
+            ->textTemplate('test/test.txt.twig')     // Fichier twig du mail en version text
+            /* Il est possible de faire passer aux deux templates twig des variables en ajoutant le code suivant :
+            ->context([
+                'fruits' => ['Pomme', 'Cerise', 'Poire']
+            ])
+            */
+        ;
+
+            // Envoi du mail
+            $mailer->send($email);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($contact);
+            $em->flush();
+
+            $this->addFlash('success', 'Message envoyé avec succès.');
+            return $this->redirectToRoute('home');
+        }
+        return $this->render('main/contact.html.twig',[
+            'contactForm' => $form->createView()
+        ]);
     }
 
     /**

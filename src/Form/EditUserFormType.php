@@ -43,7 +43,7 @@ class EditUserFormType extends AbstractType
                 'id' => 'nom'
             ]
         ])
-        ->add('email', TextType::class, [
+        ->add('email', EmailType::class, [
             'label' => 'Adresse Email',
             'constraints' => [
                 new Email([
@@ -54,7 +54,8 @@ class EditUserFormType extends AbstractType
                 ]),
             ]
         ])
-        ->add('currentpassword', PasswordType::class, array('label'=>'Mot de passe actuel',
+        ->add('currentpassword', PasswordType::class, [
+            'label'=>'Mot de passe actuel',
             'mapped' => false,
             'required' => true,
             'constraints' => [
@@ -65,7 +66,7 @@ class EditUserFormType extends AbstractType
                     'message' => 'Le mot de passe doit correspondre au mot de passe actuel.'
                 ]),
             ]
-        ))
+        ])
 
         ;
     }

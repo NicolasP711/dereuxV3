@@ -10,25 +10,24 @@
 <h1 class="h2 text-center my-4">Blog</h1>
 <p class="text-center">Vous trouverez ici les dernières actualités du site.</p>
 
+<p class="text-center">Nombre total d'articles : {{ articles.getTotalItemCount }}</p>
 <p class="text-center my-4">
   {# Création d'un lien permettant de trier par titre #}
   <span class="mx-2">{{ knp_pagination_sortable(articles, 'Trier par titre', 'a.title') }}</span>
   {# Création d'un lien permettant de trier par date #}
   <span class="mx-2">{{ knp_pagination_sortable(articles, 'Trier par date', 'a.publicationDate') }}</span>
 </p>
-
 <div class="mt-5 mb-3 text-center">
   <div class="d-inline-block">
       {# Affichage du menu permettant de naviguer entre les différentes pages #}
       {{ knp_pagination_render(articles) }}
   </div>
 </div>
-<p class="text-center">Nombre total d'articles : {{ articles.getTotalItemCount }}</p>
 {% if is_granted('ROLE_ADMIN') %}
   <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
 {% endif %}
-<a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('blog_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitialiser les filtres</a>
-<button type="button" class="createArticleBtn btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
+<a class="createArticleBtn btn altBtn mb-2 me-2" href="{{ path('blog_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitialiser les filtres</a>
+<button type="button" class="createArticleBtn btn altBtn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
   <i class="fas fa-search me-2"></i>Rechercher
 </button>
 
@@ -47,7 +46,7 @@
                       <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
                   </div>
                   <div class="modal-footer d-block">
-                      <button type="submit" class="btn btn-warning float-end">Rechercher</button>
+                      <button type="submit" class="btn altBtn float-end">Rechercher</button>
                   </div>
               </form>
           </div>
@@ -60,27 +59,27 @@
     <div class="col-12 my-5">
       <div class="card h-100">
 
-          <h2 class="card-title text-center my-3">{{ article.title|striptags|slice(0,50) }}</h2>
+          <h2 class="card-title ms-3 my-3">{{ article.title|striptags|slice(0,50) }}</h2>
 
           <div class="card-body">
-            <p class="card-text">{{ article.content|striptags|slice(0,150) }}...</p>
+            <p class="card-text">{{ article.content|striptags|excerpt(100) }}</p>
           </div>
 
         <div class="card-footer">
-          <div class="d-flex flex-column">
+
             <p class="card-text me-3">Publié le : <b>{{ article.publicationDate|date('d/m/Y à H:i:s') }}</b><br>par : <b>{{ article.author.pseudonym }}</b></p>
-            <a href="{{ path('blog_show', {'slug': article.slug}) }}" class="btn cardButton ps-5 pe-5 me-3">
+            <div id="articleButton">
+            <a href="{{ path('blog_show', {'slug': article.slug}) }}" class="btn defaultBtn">
                 Voir l'article
             </a>
             {% if is_granted('ROLE_ADMIN') %}
-              <a href="{{ path('blog_edit', {'slug': article.slug}) }}" class="btn btn-primary me-3">
+              <a id="editBlogIndex" href="{{ path('blog_edit', {'slug': article.slug}) }}" class="btn altBtn">
                 Éditer
               </a>
               <form method="post" action="{{ path('blog_delete', {'slug': article.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cet article ?');">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
-                <button class="btn btn-danger">Supprimer</button>
+                <button id="deleteBlogIndex" class="btn btn-danger">Supprimer</button>
               </form>
-            
             {% endif %}
           </div>
         </div>

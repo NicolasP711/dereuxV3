@@ -17,18 +17,18 @@ class ArticleCommentFormType extends AbstractType
     {
         $builder
         ->add('content', TextareaType::class, [
-            'label' => 'Contenu',
-            'help' => 'Le contenu doit contenir entre 10 et 2000 caractères.',
+            'label' => 'Commentaire',
+            'help' => 'Le commentaire doit contenir entre 10 et 2000 caractères.',
             'purify_html' => true,
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Merci de renseigner un contenu.'
+                    'message' => 'Merci de renseigner un commentaire.'
                 ]),
                 new Length ([
                     'min' => 10,
-                    'minMessage' => 'Le contenu doit contenir au moins 10 caractères.',
+                    'minMessage' => 'Le commentaire doit contenir au moins 10 caractères.',
                     'max' => 2000,
-                    'maxMessage' => 'Le contenu doit contenir au maximum {{ limit }} caractères.',
+                    'maxMessage' => 'Le commentaire doit contenir au maximum {{ limit }} caractères.',
                 ]),
             ]
         ])
