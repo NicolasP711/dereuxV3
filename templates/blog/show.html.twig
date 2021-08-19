@@ -30,7 +30,19 @@
       <p class="text-center alert alert-warning mt-5">Aucun commentaire n'a été publié pour le moment.</p>
     {% else %}
       <p class="text-center my-4">Commentaires: {{ article.ArticleComments|length }}</p>
-      {% for comment in article.Articlecomments %}
+      <div class="mt-5 mb-3 text-center">
+        {#<div class="d-inline-block">
+            {{ knp_pagination_render(comments) }}
+        </div>#}
+      </div>
+      <div class="mt-5 mb-3 text-center">
+        <div class="d-inline-block">
+            {# Affichage du menu permettant de naviguer entre les différentes pages #}
+            {{ knp_pagination_render(comments) }}
+        </div>
+      </div>
+      {% for comment in comments %}
+
       <div class="comment my-4 text-justify float-left">
 
         {% if comment.author.photo is null %}
@@ -57,14 +69,32 @@
 
 
       </div>
+
       {% endfor %}
+      <div class="mt-5 mb-3 text-center">
+        <div class="d-inline-block">
+            {# Affichage du menu permettant de naviguer entre les différentes pages #}
+            {{ knp_pagination_render(comments) }}
+        </div>
+      </div>
     {% endif %}
 
     <div>
       {# Liste des commentaires lié à l'article #}
       {% if is_granted('ROLE_USER') %}
           <h2 class="h3 text-center my-5">Ajouter un commentaire :</h2>
-          {{ form(form) }}
+          {{ form_start(form) }}
+                <div class="form-group mb-3">
+                    {{ form_row(form.content) }}
+                </div>
+                {{ form_errors(form) }}
+                <div class="form-group mb-3">
+                    <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}"></div>
+                </div>
+                <div class="form-group mb-3">
+                    {{ form_row(form.save) }}
+                </div>
+                {{ form_end(form) }}
       {% else %}
       <div class="d-flex flex-row justify-content-center">
         <button type="button" class="my-4 btn btn-primary"><a class="text-white text-decoration-none"href="{{ path('app_login') }}">Connectez vous pour ajouter un commentaire</a></button>
@@ -72,4 +102,9 @@
       {% endif %}
     </div>
 
+{% endblock %}
+
+{% block stylesheets %}
+    {# Insertion du fichier JS dans le block stylesheets, ce n'est pas une erreur, la documentation de Recaptcha préconise en effet d'intégrer ce fichier JS dans le head #}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}

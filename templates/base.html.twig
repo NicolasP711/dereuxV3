@@ -79,13 +79,17 @@
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}
                       <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle {{ currentRoute == 'blog_index'
-                        or currentRoute == 'blog_admin' or currentRoute == 'blog_show'
-                        or currentRoute == 'blog_edit' or currentRoute == 'blog_new'
+                        <a class="nav-link dropdown-toggle {{ 
+                          currentRoute == 'blog_index'
+                        or currentRoute == 'blog_admin'
+                        or currentRoute == 'blog_show'
+                        or currentRoute == 'blog_edit'
+                        or currentRoute == 'blog_new'
                         or currentRoute == 'admin_article_search'
                         or currentRoute == 'article_search'
                         or currentRoute == 'admin_article_search'
-                        or currentRoute == 'admin_blog_edit' ? ' active' }}" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        or currentRoute == 'admin_blog_edit' ? ' active' 
+                      }}" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                           <i class="fas fa-blog me-1"></i>Blog
                         </a>
                         <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
@@ -95,7 +99,7 @@
                       </li>
                     {% else %}
                       <li class="nav-item">
-                        <a class="nav-link" href="{{ path('blog_index') }}"><i class="fas fa-blog me-1"></i>Blog</a>
+                        <a class="nav-link {{ currentRoute == 'blog_index' ? ' active' }}" href="{{ path('blog_index') }}"><i class="fas fa-blog me-1"></i>Blog</a>
                       </li>
                     {% endif %}
                     <li class="nav-item">

@@ -16,6 +16,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Entity\ArticleComment;
 use App\Form\ArticleCommentFormType;
 use App\Form\EditArticleCommentFormType;
+use App\Recaptcha\RecaptchaValidator;
+use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/blog")
@@ -73,6 +75,77 @@ class BlogController extends AbstractController
         );
         return $this->render('blog/admin.html.twig', [
             'articles' => $pageArticles,
+        ]);
+    }
+
+    /**
+     * @Route("/article/{slug}", name="blog_show")
+     */
+    public function show(Article $article, Request $request, RecaptchaValidator $recaptcha, PaginatorInterface $paginator): Response
+    {
+
+        $requestedPage = $request->query->getInt('page', 1);
+
+        if($requestedPage < 1){
+            throw new NotFoundHttpException();
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $query = $em->getRepository(ArticleComment::class)->findByArticle(array('article_id'=>$article));
+
+        $pageComments = $paginator->paginate(
+            $query,     // Requête de selection des articles en BDD
+            $requestedPage,     // Numéro de la page dont on veux les articles
+            10      // Nombre d'articles par page
+        );
+        $newComment = new ArticleComment();
+
+        $form = $this->createForm(ArticleCommentFormType::class, $newComment);
+
+        $form->handleRequest($request);
+
+        // Pour savoir si le formulaire a été envoyé, on a accès à cette condition :
+            if($form->isSubmitted()){
+
+                 // Verif captcha
+                $captchaResponse = $request->get('g-recaptcha-response', null);
+
+                if($captchaResponse == null || !$recaptcha->verify($captchaResponse, $request->server->get('REMOTE_ADDR'))){
+
+                $form->addError(new FormError('Veuillez remplir le captcha de sécurité'));
+
+                }
+
+                if($form->isValid()){
+
+                    $newComment
+                        ->setPublicationDate(new DateTime())
+                        ->setAuthor($this->getUser())
+                        ->setArticle($article)
+                    ;
+    
+                    // récupération du manager des entités et sauvegarde en BDD de $newArticle
+                    $em = $this->getDoctrine()->getManager();
+    
+                    $em->persist($newComment);
+    
+                    $em->flush();
+    
+                    $this->addFlash('success', 'Commentaire publié avec succès.');
+    
+                    // On re-créé le formulaire pour pas que le texte saisi dans le dernier commentaire se remettent dans le nouveau
+                    $newComment = new ArticleComment();
+                    $form = $this->createForm(ArticleCommentFormType::class, $newComment);
+                }
+
+            }
+
+        return $this->render('blog/show.html.twig', [
+            'article' => $article,
+            'form' => $form->createView(),
+            'comments' => $pageComments,
+
         ]);
     }
 
@@ -171,46 +244,6 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/article/{slug}", name="blog_show")
-     */
-    public function show(Article $article, Request $request): Response
-    {
-        $newComment = new ArticleComment();
-
-        $form = $this->createForm(ArticleCommentFormType::class, $newComment);
-
-        $form->handleRequest($request);
-
-        // Pour savoir si le formulaire a été envoyé, on a accès à cette condition :
-            if($form->isSubmitted() && $form->isValid()){
-
-                $newComment
-                    ->setPublicationDate(new DateTime())
-                    ->setAuthor($this->getUser())
-                    ->setArticle($article)
-                ;
-
-                // récupération du manager des entités et sauvegarde en BDD de $newArticle
-                $em = $this->getDoctrine()->getManager();
-
-                $em->persist($newComment);
-
-                $em->flush();
-
-                $this->addFlash('success', 'Commentaire publié avec succès.');
-
-                // On re-créé le formulaire pour pas que le texte saisi dans le dernier commentaire se remettent dans le nouveau
-                $newComment = new ArticleComment();
-                $form = $this->createForm(ArticleCommentFormType::class, $newComment);
-            }
-        return $this->render('blog/show.html.twig', [
-            'article' => $article,
-            'form' => $form->createView(),
-
-        ]);
-    }
-
-    /**
      * @Route("/editer-commentaire/{slug}", name="comment_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_USER')")
      */
@@ -218,11 +251,12 @@ class BlogController extends AbstractController
     {
         $form = $this->createForm(ArticleCommentFormType::class, $articleComment);
         $form->handleRequest($request);
+        $article = $articleComment->getArticle();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('blog_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('blog/editComment.html.twig', [
@@ -243,7 +277,7 @@ class BlogController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('blog_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('blog/edit.html.twig', [
@@ -264,7 +298,7 @@ class BlogController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', 'L\'article a été supprimé avec succès.');
+            $this->addFlash('success', 'L\'article a été édité avec succès.');
             return $this->redirectToRoute('blog_admin', [], Response::HTTP_SEE_OTHER);
         }
 
