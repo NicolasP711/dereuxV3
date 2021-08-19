@@ -84,21 +84,7 @@ class BlogController extends AbstractController
     public function show(Article $article, Request $request, RecaptchaValidator $recaptcha, PaginatorInterface $paginator): Response
     {
 
-        $requestedPage = $request->query->getInt('page', 1);
-
-        if($requestedPage < 1){
-            throw new NotFoundHttpException();
-        }
-
-        $em = $this->getDoctrine()->getManager();
-
-        $query = $em->getRepository(ArticleComment::class)->findByArticle(array('article_id'=>$article));
-
-        $pageComments = $paginator->paginate(
-            $query,     // Requête de selection des articles en BDD
-            $requestedPage,     // Numéro de la page dont on veux les articles
-            10      // Nombre d'articles par page
-        );
+        
         $newComment = new ArticleComment();
 
         $form = $this->createForm(ArticleCommentFormType::class, $newComment);
@@ -140,6 +126,22 @@ class BlogController extends AbstractController
                 }
 
             }
+
+            $requestedPage = $request->query->getInt('page', 1);
+
+            if($requestedPage < 1){
+                throw new NotFoundHttpException();
+            }
+
+            $em = $this->getDoctrine()->getManager();
+
+            $query = $em->getRepository(ArticleComment::class)->findByArticle(array('article_id'=>$article));
+
+            $pageComments = $paginator->paginate(
+                $query,     // Requête de selection des articles en BDD
+                $requestedPage,     // Numéro de la page dont on veux les articles
+                10      // Nombre d'articles par page
+            );
 
         return $this->render('blog/show.html.twig', [
             'article' => $article,
