@@ -17,8 +17,7 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPasswordValidator;
-
-
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class EditUserFormType extends AbstractType
 {

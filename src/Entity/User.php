@@ -69,10 +69,16 @@ class User implements UserInterface
      */
     private $articleComments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Artwork::class, mappedBy="author")
+     */
+    private $artworks;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
         $this->articleComments = new ArrayCollection();
+        $this->artworks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -258,6 +264,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($articleComment->getAuthor() === $this) {
                 $articleComment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Artwork[]
+     */
+    public function getArtworks(): Collection
+    {
+        return $this->artworks;
+    }
+
+    public function addArtwork(Artwork $artwork): self
+    {
+        if (!$this->artworks->contains($artwork)) {
+            $this->artworks[] = $artwork;
+            $artwork->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArtwork(Artwork $artwork): self
+    {
+        if ($this->artworks->removeElement($artwork)) {
+            // set the owning side to null (unless already changed)
+            if ($artwork->getAuthor() === $this) {
+                $artwork->setAuthor(null);
             }
         }
 
