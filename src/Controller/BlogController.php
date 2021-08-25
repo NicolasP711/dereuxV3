@@ -189,6 +189,7 @@ class BlogController extends AbstractController
      *  Page affichant les résultats de recherches faites par le formulaire de recherche dans la navbar
      *
      * @Route("/admin/article/recherche", name="admin_article_search")
+     * @Security("is_granted('ROLE_ADMIN')")
      */
     public function adminArticleSearch(Request $request, PaginatorInterface $paginator): Response
     {

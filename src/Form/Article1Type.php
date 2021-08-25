@@ -20,30 +20,30 @@ class Article1Type extends AbstractType
         $builder
         ->add('title', TextType::class, [
             'label' => 'Titre',
-            'help' => 'Le titre doit contenir entre 3 et 100 caractères.',
+            'help' => 'Le titre doit contenir entre 3 et 100 caractères',
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Merci de renseigner un titre.'
+                    'message' => 'Merci de renseigner un titre'
                 ]),
                 new Length ([
                     'min' => 3,
-                    'minMessage' => 'Le titre doit contenir au moins {{ limit }} caractères.',
+                    'minMessage' => 'Le titre doit contenir au moins {{ limit }} caractères',
                     'max' => 100,
-                    'maxMessage' => 'Le titre doit contenir au maximum {{ limit }} caractères.',
+                    'maxMessage' => 'Le titre doit contenir au maximum {{ limit }} caractères',
                 ]),
             ]
         ])
         ->add('content', CKEditorType::class, [
             'label' => 'Contenu',
             'purify_html' => true,
-            'help' => 'Le contenu doit contenir au maximum 10 000 caractères.',
+            'help' => 'Le contenu doit contenir au maximum 10 000 caractères',
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Merci de renseigner un contenu.'
+                    'message' => 'Merci de renseigner un contenu'
                 ]),
                 new Length ([
                     'max' => 10000,
-                    'maxMessage' => 'Le contenu doit contenir au maximum {{ limit }} caractères.',
+                    'maxMessage' => 'Le contenu doit contenir au maximum {{ limit }} caractères',
                 ]),
             ],
             'config' => array(

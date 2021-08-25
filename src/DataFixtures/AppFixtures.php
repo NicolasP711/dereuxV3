@@ -6,6 +6,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Article;
 use App\Entity\ArticleComment;
+use App\Entity\Artwork;
 use App\Entity\User;
 use \DateTime;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -60,6 +61,23 @@ class AppFixtures extends Fixture
             ;
 
             $manager->persist($article);
+        }
+
+        for($i = 0; $i < 200; $i++){
+
+            $artwork = new Artwork();
+
+            $artwork
+                ->setPicture('e3689961e4320f8dd775b5471bcf79fd.png')
+                ->setCreationDate( $faker->dateTimeBetween($admin->getRegistrationDate(), 'now') )
+                ->setPublicationDate( $faker->dateTimeBetween($admin->getRegistrationDate(), 'now') )
+                ->setAuthor($admin)
+                ->setTitle( $faker->sentence(1) )
+                ->setDescription( $faker->paragraph(15) )
+                ->setArtist( $faker->word(2) )
+            ;
+
+            $manager->persist($artwork);
         }
 
         for($e = 0; $e < 200; $e++){

@@ -15,6 +15,9 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ArtworkType extends AbstractType
 {
@@ -23,30 +26,30 @@ class ArtworkType extends AbstractType
         $builder
         ->add('title', TextType::class, [
             'label' => 'Titre',
-            'help' => 'Le titre doit contenir entre 3 et 150 caractères.',
+            'help' => 'Le titre doit contenir entre 3 et 150 caractères',
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Merci de renseigner un titre.'
+                    'message' => 'Merci de renseigner un titre'
                 ]),
                 new Length ([
                     'min' => 3,
-                    'minMessage' => 'Le titre doit contenir au moins {{ limit }} caractères.',
+                    'minMessage' => 'Le titre doit contenir au moins {{ limit }} caractères',
                     'max' => 150,
-                    'maxMessage' => 'Le titre doit contenir au maximum {{ limit }} caractères.',
+                    'maxMessage' => 'Le titre doit contenir au maximum {{ limit }} caractères',
                 ]),
             ]
         ])
         ->add('description', CKEditorType::class, [
             'label' => 'Description',
             'purify_html' => true,
-            'help' => 'La description doit contenir au maximum 10 000 caractères.',
+            'help' => 'La description doit contenir au maximum 3000 caractères',
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Merci de renseigner un contenu.'
+                    'message' => 'Merci de renseigner un contenu'
                 ]),
                 new Length ([
-                    'max' => 10000,
-                    'maxMessage' => 'Le contenu doit contenir au maximum {{ limit }} caractères.',
+                    'max' => 3000,
+                    'maxMessage' => 'Le contenu doit contenir au maximum {{ limit }} caractères',
                 ]),
             ],
             'config' => array(
@@ -68,7 +71,7 @@ class ArtworkType extends AbstractType
             ],
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Vous devez sélectionner un fichier'
+                    'message' => 'Vous devez sélectionner une image'
                 ]),
                 new File([
                     'maxSize' => '5M',
@@ -76,23 +79,23 @@ class ArtworkType extends AbstractType
                         'image/jpeg',
                         'image/png',
                     ],
-                    'mimeTypesMessage' => 'L\'image doit être de type jpg ou png',
+                    'mimeTypesMessage' => 'L\'image doit être de type jpeg ou png',
                     'maxSizeMessage' => 'Fichier trop volumineux {{ size }}{{ suffix }}. La taille maximum autorisée est {{ limit }}{{ suffix }}',
                 ])
             ],
         ])
         ->add('artist', TextType::class, [
             'label' => 'Artiste',
-            'help' => 'Le nom de l\'artiste doit contenir entre 3 et 150 caractères.',
+            'help' => 'Le nom de l\'artiste doit contenir entre 3 et 150 caractères',
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Merci de renseigner un titre.'
+                    'message' => 'Merci de renseigner un artiste'
                 ]),
                 new Length ([
                     'min' => 3,
-                    'minMessage' => 'Le titre doit contenir au moins {{ limit }} caractères.',
+                    'minMessage' => 'L\'artiste doit contenir au moins {{ limit }} caractères',
                     'max' => 150,
-                    'maxMessage' => 'Le titre doit contenir au maximum {{ limit }} caractères.',
+                    'maxMessage' => 'L\'artiste doit contenir au maximum {{ limit }} caractères',
                 ]),
             ]
         ])
@@ -101,7 +104,7 @@ class ArtworkType extends AbstractType
                 'widget' => 'choice',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Merci de renseigner une date de création.'
+                        'message' => 'Merci de renseigner une date de création'
                     ]),
                 ]
             ])

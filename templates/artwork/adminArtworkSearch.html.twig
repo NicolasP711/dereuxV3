@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% set query = app.request.query.get('q') %}
+
+{% block title %}Résultat(s) de la recherche "{{ query }}"{% endblock %}
+
+{% block body %}
+<h1 class="h2 my-4 text-center">Résultat(s) de la recherche <span class="searchResult">"{{ query|length > 10 ? query|slice(0, 25) ~ '...' : query }}"</span></h1>
+
+    <div class="mt-5 mb-3 text-center">
+      <div class="d-inline-block">
+          {# Affichage du menu permettant de naviguer entre les différentes pages #}
+          {{ knp_pagination_render(artworks) }}
+      </div>
+    </div>
+
+    <p class="text-center">Nombre d'article(s) trouvé : {{ artworks.getTotalItemCount }}</p>
+    <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
+    <a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('admin_artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Gestion du blog</a>
+
+
+
+
+    <!-- Click on Modal Button -->
+<button type="button" class="createArticleBtn btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
+  <i class="fas fa-search me-2"></i>Rechercher
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Rechercher un article</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form action="" method="GET">
+                  <div class="mb-3">
+                      <label class="form-label">Rechercher un article</label>
+                      <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
+                  </div>
+                  <div class="modal-footer d-block">
+                      <button type="submit" class="btn btn-warning float-end">Rechercher</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+    <div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">{{ knp_pagination_sortable(artworks, 'Id', 'a.id') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(artworks, 'Titre', 'a.title') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(artworks, 'Description', 'a.content') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(artworks, 'Date de création', 'a.creationDate') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(artworks, 'Date de publication', 'a.publicationDate') }}</th>
+            <th scope="col">Auteur</th>
+            <th scope="col">Actions</th>
+
+          </tr>
+        </thead>
+        <tbody>
+            {% for artwork in artworks %}
+            <tr>
+              <td>{{ artwork.id }}</td>
+            <td><b>{{ artwork.title|striptags|excerpt(10) }}</b></td>
+            <td>{{ artwork.description|striptags|excerpt(3) }}</td>
+            <td>{{ artwork.creationDate ? artwork.creationDate|date('d-m-Y') : '' }}</td>
+            <td>{{ artwork.publicationDate ? artwork.publicationDate|date('d-m-Y H:i:s') : '' }}</td>
+            <td>{{artwork.author.pseudonym}}</td>
+            <td>
+                <div class="d-flex">
+                    <a class="me-2" href="{{ path('artwork_show', {'slug': artwork.slug}) }}"><i class="far fa-eye"></i></a>
+                    <a class="me-2" href="{{ path('artwork_edit', {'slug': artwork.slug}) }}"><i class="fas fa-edit"></i></a>
+                    <form method="post" action="{{ path('artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
+                        <button id="deleteBtn"><i class="fas fa-trash"></i></button>
+                    </form>
+                </div>
+
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+              <td colspan="12" class="text-center">Aucun article trouvé</td>
+          </tr>
+      {% endfor %}
+        </tbody>
+      </table>
+      </div>
+      <div class="mt-5 mb-3 text-center">
+        <div class="d-inline-block">
+            {# Affichage du menu permettant de naviguer entre les différentes pages #}
+            {{ knp_pagination_render(artworks) }}
+        </div>
+      </div>
+
+      {% endblock %}

@@ -238,6 +238,11 @@ li{
   height: 150px;
 }
 
+#artworkImg {
+	max-width: 100%;
+	height: auto;
+}
+
 .defaultBtn{
   background-color: rgb(41, 82, 74);
   color: #ffffff;

@@ -25,13 +25,13 @@ class RegistrationFormType extends AbstractType
             'label' => 'Pseudonyme',
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Merci de renseigner un pseudonyme.',
+                    'message' => 'Merci de renseigner un pseudonyme',
                 ]),
                 new Length([
                     'min' => 2,
-                    'minMessage' => 'Votre pseudonyme doit contenir au moins {{ limit }} caractères.',
+                    'minMessage' => 'Votre pseudonyme doit contenir au moins {{ limit }} caractères',
                     'max' => 40,
-                    'maxMessage' => 'Votre pseudonyme doit contenir au maximum {{ limit }} caractères.',
+                    'maxMessage' => 'Votre pseudonyme doit contenir au maximum {{ limit }} caractères',
                 ]),
             ],
         ])
@@ -39,38 +39,38 @@ class RegistrationFormType extends AbstractType
             'label' => 'Adresse Email',
             'constraints' => [
                 new Email([
-                    'message' => 'L\'adresse email {{ value }} n\'est pas une adresse email valide.'
+                    'message' => 'L\'adresse email {{ value }} n\'est pas une adresse email valide'
                 ]),
                 new NotBlank([
-                    'message' => 'Merci de renseigner une adresse email.'
+                    'message' => 'Merci de renseigner une adresse email'
                 ]),
             ]
         ])
         ->add('plainPassword', RepeatedType::class, [
             'type' => PasswordType::class,
-            'invalid_message' => 'Le mot de passe ne correspond pas à sa confirmation.',
+            'invalid_message' => 'Le mot de passe ne correspond pas à sa confirmation',
             'first_options' => [
                 'label' => 'Mot de passe',
-                'help' => 'Le mot de passe doit contenir au minimum 8 caractères dont une minuscule, une majuscule, un chiffre et un caractère spécial.',
+                'help' => 'Le mot de passe doit contenir au minimum 8 caractères dont une minuscule, une majuscule, un chiffre et un caractère spécial',
             ],
             'second_options' => [
-                'label' => 'Confirmation du mot de passe.',
+                'label' => 'Confirmation du mot de passe',
             ],
             'mapped' => false,
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Veuillez renseigner un mot de passe.',
+                    'message' => 'Veuillez renseigner un mot de passe',
                 ]),
                 new Length([
                     'min' => 8,
-                    'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
+                    'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
                     // max length allowed by Symfony for security reasons
                     'max' => 255,
-                    'maxMessage' => 'Votre mot de passe doit contenir au maximum {{ limit }} caractères.'
+                    'maxMessage' => 'Votre mot de passe doit contenir au maximum {{ limit }} caractères'
                 ]),
                 new Regex([
                     'pattern' => "/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !\"\#\$%&\'\(\)*+,\-.\/:;<=>?@[\\^\]_`\{|\}~])^.{0,4096}$/",
-                    'message' => 'Le mot de passe doit contenir obligatoirement une minuscule, une majuscule, un chiffre et un caractère spécial.',
+                    'message' => 'Le mot de passe doit contenir obligatoirement une minuscule, une majuscule, un chiffre et un caractère spécial',
                 ])
             ]
         ])

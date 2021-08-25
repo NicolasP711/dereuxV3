@@ -1,46 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Artwork{% endblock %}
+{% block title %}{{artwork.title}}{% endblock %}
 
 {% block body %}
-    <h1>Artwork</h1>
+  {% include 'partials/flashes/error.html.twig' %}
+  {% include 'partials/flashes/success.html.twig' %}
+  <h1 class="text-center blogArticle my-4 col-12"><b>{{artwork.title|striptags|slice(0, 100)}}</b></h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ artwork.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ artwork.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ artwork.description }}</td>
-            </tr>
-            <tr>
-                <th>Picture</th>
-                <td>{{ artwork.picture }}</td>
-            </tr>
-            <tr>
-                <th>Artist</th>
-                <td>{{ artwork.artist }}</td>
-            </tr>
-            <tr>
-                <th>CreationDate</th>
-                <td>{{ artwork.creationDate ? artwork.creationDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>PublicationDate</th>
-                <td>{{ artwork.publicationDate ? artwork.publicationDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <article>
 
-    <a href="{{ path('artwork_index') }}">back to list</a>
+        <img id="artworkImg" class="d-block me-auto ms-auto mt-4" src="{{ asset('img/artworks/' ~ artwork.picture)|imagine_filter('artwork') }}" alt="">
+        <p class="mb-4 text-center">Titre de l'oeuvre: <b>{{artwork.title}}</b> Créée par <b>{{ artwork.artist }}</b> le <b>{{ artwork.creationDate ? artwork.creationDate|date('Y-m-d') : '' }}</b> </p>
 
-    <a href="{{ path('artwork_edit', {'id': artwork.id}) }}">edit</a>
 
-    {{ include('artwork/_delete_form.html.twig') }}
-{% endblock %}
+        <div class="blogArticle mb-4 col-12">{{ artwork.description|purify }}</div>
+        <p>Publié le <b>{{ artwork.publicationDate ? artwork.publicationDate|date('Y-m-d à H:i:s') : '' }}</b> par <b>{{ artwork.author.pseudonym }}</b></p>
+
+    </article>
+
+
+    <div id="profilBtn" class="mt-5">
+        {% if is_granted("ROLE_ADMIN") %}
+            <a class="btn btn-warning mb-5" href="{{ path('admin_artwork_index') }}">Gestion des oeuvres</a>
+            {#<a class="btn defaultBtn mb-5" href="{{ path('blog_index') }}">Retour aux oeuvres</a>#}
+            <a class="btn btn-primary mb-5" href="{{ path('artwork_edit', {'slug': artwork.slug}) }}">Éditer</a>
+            {{ include('artwork/_delete_form.html.twig') }}
+        {% else %}
+            {#<a class="btn defaultBtn" href="{{ path('blog_index') }}">Retour aux oeuvres</a>#}
+        {% endif %}
+    </div>
+    {% endblock %}
