@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% set query = app.request.query.get('q') %}
+
+{% block title %}Oeuvres{% endblock %}
+
+{% block body %}
+  {% include 'partials/flashes/error.html.twig' %}
+  {% include 'partials/flashes/success.html.twig' %}
+    <h1 class="h2 my-4 text-center">Oeuvres</h1>
+
+    <div class="mb-3 text-center">
+      <div class="d-inline-block">
+          {# Affichage du menu permettant de naviguer entre les différentes pages #}
+          {{ knp_pagination_render(artworks) }}
+      </div>
+    </div>
+
+    <p class="text-center">Nombre total d'oeuvres : {{ artworks.getTotalItemCount }}</p>
+    <p class="text-center my-4">
+      {# Création d'un lien permettant de trier par titre #}
+      <span class="mx-2">{{ knp_pagination_sortable(artworks, 'Trier par titre', 'a.title') }}</span>
+      {# Création d'un lien permettant de trier par date #}
+      <span class="mx-2">{{ knp_pagination_sortable(artworks, 'Trier par date', 'a.publicationDate') }}</span>
+    </p>
+    <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
+    <a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('admin_artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitialiser les filtres</a>
+
+
+
+
+    <!-- Click on Modal Button -->
+<button type="button" class="createArticleBtn btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
+  <i class="fas fa-search me-2"></i>Rechercher
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Rechercher une oeuvre</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form action="{{ path('admin_artwork_search') }}" method="GET">
+                  <div class="mb-3">
+                      <label class="form-label">Rechercher une oeuvre</label>
+                      <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
+                  </div>
+                  <div class="modal-footer d-block">
+                      <button type="submit" class="btn btn-warning float-end">Rechercher</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="d-flex flex-row justify-content-around flex-wrap">
+{% for artwork in artworks %}
+  <div class="card h-100 my-4" style="width: 22rem;">
+    <img src="{{ asset('img/artworks/' ~ artwork.picture)|imagine_filter('artwork') }}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{ artwork.title|length > 40 ? artwork.title|striptags|slice(0, 40) ~ '...' : artwork.title|striptags  }}</h5>
+      <p class="card-text">{{ artwork.description|length > 100 ? artwork.description|striptags|slice(0, 100) ~ '...' : artwork.description|striptags }}</p>
+      <div class="d-flex justify-content-between">
+        <a href="{{ path('artwork_show', {'slug': artwork.slug}) }}" class="btn btn-primary">Lire la suite</a>
+        {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('artwork_edit', {'slug': artwork.slug}) }}" class="btn btn-primary">Modifier</a>
+        <form method="post" action="{{ path('artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
+          <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
+          <button class="btn btn-danger">Supprimer</button>
+        </form>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+  {% else %}
+  <p class="text-center">Aucune oeuvre trouvée</p>
+  {% endfor %}
+</div>
+
+      <div class="mt-5 mb-3 text-center">
+        <div class="d-inline-block">
+            {# Affichage du menu permettant de naviguer entre les différentes pages #}
+            {{ knp_pagination_render(artworks) }}
+        </div>
+      </div>
+
+      {% endblock %}

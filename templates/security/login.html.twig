@@ -9,7 +9,7 @@
 
         <h2 class="h1 mt-4 text-center">Connectez vous</h2>
         <p class="text-center">Connectez vous afin d'intéragir avec les autres.</p>
-        <div class="offset-md-3 col-md-6 offset-md-3">
+        <div id="loginForm" class="offset-md-3 col-md-6 offset-md-3">
         <form method="post">
             {#{% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -24,7 +24,11 @@
             <label for="inputEmail">Email</label>
             <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mb-3" autocomplete="email" required autofocus>
             <label for="inputPassword">Mot de passe</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            <div class="input-group mb-3">
+                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                <span class="input-group-text" id="basic-addon1"><i id="togglePassword" class="fas fa-eye" onclick="toggleConnexionPassword()"></i></span>
+            </div>
+            
             <!-- <div class="form-check mt-1"> -->
                 <div class="d-block">
                 <input type="checkbox" id="remember_me" name="_remember_me" checked/>

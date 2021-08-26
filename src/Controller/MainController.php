@@ -104,6 +104,8 @@ class MainController extends AbstractController
             $this->addFlash('success', 'Profil modifié avec succès.');
             return $this->redirectToRoute('profil');
         }
+        $this->getDoctrine()->getManager()->refresh($user);
+
 
         // Pour que la vue puisse afficher le formulaire, on doit lui envoyer le formulaire généré, avec $form->createView()
         return $this->render('main/editProfil.html.twig', [

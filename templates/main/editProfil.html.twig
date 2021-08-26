@@ -20,7 +20,13 @@
         {{ form_row(editProfilForm.email) }}
         </div>
         <div class="form-group mb-3">
-        {{ form_row(editProfilForm.currentpassword) }}
+            {{ form_label(editProfilForm.currentpassword) }}
+            <div class="input-group mb-3">
+            {{ form_widget(editProfilForm.currentpassword) }}
+            <span class="input-group-text" id="basic-addon1"><i id="togglePassword" class="fas fa-eye" onclick="toggleCurrentPassword()"></i></span>
+            </div>
+            <small>{{ form_help(editProfilForm.currentpassword) }}</small>
+    
         </div>
         <div class="form-group mb-3">
             <button type="submit" id="loginBtn" class="btn btn-primary">Mettre à jour mon profil</button>

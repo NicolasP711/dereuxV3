@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Validator\Constraints\Image;
 
 class ArtworkType extends AbstractType
 {
@@ -74,13 +75,25 @@ class ArtworkType extends AbstractType
                     'message' => 'Vous devez sélectionner une image'
                 ]),
                 new File([
-                    'maxSize' => '5M',
+                    'maxSize' => '10M',
                     'mimeTypes' => [
                         'image/jpeg',
                         'image/png',
                     ],
                     'mimeTypesMessage' => 'L\'image doit être de type jpeg ou png',
                     'maxSizeMessage' => 'Fichier trop volumineux {{ size }}{{ suffix }}. La taille maximum autorisée est {{ limit }}{{ suffix }}',
+                ]),
+                new Image([
+                    'minWidth' => '1024',
+                    'minHeight' => '768',
+                    'maxWidth' => '4096',
+                    'maxHeight' => '2160',
+                    'minWidthMessage' => 'Votre fichier fait {{ width }} pixels de large. La largeur minimum est de 1024px (la hauteur minimum est de 768 pixels)',
+                    'minHeightMessage' => 'Votre fichier fait {{ height }} pixels de haut. La hauteur minimum est de 768px (la largeur minimum est de 1024 pixels)',
+                    'minWidthMessage' => 'Votre fichier fait {{ width }} pixels de large. La largeur maximum est de 4096px (la hauteur maximum est de 2160 pixels)',
+                    'minHeightMessage' => 'Votre fichier fait {{ height }} pixels de haut. La hauteur maximum est de 2160px (la largeur maximum est de 4096 pixels)',
+
+
                 ])
             ],
         ])

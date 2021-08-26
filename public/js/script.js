@@ -2,35 +2,50 @@ setTimeout(function() {
     $('#successMessage').fadeOut('fast');
 }, 10000);
 
-// $('#edit_user_form_save').click(function()
-// {
-//     var nom = $('#edit_user_form_pseudonym').val();
-//     var email = $('#edit_user_form_email').val();
-//     const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+function toggleConnexionPassword()
+{
+    var input = document.getElementById("inputPassword");
+    var toggle = document.getElementById("togglePassword");
 
+    if (input.type === "password") {
+        input.type = "text";
+        toggle.classList.remove("fas", "fa-eye");
+        toggle.classList.add("fas", "fa-eye-slash");
+    } else {
+        input.type = "password";
+        toggle.classList.remove("fas", "fa-eye-slash");
+        toggle.classList.add("fas", "fa-eye");
+    }
+}
 
-//     if($('#edit_user_form_pseudonym').val() === ""){
-//     alert("Veuillez renseigner un pseudonyme");
-//     return false;
-//     }
+function toggleCurrentPassword()
+{
+    var actualPassword = document.getElementById("edit_user_form_currentpassword");
+    var toggle = document.getElementById("togglePassword");
 
+    if (actualPassword.type === "password") {
+        actualPassword.type = "text";
+        toggle.classList.remove("fas", "fa-eye");
+        toggle.classList.add("fas", "fa-eye-slash");
+    } else {
+        actualPassword.type = "password";
+        toggle.classList.remove("fas", "fa-eye-slash");
+        toggle.classList.add("fas", "fa-eye");
+    }
+}
 
-//     if(nom.length <= 1){
-//         alert("Votre pseudonyme doit contenir au minimum 2 caractères");
-//         return false;
-//     } //Empêche le formulaire d'être soumis//Empêche le formulaire d'être soumis
+function toggleCurrentPasswordEditPassword()
+{
+    var actualPassword = document.getElementById("edit_password_form_currentpassword");
+    var toggle = document.getElementById("togglePassword");
 
-
-//     if($('#edit_user_form_email').val() === ""){
-//         alert("Veuillez renseigner une adresse email");
-//         return false;
-//         }
-
-
-//     if(email.match(regex)){
-//         return true;
-//     } else {
-//         alert("Veuillez renseigner un email valide");
-//         return false;
-//     }
-// });
+    if (actualPassword.type === "password") {
+        actualPassword.type = "text";
+        toggle.classList.remove("fas", "fa-eye");
+        toggle.classList.add("fas", "fa-eye-slash");
+    } else {
+        actualPassword.type = "password";
+        toggle.classList.remove("fas", "fa-eye-slash");
+        toggle.classList.add("fas", "fa-eye");
+    }
+}

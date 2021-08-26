@@ -70,8 +70,8 @@
             {% for artwork in artworks %}
           <tr>
               <td>{{ artwork.id }}</td>
-            <td><b>{{ artwork.title|striptags|excerpt(10) }}</b></td>
-            <td>{{ artwork.description|striptags|excerpt(3) }}</td>
+            <td><b>{{ artwork.title|length > 40 ? artwork.title|striptags|slice(0, 40) ~ '...' : artwork.title|striptags  }}</b></td>
+            <td>{{ artwork.description|length > 40 ? artwork.description|striptags|slice(0, 40) ~ '...' : artwork.description|striptags  }}</td>
             <td>{{ artwork.creationDate ? artwork.creationDate|date('d-m-Y') : '' }}</td>
             <td>{{ artwork.publicationDate ? artwork.publicationDate|date('d-m-Y H:i:s') : '' }}</td>
             <td>{{artwork.author.pseudonym}}</td>

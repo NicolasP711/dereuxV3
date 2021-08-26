@@ -243,6 +243,11 @@ li{
 	height: auto;
 }
 
+#artworkCardImg {
+	width: 200px;
+	height: 200px;
+}
+
 .defaultBtn{
   background-color: rgb(41, 82, 74);
   color: #ffffff;
@@ -257,4 +262,11 @@ li{
   display: flex; /* contexte sur le parent */
   flex-direction: column; /* direction d'affichage verticale */
   justify-content: center; /* alignement vertical */
+}
+
+#loginForm{
+
+    top: 100%;
+
+​
 }
