@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArtworkRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 /**
@@ -67,9 +69,19 @@ public function setSlug(string $slug): self
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="artworks")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $author;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ArtworkComment::class, mappedBy="artwork", orphanRemoval=true)
+     */
+    private $artworkComments;
+
+    public function __construct()
+    {
+        $this->artworkComments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -156,6 +168,36 @@ public function setSlug(string $slug): self
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ArtworkComment[]
+     */
+    public function getArtworkComments(): Collection
+    {
+        return $this->artworkComments;
+    }
+
+    public function addArtworkComment(ArtworkComment $artworkComment): self
+    {
+        if (!$this->artworkComments->contains($artworkComment)) {
+            $this->artworkComments[] = $artworkComment;
+            $artworkComment->setArtwork($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArtworkComment(ArtworkComment $artworkComment): self
+    {
+        if ($this->artworkComments->removeElement($artworkComment)) {
+            // set the owning side to null (unless already changed)
+            if ($artworkComment->getArtwork() === $this) {
+                $artworkComment->setArtwork(null);
+            }
+        }
 
         return $this;
     }

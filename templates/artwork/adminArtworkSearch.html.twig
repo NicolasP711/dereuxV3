@@ -16,7 +16,7 @@
 
     <p class="text-center">Nombre d'article(s) trouvé : {{ artworks.getTotalItemCount }}</p>
     <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
-    <a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('admin_artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Gestion du blog</a>
+    <a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('admin_artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitaliser les filtres</a>
 
 
 
@@ -67,8 +67,8 @@
             {% for artwork in artworks %}
             <tr>
               <td>{{ artwork.id }}</td>
-            <td><b>{{ artwork.title|striptags|excerpt(10) }}</b></td>
-            <td>{{ artwork.description|striptags|excerpt(3) }}</td>
+            <td><b>{{ artwork.title|length > 20 ? artwork.title|striptags|slice(0, 20) ~ '…' : artwork.title|striptags  }}</b></td>
+            <td>{{ artwork.description|length > 40 ? artwork.description|striptags|slice(0, 40) ~ '…' : artwork.description|striptags }}</td>
             <td>{{ artwork.creationDate ? artwork.creationDate|date('d-m-Y') : '' }}</td>
             <td>{{ artwork.publicationDate ? artwork.publicationDate|date('d-m-Y H:i:s') : '' }}</td>
             <td>{{artwork.author.pseudonym}}</td>
@@ -76,7 +76,7 @@
                 <div class="d-flex">
                     <a class="me-2" href="{{ path('artwork_show', {'slug': artwork.slug}) }}"><i class="far fa-eye"></i></a>
                     <a class="me-2" href="{{ path('artwork_edit', {'slug': artwork.slug}) }}"><i class="fas fa-edit"></i></a>
-                    <form method="post" action="{{ path('artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
+                    <form method="post" action="{{ path('admin_artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
                         <button id="deleteBtn"><i class="fas fa-trash"></i></button>
                     </form>

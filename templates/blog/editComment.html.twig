@@ -10,7 +10,7 @@
 
         <a class="btn btn-warning mb-5" href="{{ path('blog_admin') }}">Gestion du blog</a>
         <a class="btn btn-warning mb-5" href="{{ path('blog_index') }}">Retour aux articles</a>
-        <form method="post" action="{{ path('comment_edit', {'slug': articleComment.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cet article ?');">
+        <form method="post" action="{{ path('delete_article_comment', {'slug': articleComment.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer ce commentaire ?');">
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ articleComment.id) }}">
             <button class="btn btn-danger mb-5">Supprimer</button>
         </form>

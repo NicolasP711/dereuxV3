@@ -9,7 +9,7 @@
     <article>
             <h1 class="blogArticle my-4 col-12"><b>{{article.title|striptags|slice(0, 100)}}</b></h1>
             <div class="blogArticle mb-4 col-12">{{ article.content|purify }}</div>
-            <p>Publié le <b>{{ article.publicationDate ? article.publicationDate|date('Y-m-d à H:i:s') : '' }}</b> par <b>{{ article.author.pseudonym }}</b></p>
+            <p>Publié le <b>{{ article.publicationDate ? article.publicationDate|date('Y-m-d à H:i:s') : '' }}</b> par {% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</p>
 
     </article>
 

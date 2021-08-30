@@ -24,10 +24,6 @@
       <span class="mx-2">{{ knp_pagination_sortable(artworks, 'Trier par date', 'a.publicationDate') }}</span>
     </p>
     <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
-    <a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('admin_artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitialiser les filtres</a>
-
-
-
 
     <!-- Click on Modal Button -->
 <button type="button" class="createArticleBtn btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
@@ -43,7 +39,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-              <form action="{{ path('admin_artwork_search') }}" method="GET">
+              <form action="{{ path('artwork_search') }}" method="GET">
                   <div class="mb-3">
                       <label class="form-label">Rechercher une oeuvre</label>
                       <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
@@ -58,13 +54,13 @@
 </div>
 
 
-<div class="d-flex flex-row justify-content-around flex-wrap">
+<div class="d-flex flex-row justify-content-between flex-wrap">
 {% for artwork in artworks %}
   <div class="card h-100 my-4" style="width: 22rem;">
     <img src="{{ asset('img/artworks/' ~ artwork.picture)|imagine_filter('artwork') }}" class="card-img-top" alt="...">
     <div class="card-body">
-      <h5 class="card-title">{{ artwork.title|length > 40 ? artwork.title|striptags|slice(0, 40) ~ '...' : artwork.title|striptags  }}</h5>
-      <p class="card-text">{{ artwork.description|length > 100 ? artwork.description|striptags|slice(0, 100) ~ '...' : artwork.description|striptags }}</p>
+      <h5 class="card-title">{{ artwork.title|length > 40 ? artwork.title|striptags|slice(0, 40) ~ '…' : artwork.title|striptags  }}</h5>
+      <p class="card-text">{{ artwork.description|length > 100 ? artwork.description|striptags|slice(0, 100) ~ '…' : artwork.description|striptags }}</p>
       <div class="d-flex justify-content-between">
         <a href="{{ path('artwork_show', {'slug': artwork.slug}) }}" class="btn btn-primary">Lire la suite</a>
         {% if is_granted('ROLE_ADMIN') %}

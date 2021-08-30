@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer un commentaire{% endblock %}
+
+{% block body %}
+    <h1 class="my-4 text-center">Éditer un commentaire</h1>
+
+    {{ include('artwork/_form.html.twig') }}
+    <div id="profilBtn" class="mt-5">
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-warning mb-5" href="{{ path('admin_artwork_index') }}">Gestion des oeuvres</a>
+        {% endif %}
+        <a class="btn btn-warning mb-5" href="{{ path('artwork_index') }}">Retour aux oeuvres</a>
+        <form method="post" action="{{ path('delete_artwork_comment', {'slug': artworkComment.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer ce commentaire ?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artworkComment.id) }}">
+            <button class="btn btn-danger mb-5">Supprimer</button>
+        </form>
+        
+
+    </div>
+{% endblock %}

@@ -18,10 +18,6 @@
 
     <p class="text-center">Nombre total d'articles : {{ articles.getTotalItemCount }}</p>
     <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
-    <a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('blog_admin')}}"><i class="fas fa-sync-alt me-2"></i>Réinitialiser les filtres</a>
-
-
-
 
     <!-- Click on Modal Button -->
 <button type="button" class="createArticleBtn btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
@@ -69,10 +65,10 @@
             {% for article in articles %}
           <tr>
               <td>{{ article.id }}</td>
-            <td><b>{{ article.title|striptags|excerpt(10) }}</b></td>
-            <td>{{ article.content|striptags|excerpt(3) }}</td>
+            <td><b>{{ article.title|length > 40 ? article.title|striptags|slice(0, 40) ~ '…' : article.title|striptags  }}</b></td>
+            <td>{{ article.content|length > 40 ? article.content|striptags|slice(0, 40) ~ '…' : article.content|striptags  }}</td>
             <td>{{ article.publicationDate ? article.publicationDate|date('Y-m-d H:i:s') : '' }}</td>
-            <td>{{article.author.pseudonym}}</td>
+            <td>{% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</td>
             <td>
                 <div class="d-flex">
                     <a class="me-2" href="{{ path('blog_show', {'slug': article.slug}) }}"><i class="far fa-eye"></i></a>

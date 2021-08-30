@@ -49,3 +49,67 @@ function toggleCurrentPasswordEditPassword()
         toggle.classList.add("fas", "fa-eye");
     }
 }
+
+function toggleCurrentPassword1()
+{
+    var actualPassword = document.getElementById("registration_form_plainPassword_password");
+    var toggle = document.getElementById("togglePassword");
+
+    if (actualPassword.type === "password") {
+        actualPassword.type = "text";
+        toggle.classList.remove("fas", "fa-eye");
+        toggle.classList.add("fas", "fa-eye-slash");
+    } else {
+        actualPassword.type = "password";
+        toggle.classList.remove("fas", "fa-eye-slash");
+        toggle.classList.add("fas", "fa-eye");
+    }
+}
+
+function toggleCurrentPassword2()
+{
+    var actualPassword = document.getElementById("registration_form_plainPassword_confirm");
+    var toggle = document.getElementById("togglePassword1");
+
+    if (actualPassword.type === "password") {
+        actualPassword.type = "text";
+        toggle.classList.remove("fas", "fa-eye");
+        toggle.classList.add("fas", "fa-eye-slash");
+    } else {
+        actualPassword.type = "password";
+        toggle.classList.remove("fas", "fa-eye-slash");
+        toggle.classList.add("fas", "fa-eye");
+    }
+}
+
+function toggleCurrentPassword3()
+{
+    var actualPassword = document.getElementById("edit_password_form_plainPassword_password");
+    var toggle = document.getElementById("togglePassword1");
+
+    if (actualPassword.type === "password") {
+        actualPassword.type = "text";
+        toggle.classList.remove("fas", "fa-eye");
+        toggle.classList.add("fas", "fa-eye-slash");
+    } else {
+        actualPassword.type = "password";
+        toggle.classList.remove("fas", "fa-eye-slash");
+        toggle.classList.add("fas", "fa-eye");
+    }
+}
+
+function toggleCurrentPassword4()
+{
+    var actualPassword = document.getElementById("edit_password_form_plainPassword_confirm");
+    var toggle = document.getElementById("togglePassword2");
+
+    if (actualPassword.type === "password") {
+        actualPassword.type = "text";
+        toggle.classList.remove("fas", "fa-eye");
+        toggle.classList.add("fas", "fa-eye-slash");
+    } else {
+        actualPassword.type = "password";
+        toggle.classList.remove("fas", "fa-eye-slash");
+        toggle.classList.add("fas", "fa-eye");
+    }
+}

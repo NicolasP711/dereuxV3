@@ -66,10 +66,10 @@
             {% for article in articles %}
           <tr>
               <td>{{ article.id }}</td>
-            <td><b>{{ article.title|striptags|slice(0,40) }}</b></td>
-            <td>{{ article.content|striptags|slice(0,40) }}</td>
+            <td><b>{{ article.title|length > 20 ? article.title|striptags|slice(0, 20) ~ '…' : article.title|striptags  }}</b></td>
+            <td>{{ article.content|length > 40 ? article.content|striptags|slice(0, 40) ~ '…' : article.content|striptags  }}</td>
             <td>{{ article.publicationDate ? article.publicationDate|date('Y-m-d H:i:s') : '' }}</td>
-            <td>{{article.author.pseudonym}}</td>
+            <td>{% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</td>
             <td>
                 <div class="d-flex">
                     <a target="_blank" class="me-2" href="{{ path('blog_show', {'slug': article.slug}) }}"><i class="far fa-eye"></i></a>

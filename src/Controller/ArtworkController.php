@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Artwork;
+use App\Entity\ArtworkComment;
+use App\Form\ArtworkCommentFormType;
 use App\Form\ArtworkType;
+use App\Recaptcha\RecaptchaValidator;
 use App\Repository\ArtworkRepository;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
@@ -14,9 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\FormError;
 
 /**
- * @Route("/artwork")
+ * @Route("/oeuvres")
  */
 class ArtworkController extends AbstractController
 {
@@ -84,7 +88,7 @@ class ArtworkController extends AbstractController
     
 
     /**
-     * @Route("/new", name="artwork_new", methods={"GET","POST"})
+     * @Route("/nouvelle-oeuvre", name="artwork_new", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function new(Request $request): Response
@@ -114,7 +118,7 @@ class ArtworkController extends AbstractController
                 $newFileName
             );
 
-            return $this->redirectToRoute('admin_artwork_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('artwork_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('artwork/new.html.twig', [
@@ -124,17 +128,133 @@ class ArtworkController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="artwork_show", methods={"GET"})
+     * @Route("/{slug}", name="artwork_show")
      */
-    public function show(Artwork $artwork): Response
+    public function show(Artwork $artwork, Request $request, RecaptchaValidator $recaptcha, PaginatorInterface $paginator): Response
     {
+
+        $newComment = new ArtworkComment();
+
+        $form = $this->createForm(ArtworkCommentFormType::class, $newComment);
+
+        $form->handleRequest($request);
+
+        // Pour savoir si le formulaire a été envoyé, on a accès à cette condition :
+            if($form->isSubmitted()){
+
+                 // Verif captcha
+                $captchaResponse = $request->get('g-recaptcha-response', null);
+
+                if($captchaResponse == null || !$recaptcha->verify($captchaResponse, $request->server->get('REMOTE_ADDR'))){
+
+                $form->addError(new FormError('Veuillez remplir le captcha de sécurité'));
+
+                }
+
+                if($form->isValid()){
+
+                    $newComment
+                        ->setPublicationDate(new DateTime())
+                        ->setAuthor($this->getUser())
+                        ->setArtwork($artwork)
+                    ;
+    
+                    // récupération du manager des entités et sauvegarde en BDD de $newArticle
+                    $em = $this->getDoctrine()->getManager();
+    
+                    $em->persist($newComment);
+    
+                    $em->flush();
+    
+                    $this->addFlash('success', 'Commentaire publié avec succès.');
+    
+                    // On re-créé le formulaire pour pas que le texte saisi dans le dernier commentaire se remettent dans le nouveau
+                    $newComment = new ArtworkComment();
+                    $form = $this->createForm(ArtworkCommentFormType::class, $newComment);
+                }
+
+            }
+
+            $requestedPage = $request->query->getInt('page', 1);
+
+            if($requestedPage < 1){
+                throw new NotFoundHttpException();
+            }
+
+            $em = $this->getDoctrine()->getManager();
+
+            $query = $em->getRepository(ArtworkComment::class)->findByArtwork(array('artwork_id'=>$artwork));
+
+            $pageComments = $paginator->paginate(
+                $query,     // Requête de selection des articles en BDD
+                $requestedPage,     // Numéro de la page dont on veux les articles
+                10      // Nombre d'articles par page
+            );
+
+
         return $this->render('artwork/show.html.twig', [
             'artwork' => $artwork,
+            'form' => $form->createView(),
+            'comments' => $pageComments,
         ]);
     }
 
     /**
-     * @Route("/{slug}/edit", name="artwork_edit", methods={"GET","POST"})
+     * @Route("/editer-commentaire/{slug}", name="artwork_comment_edit", methods={"GET","POST"})
+     * @Security("is_granted('ROLE_USER')")
+     */
+    public function editArtworkComment(Request $request, ArtworkComment $artworkComment): Response
+    {
+        $form = $this->createForm(ArtworkCommentFormType::class, $artworkComment);
+        $form->handleRequest($request);
+        $artwork = $artworkComment->getArtwork();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('artwork_show', ['slug' => $artwork->getSlug()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('artwork/editComment.html.twig', [
+            'artworkComment' => $artworkComment,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     *  Page admin servant à supprimer un commentaire via son id passé dans l'URL
+     *
+     * @Route("/supprimer-commentaire/{slug}/", name="delete_artwork_comment")
+     * @Security("is_granted('ROLE_USER')")
+     *
+     */
+    public function commentDelete(ArtworkComment $comment, Request $request): Response
+    {
+
+        if(!$this->isCsrfTokenValid('delete_artwork_comment_' . $comment->getId(), $request->query->get('csrf_token')  )){
+
+            $this->AddFlash('error', 'Token sécurité invalide, veuillez ré-essayer.');
+
+        } else {
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->remove($comment);
+
+            $em->flush();
+
+            $this->addFlash('success', 'Le commentaire a été supprimé avec succès.');
+
+        }
+
+        return $this->redirectToRoute('artwork_show', [
+            'slug' => $comment->getArtwork()->getSlug()
+        ]);
+
+    }
+
+    /**
+     * @Route("/editer/{slug}", name="artwork_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function edit(Request $request, Artwork $artwork): Response
@@ -173,10 +293,10 @@ class ArtworkController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="artwork_delete", methods={"POST"})
+     * @Route("/admin/supprimer/{slug}", name="admin_artwork_delete", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function delete(Request $request, Artwork $artwork): Response
+    public function adminDelete(Request $request, Artwork $artwork): Response
     {
         if ($this->isCsrfTokenValid('delete'.$artwork->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -188,12 +308,63 @@ class ArtworkController extends AbstractController
     }
 
     /**
+     * @Route("/supprimer/{slug}", name="artwork_delete", methods={"GET", "POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function delete(Request $request, Artwork $artwork): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$artwork->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($artwork);
+            $entityManager->flush();
+            $this->addFlash('success', 'L\'article a été supprimé avec succès.');
+        }
+
+        return $this->redirectToRoute('artwork_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     *  Page affichant les résultats de recherches faites par le formulaire de recherche dans la navbar
+     *
+     * @Route("/recherche/utilisateur", name="artwork_search")
+     *
+     */
+    public function artworkSearch(Request $request, PaginatorInterface $paginator): Response
+    {
+        // Récupération de la variable $_GET['page]
+        $requestedPage = $request->query->getInt('page', 1);
+
+        if($requestedPage < 1){
+            throw new NotFoundHttpException();
+        }
+
+        $search = $request->query->get('q');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $query = $em
+            ->createQuery('SELECT a FROM App\Entity\Artwork a WHERE a.id LIKE :search OR a.title LIKE :search OR a.description LIKE :search OR a.artist LIKE :search OR a.creationDate LIKE :search OR a.publicationDate LIKE :search ORDER BY a.publicationDate DESC ')
+            ->setParameters(['search' => '%' . $search . '%'])
+        ;
+
+        $artworks = $paginator->paginate(
+            $query,
+            $requestedPage,
+            12,
+        );
+
+        return $this->render('artwork/artworkSearch.html.twig', [
+            'artworks' => $artworks
+        ]);
+    }
+
+    /**
      *  Page affichant les résultats de recherches faites par le formulaire de recherche dans la navbar
      *
      * @Route("/recherche/admin", name="admin_artwork_search")
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function artworkArticleSearch(Request $request, PaginatorInterface $paginator): Response
+    public function adminArtworkSearch(Request $request, PaginatorInterface $paginator): Response
     {
         // Récupération de la variable $_GET['page]
         $requestedPage = $request->query->getInt('page', 1);

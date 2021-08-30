@@ -79,7 +79,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/article/{slug}", name="blog_show")
+     * @Route("/{slug}", name="blog_show")
      */
     public function show(Article $article, Request $request, RecaptchaValidator $recaptcha, PaginatorInterface $paginator): Response
     {
@@ -154,7 +154,7 @@ class BlogController extends AbstractController
     /**
      *  Page affichant les résultats de recherches faites par le formulaire de recherche dans la navbar
      *
-     * @Route("/article/recherche", name="article_search")
+     * @Route("/recherche/utilisateur/", name="article_search")
      */
     public function articleSearch(Request $request, PaginatorInterface $paginator): Response
     {
@@ -188,7 +188,7 @@ class BlogController extends AbstractController
     /**
      *  Page affichant les résultats de recherches faites par le formulaire de recherche dans la navbar
      *
-     * @Route("/admin/article/recherche", name="admin_article_search")
+     * @Route("/recherche/admin", name="admin_article_search")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function adminArticleSearch(Request $request, PaginatorInterface $paginator): Response
@@ -269,7 +269,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}/edition", name="blog_edit", methods={"GET","POST"})
+     * @Route("/editer-article/{slug}", name="blog_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function edit(Request $request, Article $article): Response
@@ -290,7 +290,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/admin/{slug}/edition", name="admin_blog_edit", methods={"GET","POST"})
+     * @Route("/admin/editer-article/{slug}", name="admin_blog_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function adminEdit(Request $request, Article $article): Response
@@ -312,7 +312,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/admin/suppression/{slug}", name="admin_blog_delete", methods={"GET", "POST"})
+     * @Route("/admin/supprimer-article/{slug}", name="admin_blog_delete", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function adminDelete(Request $request, Article $article): Response
@@ -328,7 +328,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/suppression/{slug}", name="blog_delete", methods={"GET", "POST"})
+     * @Route("/supprimer-article/{slug}", name="blog_delete", methods={"GET", "POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function delete(Request $request, Article $article): Response
@@ -346,7 +346,7 @@ class BlogController extends AbstractController
     /**
      *  Page admin servant à supprimer un commentaire via son id passé dans l'URL
      *
-     * @Route("/commentaire/suppression/{slug}/", name="delete_article_comment")
+     * @Route("/supprimer-commentaire/{slug}/", name="delete_article_comment")
      * @Security("is_granted('ROLE_USER')")
      *
      */

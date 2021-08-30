@@ -121,6 +121,12 @@ class ArtworkType extends AbstractType
                     ]),
                 ]
             ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Publier',
+                'attr' => [
+                    'class' => 'btn btn-success mt-3 col-12',
+                ],
+            ])
         ;
     }
 

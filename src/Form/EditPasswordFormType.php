@@ -35,6 +35,8 @@ class EditPasswordFormType extends AbstractType
     ->add('plainPassword', RepeatedType::class, [
         'type' => PasswordType::class,
         'invalid_message' => 'Le mot de passe ne correspond pas à sa confirmation.',
+        'first_name' => 'password',
+        'second_name' => 'confirm',
         'first_options' => [
             'label' => 'Nouveau mot de passe',
             'help' => 'Le nouveau mot de passe doit contenir au minimum 8 caractères dont une minuscule, une majuscule, un chiffre et un caractère spécial.',

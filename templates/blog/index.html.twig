@@ -26,7 +26,6 @@
 {% if is_granted('ROLE_ADMIN') %}
   <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
 {% endif %}
-<a class="createArticleBtn btn altBtn mb-2 me-2" href="{{ path('blog_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitialiser les filtres</a>
 <button type="button" class="createArticleBtn btn altBtn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
   <i class="fas fa-search me-2"></i>Rechercher
 </button>
@@ -59,15 +58,15 @@
     <div class="col-12 my-5">
       <div class="card h-100">
 
-          <h2 class="card-title ms-3 my-3">{{ article.title|striptags|slice(0,50) }}</h2>
+          <h2 class="card-title ms-3 my-3">{{ article.title|length > 50 ? article.title|striptags|slice(0, 50) ~ '…' : article.title|striptags  }}</h2>
 
           <div class="card-body">
-            <p class="card-text">{{ article.content|striptags|excerpt(100) }}</p>
+            <p class="card-text">{{ article.content|length > 480 ? article.content|striptags|slice(0, 480) ~ '…' : article.content|striptags  }}</p>
           </div>
 
         <div class="card-footer">
 
-            <p class="card-text me-3">Publié le : <b>{{ article.publicationDate|date('d/m/Y à H:i:s') }}</b><br>par : <b>{{ article.author.pseudonym }}</b></p>
+            <p class="card-text me-3">Publié le : <b>{{ article.publicationDate|date('d/m/Y à H:i:s') }}</b><br>par : {% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</p>
             <div id="articleButton">
             <a href="{{ path('blog_show', {'slug': article.slug}) }}" class="btn defaultBtn">
                 Voir l'article

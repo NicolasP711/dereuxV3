@@ -48,6 +48,8 @@ class RegistrationFormType extends AbstractType
         ])
         ->add('plainPassword', RepeatedType::class, [
             'type' => PasswordType::class,
+            'first_name' => 'password',
+            'second_name' => 'confirm',
             'invalid_message' => 'Le mot de passe ne correspond pas à sa confirmation',
             'first_options' => [
                 'label' => 'Mot de passe',

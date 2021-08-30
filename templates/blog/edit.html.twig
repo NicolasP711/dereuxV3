@@ -3,7 +3,7 @@
 {% block title %}Éditer l'article{% endblock %}
 
 {% block body %}
-    <h1 class="my-4 text-center">Éditer l'article</h1>
+    <h1 class="my-4 text-center">Éditer l'article : {{ article.title|length > 20 ? article.title|slice(0, 20) ~ '…' : article.title  }}</h1>
 
     {{ include('blog/_form.html.twig') }}
     <div id="profilBtn" class="mt-5">

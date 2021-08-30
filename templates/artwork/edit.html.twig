@@ -3,11 +3,17 @@
 {% block title %}Éditer {{artwork.title}}{% endblock %}
 
 {% block body %}
-    <h1 class="h2 text-center my-4">Éditer l'oeuvre :  {{artwork.title}}</h1>
+    <h1 class="h2 text-center my-4">Éditer l'oeuvre :  {{ artwork.title|length > 20 ? artwork.title|slice(0, 20) ~ '…' : artwork.title  }}</h1>
 
-    {{ include('artwork/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('artwork/_form.html.twig') }}
+    <div id="profilBtn" class="mt-5">
 
-    <a href="{{ path('admin_artwork_index') }}">back to list</a>
+        <a class="btn btn-warning mb-5" href="{{ path('admin_artwork_index') }}">Gestion des oeuvres</a>
+        <a class="btn btn-warning mb-5" href="{{ path('artwork_index') }}">Retour aux oeuvres</a>
 
-    {{ include('artwork/_delete_form.html.twig') }}
+        <form method="post" action="{{ path('artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Voulez vous vraiment supprimer cette oeuvre ?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
+            <button class="btn btn-danger mb-5">Supprimer</button>
+        </form>
+    </div>
 {% endblock %}
