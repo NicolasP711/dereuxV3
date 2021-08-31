@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ user.pseudonym|length > 40 ? user.pseudonym|striptags|slice(0, 40) ~ '…' : user.pseudonym|striptags  }}{% endblock %}
+
+{% block body %}
+  {% include 'partials/flashes/error.html.twig' %}
+  {% include 'partials/flashes/success.html.twig' %}
+
+    <div>
+            <p class="h3 blogArticle my-4 col-12"><b>Pseudonyme:</b> {{ user.pseudonym }}</p>
+            <p class="blogArticle col-12"><b>Adresse email:</b> {{ user.email }}</p>
+            <p><b>Date d'enregistrement:</b> {{ user.registrationDate ? user.registrationDate|date('d-m-Y à H:i:s') : '' }}</p>
+    </div>
+
+
+    <div id="profilBtn" class="mt-5">
+      <a class="btn defaultBtn mb-5" href="{{ path('admin_user') }}">Liste des utilisateurs</a>
+      <a class="btn btn-danger mb-5" href="{{ path('admin_delete_account', {'id': user.id}) }}" onclick="return confirm('Souhaitez vous vraiment supprimer ce compte ?');">Supprimer</a>
+
+    </div>
+
+{% endblock %}

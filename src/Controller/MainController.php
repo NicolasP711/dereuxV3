@@ -311,5 +311,18 @@ class MainController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/admin/utilisateur/{id}", name="user_show")
+     */
+    public function show(User $user): Response
+    {
+
+        return $this->render('main/userShow.html.twig', [
+            'user' => $user,
+
+
+        ]);
+    }
+
 
 }
