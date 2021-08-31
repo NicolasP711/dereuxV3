@@ -56,7 +56,7 @@
             <th scope="col">{{ knp_pagination_sortable(artworks, 'Id', 'a.id') }}</th>
             <th scope="col">{{ knp_pagination_sortable(artworks, 'Titre', 'a.title') }}</th>
             <th scope="col">{{ knp_pagination_sortable(artworks, 'Description', 'a.content') }}</th>
-            <th scope="col">{{ knp_pagination_sortable(artworks, 'Date de création', 'a.creationDate') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(artworks, 'Année de création', 'a.yearOfCreation') }}</th>
             <th scope="col">{{ knp_pagination_sortable(artworks, 'Date de publication', 'a.publicationDate') }}</th>
             <th scope="col">Auteur</th>
             <th scope="col">Actions</th>
@@ -69,7 +69,7 @@
               <td>{{ artwork.id }}</td>
             <td><b>{{ artwork.title|length > 40 ? artwork.title|striptags|slice(0, 40) ~ '…' : artwork.title|striptags  }}</b></td>
             <td>{{ artwork.description|length > 40 ? artwork.description|striptags|slice(0, 40) ~ '…' : artwork.description|striptags  }}</td>
-            <td>{{ artwork.creationDate ? artwork.creationDate|date('d-m-Y') : '' }}</td>
+            <td>{{ artwork.yearOfCreation }}</td>
             <td>{{ artwork.publicationDate ? artwork.publicationDate|date('d-m-Y H:i:s') : '' }}</td>
             <td>{% if artwork.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ artwork.author.pseudonym }}</b>{% endif %}</td>
             <td>

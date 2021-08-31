@@ -439,7 +439,7 @@ class ArtworkController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $query = $em
-            ->createQuery('SELECT a FROM App\Entity\Artwork a WHERE a.id LIKE :search OR a.title LIKE :search OR a.description LIKE :search OR a.artist LIKE :search OR a.creationDate LIKE :search OR a.publicationDate LIKE :search ORDER BY a.publicationDate DESC ')
+            ->createQuery('SELECT a FROM App\Entity\Artwork a WHERE a.id LIKE :search OR a.title LIKE :search OR a.description LIKE :search OR a.artist LIKE :search OR a.yearOfCreation LIKE :search OR a.publicationDate LIKE :search ORDER BY a.publicationDate DESC ')
             ->setParameters(['search' => '%' . $search . '%'])
         ;
 
@@ -474,7 +474,7 @@ class ArtworkController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $query = $em
-            ->createQuery('SELECT a FROM App\Entity\Artwork a WHERE a.id LIKE :search OR a.title LIKE :search OR a.description LIKE :search OR a.artist LIKE :search OR a.creationDate LIKE :search OR a.publicationDate LIKE :search ORDER BY a.publicationDate DESC ')
+            ->createQuery('SELECT a FROM App\Entity\Artwork a WHERE a.id LIKE :search OR a.title LIKE :search OR a.description LIKE :search OR a.artist LIKE :search OR a.yearOfCreation LIKE :search OR a.publicationDate LIKE :search ORDER BY a.publicationDate DESC ')
             ->setParameters(['search' => '%' . $search . '%'])
         ;
 

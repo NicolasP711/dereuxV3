@@ -10,7 +10,7 @@
     <article>
 
         <img id="artworkImg" class="d-block me-auto ms-auto mt-4" src="{{ asset('img/artworks/' ~ artwork.picture)|imagine_filter('artwork') }}" alt="">
-        <p class="mb-4 text-center">Titre de l'oeuvre: <b>{{artwork.title}}</b> Créée par <b>{{ artwork.artist }}</b> le <b>{{ artwork.creationDate ? artwork.creationDate|date('Y-m-d') : '' }}</b> </p>
+        <p class="mb-4 text-center">Titre de l'oeuvre: <b>{{artwork.title}}</b> Créée par <b>{{ artwork.artist }}</b> en <b>{{ artwork.yearOfCreation }}</b></p>
 
 
         <div class="blogArticle mb-4 col-12">{{ artwork.description|purify }}</div>

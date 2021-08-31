@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Constraints\Image;
 
@@ -112,12 +113,12 @@ class ArtworkType extends AbstractType
                 ]),
             ]
         ])
-            ->add('creationDate', DateType::class, [
+            ->add('yearOfCreation', ChoiceType::class, [
                 'label' => 'Date de création de l\'oeuvre',
-                'widget' => 'choice',
+                'choices' => $this->getYears(1800),
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Merci de renseigner une date de création'
+                        'message' => 'Merci de renseigner une année de création'
                     ]),
                 ]
             ])
@@ -128,6 +129,13 @@ class ArtworkType extends AbstractType
                 ],
             ])
         ;
+    }
+
+    private function getYears($min, $max='current')
+    {
+         $years = range($min, ($max === 'current' ? date('Y') : $max));
+
+         return array_combine($years, $years);
     }
 
     public function configureOptions(OptionsResolver $resolver)

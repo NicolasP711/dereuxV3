@@ -40,11 +40,6 @@ class Artwork
     private $artist;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $creationDate;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $publicationDate;
@@ -60,12 +55,12 @@ class Artwork
         return $this->slug;
     }
 
-public function setSlug(string $slug): self
-{
-    $this->slug = $slug;
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
-    return $this;
-}
+        return $this;
+    }
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="artworks")
@@ -77,6 +72,11 @@ public function setSlug(string $slug): self
      * @ORM\OneToMany(targetEntity=ArtworkComment::class, mappedBy="artwork", orphanRemoval=true)
      */
     private $artworkComments;
+
+    /**
+     * @ORM\Column(type="string", length=4, nullable=true)
+     */
+    private $yearOfCreation;
 
     public function __construct()
     {
@@ -136,18 +136,6 @@ public function setSlug(string $slug): self
         return $this;
     }
 
-    public function getCreationDate(): ?\DateTimeInterface
-    {
-        return $this->creationDate;
-    }
-
-    public function setCreationDate(?\DateTimeInterface $creationDate): self
-    {
-        $this->creationDate = $creationDate;
-
-        return $this;
-    }
-
     public function getPublicationDate(): ?\DateTimeInterface
     {
         return $this->publicationDate;
@@ -198,6 +186,18 @@ public function setSlug(string $slug): self
                 $artworkComment->setArtwork(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getYearOfCreation(): ?string
+    {
+        return $this->yearOfCreation;
+    }
+
+    public function setYearOfCreation(?string $yearOfCreation): self
+    {
+        $this->yearOfCreation = $yearOfCreation;
 
         return $this;
     }
