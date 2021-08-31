@@ -75,7 +75,7 @@
             <td>
                 <div class="d-flex">
                     <a class="me-2" href="{{ path('artwork_show', {'slug': artwork.slug}) }}"><i class="far fa-eye"></i></a>
-                    <a class="me-2" href="{{ path('artwork_edit', {'slug': artwork.slug}) }}"><i class="fas fa-edit"></i></a>
+                    <a class="me-2" href="{{ path('admin_artwork_edit', {'slug': artwork.slug}) }}"><i class="fas fa-edit"></i></a>
                     <form method="post" action="{{ path('admin_artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
                         <button id="deleteBtn"><i class="fas fa-trash"></i></button>

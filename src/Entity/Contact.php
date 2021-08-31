@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo; // Importation de la classe permettant de faire un slug
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
@@ -31,6 +32,24 @@ class Contact
      * @ORM\Column(type="string", length=2000)
      */
     private $message;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Gedmo\Slug(fields={"subject"})
+     */
+    private $slug;
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
 
     /**
      * @ORM\Column(type="datetime")

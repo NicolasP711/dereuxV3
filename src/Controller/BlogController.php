@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\Article1Type;
-use App\Repository\ArticleRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +14,6 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Entity\ArticleComment;
 use App\Form\ArticleCommentFormType;
-use App\Form\EditArticleCommentFormType;
 use App\Recaptcha\RecaptchaValidator;
 use Symfony\Component\Form\FormError;
 
@@ -83,8 +81,6 @@ class BlogController extends AbstractController
      */
     public function show(Article $article, Request $request, RecaptchaValidator $recaptcha, PaginatorInterface $paginator): Response
     {
-
-        
         $newComment = new ArticleComment();
 
         $form = $this->createForm(ArticleCommentFormType::class, $newComment);
@@ -110,16 +106,13 @@ class BlogController extends AbstractController
                         ->setAuthor($this->getUser())
                         ->setArticle($article)
                     ;
-    
                     // récupération du manager des entités et sauvegarde en BDD de $newArticle
                     $em = $this->getDoctrine()->getManager();
-    
                     $em->persist($newComment);
-    
                     $em->flush();
-    
+
                     $this->addFlash('success', 'Commentaire publié avec succès.');
-    
+
                     // On re-créé le formulaire pour pas que le texte saisi dans le dernier commentaire se remettent dans le nouveau
                     $newComment = new ArticleComment();
                     $form = $this->createForm(ArticleCommentFormType::class, $newComment);
@@ -188,7 +181,7 @@ class BlogController extends AbstractController
     /**
      *  Page affichant les résultats de recherches faites par le formulaire de recherche dans la navbar
      *
-     * @Route("/recherche/admin", name="admin_article_search")
+     * @Route("/admin/recherche/", name="admin_article_search")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function adminArticleSearch(Request $request, PaginatorInterface $paginator): Response
@@ -221,7 +214,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/admin/nouvel-article", name="blog_new", methods={"GET","POST"})
+     * @Route("/nouvel-article", name="blog_new", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function new(Request $request): Response
@@ -237,7 +230,37 @@ class BlogController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Article créé avec succès.');
+
             return $this->redirectToRoute('blog_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('blog/new.html.twig', [
+            'article' => $article,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/nouvel-article", name="admin_blog_new", methods={"GET","POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function adminNew(Request $request): Response
+    {
+        $article = new Article();
+        $form = $this->createForm(Article1Type::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $article->setPublicationDate( new DateTime() );
+            $article->setAuthor($this->getUser());
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Article créé avec succès.');
+
+            return $this->redirectToRoute('blog_admin', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('blog/new.html.twig', [
@@ -258,6 +281,8 @@ class BlogController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'Commentaire édité avec succès.');
 
             return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug()], Response::HTTP_SEE_OTHER);
         }
@@ -280,6 +305,8 @@ class BlogController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('success', 'Article édité avec succès.');
+
             return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
@@ -301,7 +328,8 @@ class BlogController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', 'L\'article a été édité avec succès.');
+            $this->addFlash('success', 'Article édité avec succès.');
+
             return $this->redirectToRoute('blog_admin', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -321,7 +349,8 @@ class BlogController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();
-            $this->addFlash('success', 'L\'article a été supprimé avec succès.');
+
+            $this->addFlash('success', 'Article supprimé avec succès.');
         }
 
         return $this->redirectToRoute('blog_admin', [], Response::HTTP_SEE_OTHER);
@@ -337,7 +366,8 @@ class BlogController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();
-            $this->addFlash('success', 'L\'article a été supprimé avec succès.');
+
+            $this->addFlash('success', 'Article supprimé avec succès.');
         }
 
         return $this->redirectToRoute('blog_index', [], Response::HTTP_SEE_OTHER);
@@ -365,7 +395,7 @@ class BlogController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash('success', 'Le commentaire a été supprimé avec succès.');
+            $this->addFlash('success', 'Commentaire supprimé avec succès.');
 
         }
 

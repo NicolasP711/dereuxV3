@@ -10,7 +10,6 @@ use App\Recaptcha\RecaptchaValidator;
 use App\Repository\ArtworkRepository;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -118,7 +117,53 @@ class ArtworkController extends AbstractController
                 $newFileName
             );
 
+            $this->addFlash('success', 'Oeuvre publiée avec succès.');
+
+
             return $this->redirectToRoute('artwork_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('artwork/new.html.twig', [
+            'artwork' => $artwork,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/nouvelle-oeuvre", name="admin_artwork_new", methods={"GET","POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function adminNew(Request $request): Response
+    {
+        $artwork = new Artwork();
+        $form = $this->createForm(ArtworkType::class, $artwork);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $picture = $form->get('picture')->getData();
+
+            $newFileName = md5( random_bytes(100) . time() ) . '.' . $picture->guessExtension();
+
+            $artwork->setPicture($newFileName);
+
+            $artwork->setPublicationDate( new DateTime() );
+
+            $artwork->setAuthor($this->getUser());
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($artwork);
+            $entityManager->flush();
+
+            $picture->move(
+                $this->getParameter('artwork.photo.directory'),
+                $newFileName
+            );
+
+            $this->addFlash('success', 'Oeuvre publiée avec succès.');
+
+
+            return $this->redirectToRoute('admin_artwork_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('artwork/new.html.twig', [
@@ -211,6 +256,8 @@ class ArtworkController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Commentaire édité avec succès.');
+
 
             return $this->redirectToRoute('artwork_show', ['slug' => $artwork->getSlug()], Response::HTTP_SEE_OTHER);
         }
@@ -243,7 +290,7 @@ class ArtworkController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash('success', 'Le commentaire a été supprimé avec succès.');
+            $this->addFlash('success', 'Commentaire supprimé avec succès.');
 
         }
 
@@ -269,12 +316,13 @@ class ArtworkController extends AbstractController
             $picture = $form->get('picture')->getData();
 
             $newFileName = md5( random_bytes(100) . time() ) . '.' . $picture->guessExtension();
-
-            $artwork->setPicture($newFileName);
-
+            
             if($artwork->getPicture() != null){
                 unlink($this->getParameter('artwork.photo.directory') . $oldFileName );
             }
+
+            $artwork->setPicture($newFileName);
+
 
             $this->getDoctrine()->getManager()->flush();
 
@@ -283,7 +331,52 @@ class ArtworkController extends AbstractController
                 $newFileName
             );
 
-            return $this->redirectToRoute('admin_artwork_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Oeuvre éditée avec succès.');
+
+
+            return $this->redirectToRoute('artwork_show', ['slug' => $artwork->getSlug()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('artwork/edit.html.twig', [
+            'artwork' => $artwork,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/editer/{slug}", name="admin_artwork_edit", methods={"GET","POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function adminEdit(Request $request, Artwork $artwork): Response
+    {
+        $oldFileName = $artwork->getPicture();
+
+        $form = $this->createForm(ArtworkType::class, $artwork);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $picture = $form->get('picture')->getData();
+
+            $newFileName = md5( random_bytes(100) . time() ) . '.' . $picture->guessExtension();
+            
+            if($artwork->getPicture() != null){
+                unlink($this->getParameter('artwork.photo.directory') . $oldFileName );
+            }
+
+            $artwork->setPicture($newFileName);
+
+
+            $this->getDoctrine()->getManager()->flush();
+
+            $picture->move(
+                $this->getParameter('artwork.photo.directory'),
+                $newFileName
+            );
+
+            $this->addFlash('success', 'Oeuvre éditée avec succès.');
+
+            return $this->redirectToRoute('admin_artwork_index', ['slug' => $artwork->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('artwork/edit.html.twig', [
@@ -302,7 +395,10 @@ class ArtworkController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($artwork);
             $entityManager->flush();
+            $this->addFlash('success', 'Oeuvre supprimée avec succès.');
         }
+
+
 
         return $this->redirectToRoute('admin_artwork_index', [], Response::HTTP_SEE_OTHER);
     }
@@ -317,7 +413,7 @@ class ArtworkController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($artwork);
             $entityManager->flush();
-            $this->addFlash('success', 'L\'article a été supprimé avec succès.');
+            $this->addFlash('success', 'Oeuvre supprimée avec succès.');
         }
 
         return $this->redirectToRoute('artwork_index', [], Response::HTTP_SEE_OTHER);

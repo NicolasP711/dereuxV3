@@ -3,7 +3,7 @@
 {% block title %}Nouvelle oeuvre{% endblock %}
 
 {% block body %}
-    <h1>Ajouter une oeuvre</h1>
+    <h1 class="text-center my-4">Ajouter une oeuvre</h1>
 
     {{ form_start(form) }}
         <div class="form-group mb-3">
@@ -21,9 +21,10 @@
         <div class="form-group mb-3">
             {{ form_row(form.description) }}
         </div>
-        
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
     {{ form_end(form) }}
 
-    <a href="{{ path('admin_artwork_index') }}">Retour à la liste des oeuvres</a>
+    <a class="btn btn-primary my-4 me-1" href="{{ path('admin_artwork_index') }}">Retour aux oeuvres</a>
+    <a class="btn btn-warning my-4 me-1" href="{{ path('artwork_index') }}">Gestion des oeuvres</a>
+
 {% endblock %}

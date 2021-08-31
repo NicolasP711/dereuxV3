@@ -24,7 +24,7 @@
   </div>
 </div>
 {% if is_granted('ROLE_ADMIN') %}
-  <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
+  <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
 {% endif %}
 <button type="button" class="createArticleBtn btn altBtn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
   <i class="fas fa-search me-2"></i>Rechercher

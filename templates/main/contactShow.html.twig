@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ contact.subject|length > 40 ? contact.subject|striptags|slice(0, 40) ~ '…' : contact.subject|striptags  }}{% endblock %}
+
+{% block body %}
+  {% include 'partials/flashes/error.html.twig' %}
+  {% include 'partials/flashes/success.html.twig' %}
+
+    <div>
+            <p class="h3 blogArticle my-4 col-12"><b>Sujet:</b> {{ contact.subject }}</p>
+            <p class="blogArticle col-12"><b>Message:</b> {{ contact.message }}</p>
+            <p><b>Auteur:</b> {{contact.name}}</p>
+            <p><b>Date d'envoi:</b> {{ contact.dateSent ? contact.dateSent|date('Y-m-d à H:i:s') : '' }}</p>
+            <p><b>Adresse email:</b> {{ contact.email }}</p>
+    </div>
+
+
+    <div id="profilBtn" class="mt-5">
+      <a class="btn btn-warning mb-5" href="{{ path('contact_list') }}">Liste des contacts</a>
+      <form method="post" action="{{ path('admin_contact_delete', {'slug': contact.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer ce contact ?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contact.id) }}">
+        <button class="btn btn-danger">Supprimer</button>
+    </form>
+    </div>
+
+{% endblock %}

@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Éditer {{artwork.title}}{% endblock %}
+{% block title %}Éditer {{ artwork.title|length > 20 ? artwork.title|slice(0, 20) ~ '…' : artwork.title  }}{% endblock %}
 
 {% block body %}
     <h1 class="h2 text-center my-4">Éditer l'oeuvre :  {{ artwork.title|length > 20 ? artwork.title|slice(0, 20) ~ '…' : artwork.title  }}</h1>
 
-    {{ include('artwork/_form.html.twig') }}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+
     <div id="profilBtn" class="mt-5">
 
         <a class="btn btn-warning mb-5" href="{{ path('admin_artwork_index') }}">Gestion des oeuvres</a>

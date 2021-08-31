@@ -15,7 +15,7 @@
     </div>
 
     <p class="text-center">Nombre d'article(s) trouvé : {{ articles.getTotalItemCount }}</p>
-    <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
+    <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('admin_blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
     <a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('blog_admin')}}"><i class="fas fa-sync-alt me-2"></i>Gestion du blog</a>
 
 
@@ -72,8 +72,8 @@
             <td>{% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</td>
             <td>
                 <div class="d-flex">
-                    <a target="_blank" class="me-2" href="{{ path('blog_show', {'slug': article.slug}) }}"><i class="far fa-eye"></i></a>
-                    <a target="_blank" class="me-2" href="{{ path('blog_edit', {'slug': article.slug}) }}"><i class="fas fa-edit"></i></a>
+                    <a class="me-2" href="{{ path('blog_show', {'slug': article.slug}) }}"><i class="far fa-eye"></i></a>
+                    <a class="me-2" href="{{ path('admin_blog_edit', {'slug': article.slug}) }}"><i class="fas fa-edit"></i></a>
                     <form method="post" action="{{ path('admin_blog_delete', {'slug': article.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cet article ?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
                         

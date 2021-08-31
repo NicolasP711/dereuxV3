@@ -23,10 +23,12 @@
       {# Création d'un lien permettant de trier par date #}
       <span class="mx-2">{{ knp_pagination_sortable(artworks, 'Trier par date', 'a.publicationDate') }}</span>
     </p>
-    <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
+    {% if is_granted('ROLE_ADMIN') %}
+      <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
+    {% endif %}
 
     <!-- Click on Modal Button -->
-<button type="button" class="createArticleBtn btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
+<button type="button" class="createArticleBtn altBtn btn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
   <i class="fas fa-search me-2"></i>Rechercher
 </button>
 
@@ -45,7 +47,7 @@
                       <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
                   </div>
                   <div class="modal-footer d-block">
-                      <button type="submit" class="btn btn-warning float-end">Rechercher</button>
+                      <button type="submit" class="btn altBtn float-end">Rechercher</button>
                   </div>
               </form>
           </div>
@@ -62,9 +64,9 @@
       <h5 class="card-title">{{ artwork.title|length > 40 ? artwork.title|striptags|slice(0, 40) ~ '…' : artwork.title|striptags  }}</h5>
       <p class="card-text">{{ artwork.description|length > 100 ? artwork.description|striptags|slice(0, 100) ~ '…' : artwork.description|striptags }}</p>
       <div class="d-flex justify-content-between">
-        <a href="{{ path('artwork_show', {'slug': artwork.slug}) }}" class="btn btn-primary">Lire la suite</a>
+        <a href="{{ path('artwork_show', {'slug': artwork.slug}) }}" class="btn defaultBtn">Lire la suite</a>
         {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('artwork_edit', {'slug': artwork.slug}) }}" class="btn btn-primary">Modifier</a>
+        <a href="{{ path('artwork_edit', {'slug': artwork.slug}) }}" class="btn altBtn">Modifier</a>
         <form method="post" action="{{ path('artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
           <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
           <button class="btn btn-danger">Supprimer</button>

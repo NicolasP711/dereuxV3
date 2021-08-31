@@ -17,7 +17,7 @@
     </div>
 
     <p class="text-center">Nombre total d'oeuvres : {{ artworks.getTotalItemCount }}</p>
-    <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
+    <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('admin_artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
 
 
     <!-- Click on Modal Button -->
@@ -75,7 +75,7 @@
             <td>
                 <div class="d-flex">
                     <a class="me-2" href="{{ path('artwork_show', {'slug': artwork.slug}) }}"><i class="far fa-eye"></i></a>
-                    <a class="me-2" href="{{ path('artwork_edit', {'slug': artwork.slug}) }}"><i class="fas fa-edit"></i></a>
+                    <a class="me-2" href="{{ path('admin_artwork_edit', {'slug': artwork.slug}) }}"><i class="fas fa-edit"></i></a>
                     <form method="post" action="{{ path('admin_artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
                         <button id="deleteBtn"><i class="fas fa-trash"></i></button>

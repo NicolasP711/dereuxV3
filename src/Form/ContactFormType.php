@@ -21,15 +21,16 @@ class ContactFormType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom ou pseudonyme',
+                'help' => 'Le nom ou pseudonyme doit contenir entre 2 et 120 caractères',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Merci de renseigner votre nom ou un pseudonyme.',
+                        'message' => 'Merci de renseigner votre nom ou un pseudonyme',
                     ]),
                     new Length([
                         'min' => 2,
-                        'minMessage' => 'Votre nom complet ou votre pseudonyme doit contenir au moins {{ limit }} caractères.',
+                        'minMessage' => 'Votre nom complet ou votre pseudonyme doit contenir au moins {{ limit }} caractères',
                         'max' => 120,
-                        'maxMessage' => 'Votre nom complet ou votre pseudonyme doit contenir au maximum {{ limit }} caractères.',
+                        'maxMessage' => 'Votre nom complet ou votre pseudonyme doit contenir au maximum {{ limit }} caractères',
                     ]),
                 ],
             ])
@@ -37,38 +38,40 @@ class ContactFormType extends AbstractType
                 'label' => 'Adresse Email',
                 'constraints' => [
                     new Email([
-                        'message' => 'L\'adresse email {{ value }} n\'est pas une adresse email valide.'
+                        'message' => 'L\'adresse email {{ value }} n\'est pas une adresse email valide'
                     ]),
                     new NotBlank([
-                        'message' => 'Merci de renseigner une adresse email.'
+                        'message' => 'Merci de renseigner une adresse email'
                     ]),
                 ]
             ])
             ->add('subject', TextType::class, [
                 'label' => 'Sujet',
+                'help' => 'Le sujet doit contenir entre 2 et 100 caractères',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Merci de renseigner un sujet.',
+                        'message' => 'Merci de renseigner un sujet',
                     ]),
                     new Length([
                         'min' => 2,
-                        'minMessage' => 'Le sujet doit contenir au moins {{ limit }} caractères.',
+                        'minMessage' => 'Le sujet doit contenir au moins {{ limit }} caractères',
                         'max' => 100,
-                        'maxMessage' => 'Le sujet doit contenir au maximum {{ limit }} caractères.',
+                        'maxMessage' => 'Le sujet doit contenir au maximum {{ limit }} caractères',
                     ]),
                 ],
             ])
             ->add('message', TextareaType::class, [
                 'label' => 'Message',
+                'help' => 'Le message doit contenir entre 5 et 2000 caractères',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Merci de renseigner un message.',
+                        'message' => 'Merci de renseigner un message',
                     ]),
                     new Length([
                         'min' => 5,
-                        'minMessage' => 'Le message doit contenir au moins {{ limit }} caractères.',
+                        'minMessage' => 'Le message doit contenir au moins {{ limit }} caractères',
                         'max' => 2000,
-                        'maxMessage' => 'Le message doit contenir au maximum {{ limit }} caractères.',
+                        'maxMessage' => 'Le message doit contenir au maximum {{ limit }} caractères',
                     ]),
                 ],
             ])

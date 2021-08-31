@@ -51,6 +51,22 @@ class AppFixtures extends Fixture
         // Création de 200 articles
         for($i = 0; $i < 200; $i++){
 
+            $user = new User();
+
+            $user
+                ->setRegistrationDate(new DateTime('-1 year'))
+                ->setPseudonym( $faker->word(1) )
+                ->setEmail( $faker->email() )
+                ->setIsVerified('true')
+                ->setPassword( $this->encoder->encodePassword($admin, 'aaAA11$$') )
+            ;
+
+            $manager->persist($user);
+        }
+
+        // Création de 200 articles
+        for($i = 0; $i < 200; $i++){
+
             $article = new Article();
 
             $article

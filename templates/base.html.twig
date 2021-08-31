@@ -51,9 +51,6 @@
                     <li class="nav-item">
                       <a class="nav-link text-center text-white" href="#">Oeuvres</a>
                     </li>
-                    <li class="nav-item">
-                      <a class="nav-link text-center text-white" href="#">Artistes</a>
-                    </li>
                     <hr>
                     {% if is_granted('ROLE_USER') %}
                       <li class="nav-item">
@@ -102,9 +99,6 @@
                         <a class="nav-link {{ currentRoute == 'blog_index' ? ' active' }}" href="{{ path('blog_index') }}"><i class="fas fa-blog me-1"></i>Blog</a>
                       </li>
                     {% endif %}
-                    <li class="nav-item">
-                      <a class="nav-link" href="#"><i class="fas fa-paint-brush me-1"></i>Artistes</a>
-                    </li>
                     {% if is_granted('ROLE_ADMIN') %}
                       <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle {{ 
@@ -129,6 +123,22 @@
                         <a class="nav-link {{ currentRoute == 'artwork_index' ? ' active' }}" href="{{ path('artwork_index') }}"><i class="fas fa-palette me-1"></i>Oeuvres</a>
                       </li>
                     {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="fas fa-phone-square-alt me-1"></i>Contact
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                          <li><a class="dropdown-item" href="{{ path('contact') }}"><i class="fas fa-palette me-1"></i>Contact</a></li>
+                          <li><a class="dropdown-item" href="{{ path('contact_list') }}"><i class="fas fa-cog me-1"></i>Gestion des contacts</a></li>
+                        </ul>
+                      </li>
+                    {% else %}
+                      <li class="nav-item">
+                        <li><a class="nav-link" href="{{ path('contact') }}"><i class="fas fa-phone-square-alt me-1"></i>Contact</a></li>
+                      </li>
+
+              {% endif %}
                   </ul>
                   {% if is_granted('ROLE_USER') %}
                   <ul class="navbar-nav ms-auto mb-2 mb-md-0">
@@ -139,7 +149,7 @@
                       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{path('profil')}}"><i class="fas fa-user me-1"></i>Mon profil</a></li>
                         {% if is_granted('ROLE_ADMIN') %}
-                          <li><a class="dropdown-item" href="#"><i class="fas fa-users-cog me-1"></i>Gestion des utilisateurs</a></li>
+                          <li><a class="dropdown-item" href="{{ path('admin_user') }}"><i class="fas fa-users-cog me-1"></i>Gestion des utilisateurs</a></li>
                         {% endif %}
                         <li><a class="dropdown-item" onclick="return confirm('Souhaitez vous vraiment vous déconnecter ?');" href="{{path('app_logout')}}"><i class="fas fa-sign-out-alt me-1"></i>Déconnexion</a></li>
                       </ul>
@@ -174,8 +184,7 @@
         <footer class="footer mt-auto py-3 text-light" id="footer">
             <div class="container d-flex flex-row justify-content-around">
               <span><i class="fas fa-info-circle me-1"></i>CGU</span>
-              <span id="footerName">Les amis de Philippe Dereux</span>
-              <span></i><a class="text-light text-decoration-none" href="{{ path('contact') }}">Contact</a><i class="fas fa-phone-square-alt ms-1"></i></span>
+              <span id="footerName">Les amis de Dereux</span>
             </div>
         </footer>
         <script
