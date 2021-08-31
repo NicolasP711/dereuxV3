@@ -214,7 +214,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/nouvel-article", name="blog_new", methods={"GET","POST"})
+     * @Route("/admin/nouvel-article/", name="blog_new", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function new(Request $request): Response
