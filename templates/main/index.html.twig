@@ -7,10 +7,10 @@
 {% include 'partials/flashes/error.html.twig' %}
 {% include 'partials/flashes/success.html.twig' %}
 
-      <h1 class="mt-4 text-center">Les amis de Philippe Dereux</h1>
-      <p class="lead text-center">Le site des amoureux des oeuvres de Philippe Dereux et autres.</p>
-      <div id="homeCard" class="mt-5">
-        <div class="card" style="width: 16rem;">
+      <h1 class="h2 mt-4 text-center">Les amis de Philippe Dereux</h1>
+      <p class="text-center">Le site des amoureux des oeuvres de Philippe Dereux et autres.</p>
+      <div id="homeCard" class="mt-4">
+        <div class="my-4 card" style="width: 16rem;">
           <img src="{{ asset('img/cardDereux.jpg') }}" class="card-img-top" alt="Blog">
           <div class="card-body">
             <h5 class="card-title">Blog</h5>
@@ -18,11 +18,11 @@
             <a href="{{ path('blog_index') }}" class="btn defaultBtn">Accéder au blog</a>
           </div>
         </div>
-        <div class="card" style="width: 16rem;">
+        <div class="my-4 card" style="width: 16rem;">
           <img src="{{ asset('img/cardDereux.jpg') }}" class="card-img-top" alt="Oeuvres">
           <div class="card-body">
             <h5 class="card-title">Oeuvres</h5>
-            <p class="card-text">Enfin, cette section vous permet de parcourir diverses oeuvres de différents artistes.</p>
+            <p class="card-text">Cette section vous permet de parcourir diverses oeuvres de différents artistes.</p>
             <a href="{{ path('artwork_index') }}" class="btn defaultBtn">Accéder aux oeuvres</a>
           </div>
         </div>

@@ -40,6 +40,7 @@
                     <li class="nav-item">
                       <a class="nav-link text-center text-white" aria-current="page" href="{{ path('home') }}"><i class="fas fa-home me-1"></i>Accueil</a>
                     </li>
+                    <hr>
                     <li class="nav-item">
                       <a class="nav-link text-center text-white" href="{{ path('blog_index') }}"><i class="fas fa-blog me-1"></i>Blog</a>
                     </li>
@@ -47,15 +48,42 @@
                       <li class="nav-item">
                         <a class="nav-link text-center text-white" href="{{ path('blog_admin') }}"><i class="fas fa-cog me-1"></i>Gestion du blog</a>
                       </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('blog_new') }}"><i class="fas fa-plus me-1"></i>Ajouter un article</a>
+                      </li>
                     {% endif %}
+                    <hr>
                     <li class="nav-item">
-                      <a class="nav-link text-center text-white" href="#">Oeuvres</a>
+                      <a class="nav-link text-center text-white" href="{{ path('artwork_index') }}"><i class="fas fa-palette me-1"></i>Oeuvres</a>
                     </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('admin_artwork_index') }}"><i class="fas fa-cog me-1"></i>Gestion des oeuvres</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('artwork_new') }}"><i class="fas fa-plus me-1"></i>Ajouter une oeuvre</a>
+                      </li>
+                    {% endif %}
+                    <hr>
+                    <li class="nav-item">
+                      <a class="nav-link text-center text-white" href="{{ path('contact') }}"><i class="fas fa-phone-square-alt me-1"></i>Contact</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('contact_list') }}"><i class="fas fa-cog me-1"></i>Gestion des contacts</a>
+                      </li>
+                    {% endif %}
                     <hr>
                     {% if is_granted('ROLE_USER') %}
                       <li class="nav-item">
                         <a class="nav-link text-center text-white" href="{{ path('profil') }}"><i class="fas fa-user me-1"></i>Mon profil</a>
                       </li>
+                      {% if is_granted('ROLE_ADMIN') %}
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('admin_user') }}"><i class="fas fa-cog me-1"></i>Gestion des utilisateurs</a>
+                      </li>
+                      {% endif %}
+                      <hr>
                       <li class="nav-item">
                         <a class="nav-link text-center text-white" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt me-1"></i>Déconnexion</a>
                       </li>
@@ -63,6 +91,7 @@
                       <li class="nav-item">
                         <a class="nav-link text-center text-white" href="{{ path('app_login') }}"><i class="fas fa-sign-in-alt me-1"></i>Connexion</a>
                       </li>
+                      <hr>
                       <li class="nav-item">
                         <a class="nav-link text-center text-white" href="{{ path('app_register') }}"><i class="fas fa-sign-in-alt me-1"></i>Inscription</a>
                       </li>
@@ -91,7 +120,7 @@
                         <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
                           <li><a class="dropdown-item" href="{{ path('blog_index') }}"><i class="fas fa-blog me-1"></i>Blog</a></li>
                           <li><a class="dropdown-item" href="{{ path('blog_admin') }}"><i class="fas fa-cog me-1"></i>Gestion du blog</a></li>
-                          <li><a class="dropdown-item" href="{{ path('blog_new') }}"><i class="fas fa-plus me-1"></i>Créer un article</a></li>
+                          <li><a class="dropdown-item" href="{{ path('blog_new') }}"><i class="fas fa-plus me-1"></i>Ajouter un article</a></li>
                         </ul>
                       </li>
                     {% else %}
@@ -115,7 +144,7 @@
                         <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
                           <li><a class="dropdown-item" href="{{ path('artwork_index') }}"><i class="fas fa-palette me-1"></i>Oeuvres</a></li>
                           <li><a class="dropdown-item" href="{{ path('admin_artwork_index') }}"><i class="fas fa-cog me-1"></i>Gestion des oeuvres</a></li>
-                          <li><a class="dropdown-item" href="{{ path('artwork_new') }}"><i class="fas fa-plus me-1"></i>Créer une oeuvre</a></li>
+                          <li><a class="dropdown-item" href="{{ path('artwork_new') }}"><i class="fas fa-plus me-1"></i>Ajouter une oeuvre</a></li>
                         </ul>
                       </li>
                     {% else %}
@@ -125,7 +154,12 @@
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                       <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle {{
+                          currentRoute == 'contact'
+                          or currentRoute == 'contact_list'
+                          or currentRoute == 'admin_contact_search'
+                          or currentRoute == 'contact_show' ? ' active'
+                        }}" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                           <i class="fas fa-phone-square-alt me-1"></i>Contact
                         </a>
                         <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
@@ -149,7 +183,7 @@
                       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{path('profil')}}"><i class="fas fa-user me-1"></i>Mon profil</a></li>
                         {% if is_granted('ROLE_ADMIN') %}
-                          <li><a class="dropdown-item" href="{{ path('admin_user') }}"><i class="fas fa-users-cog me-1"></i>Gestion des utilisateurs</a></li>
+                          <li><a class="dropdown-item" href="{{ path('admin_user') }}"><i class="fas fa-cog me-1"></i>Gestion des utilisateurs</a></li>
                         {% endif %}
                         <li><a class="dropdown-item" onclick="return confirm('Souhaitez vous vraiment vous déconnecter ?');" href="{{path('app_logout')}}"><i class="fas fa-sign-out-alt me-1"></i>Déconnexion</a></li>
                       </ul>
@@ -162,8 +196,8 @@
                         <i class="fas fa-sign-in-alt me-1"></i>Connexion
                       </a>
                       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{path('app_login')}}">Se connecter</a></li>
-                        <li><a class="dropdown-item" href="{{path('app_register')}}">S'inscrire</a></li>
+                        <li><a class="dropdown-item" href="{{path('app_login')}}">Connexion</a></li>
+                        <li><a class="dropdown-item" href="{{path('app_register')}}">Inscription</a></li>
                       </ul>
                     </li>
                   </ul>
@@ -184,7 +218,7 @@
         <footer class="footer mt-auto py-3 text-light" id="footer">
             <div class="container d-flex flex-row justify-content-around">
               <span><i class="fas fa-info-circle me-1"></i>CGU</span>
-              <span id="footerName">Les amis de Dereux</span>
+              <span id="footerName">Les amis de Dereux - 2021</span>
             </div>
         </footer>
         <script

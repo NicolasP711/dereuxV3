@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur 500{% endblock %}
+
+{% block body %}
+
+{% include 'partials/flashes/error.html.twig' %}
+{% include 'partials/flashes/success.html.twig' %}
+
+<div class="center">
+  <h1 class="text-center">Erreur 500</h1>
+  <p class="lead text-center">Le site rencontre un problème, veuillez réessayer plus tard.</p>
+  <a class="d-block mx-auto btn defaultBtn" href="{{ path('home') }}">Retour à l'accueil</a>
+</div>
+
+
+{% endblock %}
