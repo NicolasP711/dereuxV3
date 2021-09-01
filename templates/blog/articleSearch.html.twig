@@ -25,7 +25,9 @@
     </div>
 
     <p class="text-center">Nombre d'article(s) trouvé : {{ articles.getTotalItemCount }}</p>
+    {% if is_granted('ROLE_ADMIN') %}
     <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
+    {% endif %}
     <a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('blog_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitialiser les filtres</a>
 
 

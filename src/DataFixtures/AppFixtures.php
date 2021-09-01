@@ -85,7 +85,7 @@ class AppFixtures extends Fixture
 
             $artwork
                 ->setPicture('e3689961e4320f8dd775b5471bcf79fd.png')
-                ->setCreationDate( $faker->dateTimeBetween($admin->getRegistrationDate(), 'now') )
+                ->setYearOfCreation('1901')
                 ->setPublicationDate( $faker->dateTimeBetween($admin->getRegistrationDate(), 'now') )
                 ->setAuthor($admin)
                 ->setTitle( $faker->sentence(1) )

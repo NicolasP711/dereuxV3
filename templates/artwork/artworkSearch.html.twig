@@ -23,7 +23,9 @@
       {# Création d'un lien permettant de trier par date #}
       <span class="mx-2">{{ knp_pagination_sortable(artworks, 'Trier par date', 'a.publicationDate') }}</span>
     </p>
-    <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
+    {% if is_granted('ROLE_ADMIN') %}
+      <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
+    {% endif %}
     <a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitialiser les filtres</a>
 
 

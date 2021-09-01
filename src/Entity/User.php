@@ -65,7 +65,7 @@ class User implements UserInterface
     private $articles;
 
     /**
-     * @ORM\OneToMany(targetEntity=ArticleComment::class, mappedBy="author")
+     * @ORM\OneToMany(targetEntity=ArticleComment::class, mappedBy="author", orphanRemoval=true)
      */
     private $articleComments;
 

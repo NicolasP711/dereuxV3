@@ -43,7 +43,7 @@ class ArticleComment
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articleComments")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
@@ -54,7 +54,7 @@ class ArticleComment
 
     /**
      * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="articleComments")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $article;
 
