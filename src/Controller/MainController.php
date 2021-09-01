@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Contact;
 use App\Entity\User;
-use App\Form\ContactFormType;
 use App\Form\EditPasswordFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -99,46 +97,6 @@ class MainController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/contact/", name="contact")
-     */
-    public function contact(Request $request, MailerInterface $mailer): Response
-    {
-        $contact = new Contact();
-        $form = $this->createForm(ContactFormType::class, $contact);
-        $form->handleRequest($request);
-        $contact->setDateSent( new DateTime() );
-
-        if($form->isSubmitted() && $form->isValid()){
-            $data = $form->getData();
-            $mail = $data->getEmail();
-            $email = (new TemplatedEmail())
-            ->from(new Address('expediteur@exemple.fr', 'noreply'))
-            ->to($mail)
-            ->subject('Sujet du mail')
-            ->htmlTemplate('test/test.html.twig')    // Fichier twig du mail en version html
-            ->textTemplate('test/test.txt.twig')     // Fichier twig du mail en version text
-            /* Il est possible de faire passer aux deux templates twig des variables en ajoutant le code suivant :
-            ->context([
-                'fruits' => ['Pomme', 'Cerise', 'Poire']
-            ])
-            */
-        ;
-
-            // Envoi du mail
-            $mailer->send($email);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($contact);
-            $em->flush();
-
-            $this->addFlash('success', 'Message envoyé avec succès.');
-            return $this->redirectToRoute('home');
-        }
-        return $this->render('main/contact.html.twig',[
-            'contactForm' => $form->createView()
-        ]);
-    }
 
     /**
      * @Route("/mon-profil/", name="profil")

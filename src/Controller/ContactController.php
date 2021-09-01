@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Contact;
+use App\Form\ContactFormType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,12 +11,59 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
+use DateTime;
 
 /**
  * @Route("/contact")
  */
 class ContactController extends AbstractController
 {
+
+    /**
+     * @Route("/", name="contact")
+     */
+    public function contact(Request $request, MailerInterface $mailer): Response
+    {
+        $contact = new Contact();
+        $form = $this->createForm(ContactFormType::class, $contact);
+        $form->handleRequest($request);
+        $contact->setDateSent( new DateTime() );
+
+        if($form->isSubmitted() && $form->isValid()){
+            $data = $form->getData();
+            $mail = $data->getEmail();
+            $email = (new TemplatedEmail())
+            ->from(new Address('expediteur@exemple.fr', 'noreply'))
+            ->to($mail)
+            ->subject('Sujet du mail')
+            ->htmlTemplate('test/test.html.twig')    // Fichier twig du mail en version html
+            ->textTemplate('test/test.txt.twig')     // Fichier twig du mail en version text
+            /* Il est possible de faire passer aux deux templates twig des variables en ajoutant le code suivant :
+            ->context([
+                'fruits' => ['Pomme', 'Cerise', 'Poire']
+            ])
+            */
+        ;
+
+            // Envoi du mail
+            $mailer->send($email);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($contact);
+            $em->flush();
+
+            $this->addFlash('success', 'Message envoyé avec succès.');
+            return $this->redirectToRoute('home');
+        }
+        return $this->render('contact/contact.html.twig',[
+            'contactForm' => $form->createView()
+        ]);
+    }
+
+
     /**
      * @Route("/admin/liste", name="contact_list", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN')")
@@ -38,7 +86,7 @@ class ContactController extends AbstractController
             $requestedPage,     // Numéro de la page dont on veux les articles
             10      // Nombre d'articles par page
         );
-        return $this->render('main/contactList.html.twig', [
+        return $this->render('contact/contactList.html.twig', [
             'contacts' => $pageContacts,
         ]);
     }
@@ -49,7 +97,7 @@ class ContactController extends AbstractController
     public function show(Contact $contact): Response
     {
 
-        return $this->render('main/contactShow.html.twig', [
+        return $this->render('contact/contactShow.html.twig', [
             'contact' => $contact,
 
 
