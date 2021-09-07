@@ -11,12 +11,12 @@
 
     <div id="profilBtn" class="mt-5">
 
-        <a class="btn btn-warning mb-5" href="{{ path('admin_artwork_index') }}">Gestion des oeuvres</a>
-        <a class="btn btn-warning mb-5" href="{{ path('artwork_index') }}">Retour aux oeuvres</a>
+        <a id="adminBtn" class="btn mb-5" href="{{ path('admin_artwork_index') }}">Gestion des oeuvres</a>
+        <a class="btn defaultBtn mb-5" href="{{ path('artwork_index') }}">Retour aux oeuvres</a>
 
         <form method="post" action="{{ path('artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Voulez vous vraiment supprimer cette oeuvre ?');">
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
-            <button class="btn btn-danger mb-5">Supprimer</button>
+            <button id="deleteBtn" class="btn mb-5">Supprimer</button>
         </form>
     </div>
 {% endblock %}

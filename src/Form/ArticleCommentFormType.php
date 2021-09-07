@@ -35,7 +35,7 @@ class ArticleCommentFormType extends AbstractType
         ->add('save', SubmitType::class, [
             'label' => 'Publier',
             'attr' => [
-                'class' => 'btn btn-success col-12 my-3',
+                'class' => 'btn defaultBtn col-12 my-3',
             ],
         ])
         ;

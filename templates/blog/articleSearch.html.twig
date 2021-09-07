@@ -10,29 +10,29 @@
 {% include 'partials/flashes/success.html.twig' %}
 
 <h1 class="h2 my-4 text-center">Résultat(s) de la recherche <span class="searchResult">"{{ query|length > 10 ? query|slice(0, 25) ~ '...' : query }}"</span></h1>
-<p class="text-center my-4">
+    <p class="text-center my-4">
       {# Création d'un lien permettant de trier par titre #}
       <span class="mx-2">{{ knp_pagination_sortable(articles, 'Trier par titre', 'a.title') }}</span>
       {# Création d'un lien permettant de trier par date #}
       <span class="mx-2">{{ knp_pagination_sortable(articles, 'Trier par date', 'a.publicationDate') }}</span>
     </p>
 
-    <div class="mt-5 mb-3 text-center">
+    <div class="mb-4 text-center">
       <div class="d-inline-block">
           {# Affichage du menu permettant de naviguer entre les différentes pages #}
           {{ knp_pagination_render(articles) }}
       </div>
     </div>
 
-    <p class="text-center">Nombre d'article(s) trouvé : {{ articles.getTotalItemCount }}</p>
+    <p class="text-center"><b>Nombre d'article(s) trouvé:</b> {{ articles.getTotalItemCount }}</p>
     {% if is_granted('ROLE_ADMIN') %}
-    <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
+    <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
     {% endif %}
-    <a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('blog_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitialiser les filtres</a>
+    <a id="adminBtn" class="createArticleBtn btn mb-2 me-2" href="{{ path('blog_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitialiser les filtres</a>
 
 
     <!-- Click on Modal Button -->
-<button type="button" class="createArticleBtn btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
+<button type="button" class="createArticleBtn btn altBtn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
   <i class="fas fa-search me-2"></i>Rechercher
 </button>
 
@@ -51,7 +51,7 @@
                       <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
                   </div>
                   <div class="modal-footer d-block">
-                      <button type="submit" class="btn btn-warning float-end">Rechercher</button>
+                      <button type="submit" class="btn altBtn float-end">Rechercher</button>
                   </div>
               </form>
           </div>

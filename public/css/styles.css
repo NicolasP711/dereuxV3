@@ -184,8 +184,8 @@ body{
 
 .asc{
   text-decoration: none;
-  background-color: rgb(116, 82, 150);
-  color: #ffffff;
+  background-color: rgb(148, 161, 135);
+  color: #000000;
   padding: 5px;
   border-radius: 5px;
 }
@@ -196,8 +196,8 @@ body{
 
 .desc{
   text-decoration: none;
-  background-color: rgb(116, 82, 150);
-  color: #ffffff;
+  background-color: rgb(148, 161, 135);
+  color: #000000;
   padding: 5px;
   border-radius: 5px;
 }
@@ -208,22 +208,22 @@ body{
 
 .pagination a{
   text-decoration: none;
-  background-color: rgb(116, 82, 150);
-  color: #ffffff;
+  background-color: rgb(148, 161, 135);
+  color: #000000;
   padding: 5px;
   border-radius: 2px;
-  color: #ffffff;
+  color: #000000;
   margin: 5px;
 }
 
 .pagination a:hover{
   text-decoration: none;
-  color: #ffffff;
+  color: #000000;
   margin: 5px;
 }
 
 .current{
-  color: #382646;
+  color: #000000;
   margin-left: 5px;
   margin-right: 5px;
 }
@@ -239,7 +239,7 @@ body{
     display: inline
 }
 
-#deleteBtn{
+#deleteIcon{
   background: none;
   border: none;
 }
@@ -294,4 +294,40 @@ li{
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+
+#editBlogIndex{
+  background-color: rgb(3, 26, 107);
+  color: #ffffff;
+}
+
+#adminBtn{
+  background-color: rgb(3, 26, 107);
+  color: #ffffff;
+}
+
+#deleteBtn{
+  background-color: rgb(130, 25, 25);
+  color: #ffffff;
+}
+
+#deleteIcon{
+  color: rgb(130, 25, 25);
+}
+
+#deleteBlogIndex{
+  background-color: rgb(130, 25, 25);
+  color: #ffffff;
+}
+
+.btn-danger{
+  background-color: rgb(130, 25, 25);
+  border: 1px solid rgb(130, 25, 25);
+  color: #ffffff;
+}
+
+.btn-danger:hover{
+  background-color: rgb(130, 25, 25);
+  border: 1px solid rgb(130, 25, 25);
+  color: #ffffff;
 }

@@ -9,7 +9,7 @@
         {{ form_widget(form) }}
     {{ form_end(form) }}
 
-    <a class="btn btn-primary my-4 me-1" href="{{ path('blog_index') }}">Retour au blog</a>
-    <a class="btn btn-warning my-4 me-1" href="{{ path('blog_admin') }}">Gestion du blog</a>
+    <a class="btn defaultBtn my-4 me-1" href="{{ path('blog_index') }}">Retour au blog</a>
+    <a id="adminBtn" class="btn my-4 me-1" href="{{ path('blog_admin') }}">Gestion du blog</a>
 
 {% endblock %}

@@ -9,18 +9,18 @@
   {% include 'partials/flashes/success.html.twig' %}
     <h1 class="h2 my-4 text-center">Gestion du blog</h1>
 
-    <div class="text-center">
+    <div class="mb-4 text-center">
       <div class="d-inline-block">
           {# Affichage du menu permettant de naviguer entre les différentes pages #}
           {{ knp_pagination_render(articles) }}
       </div>
     </div>
 
-    <p class="text-center">Nombre total d'articles : {{ articles.getTotalItemCount }}</p>
-    <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('admin_blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
+    <p class="text-center"><b>Nombre total d'articles:</b> {{ articles.getTotalItemCount }}</p>
+    <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('admin_blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
 
     <!-- Click on Modal Button -->
-<button type="button" class="createArticleBtn btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
+<button type="button" class="createArticleBtn btn altBtn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
   <i class="fas fa-search me-2"></i>Rechercher
 </button>
 
@@ -39,7 +39,7 @@
                       <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
                   </div>
                   <div class="modal-footer d-block">
-                      <button type="submit" class="btn btn-warning float-end">Rechercher</button>
+                      <button type="submit" class="btn altBtn float-end">Rechercher</button>
                   </div>
               </form>
           </div>
@@ -67,7 +67,7 @@
               <td>{{ article.id }}</td>
             <td><b>{{ article.title|length > 40 ? article.title|striptags|slice(0, 40) ~ '…' : article.title|striptags  }}</b></td>
             <td>{{ article.content|length > 40 ? article.content|striptags|slice(0, 40) ~ '…' : article.content|striptags  }}</td>
-            <td>{{ article.publicationDate ? article.publicationDate|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ article.publicationDate ? article.publicationDate|date('d/m/Y H:i:s') : '' }}</td>
             <td>{% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</td>
             <td>
                 <div class="d-flex">
@@ -75,7 +75,7 @@
                     <a class="me-2" href="{{ path('admin_blog_edit', {'slug': article.slug}) }}"><i class="fas fa-edit"></i></a>
                     <form method="post" action="{{ path('admin_blog_delete', {'slug': article.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cet article ?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
-                        <button id="deleteBtn"><i class="fas fa-trash"></i></button>
+                        <button id="deleteIcon"><i class="fas fa-trash"></i></button>
                     </form>
                 </div>
 

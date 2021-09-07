@@ -7,7 +7,7 @@
     {% include 'partials/flashes/error.html.twig' %}
     {% include 'partials/flashes/success.html.twig' %}
 
-        <h2 class="h1 mt-4 text-center">Connexion</h2>
+        <h1 class="h2 mt-4 text-center">Connexion</h1>
         <p class="text-center">Connectez vous afin d'intéragir avec les autres.</p>
         <div id="loginForm" class="offset-md-3 col-md-6 offset-md-3">
         <form method="post">
@@ -30,7 +30,7 @@
             </div>
             <!-- <div class="form-check mt-1"> -->
             <div class="d-block">
-                <input type="checkbox" id="remember_me" name="_remember_me" checked/>
+                <input type="checkbox" id="remember_me" name="_remember_me" />
                 <label class="mt-1" for="remember_me">Rester connecté</label>
             </div>
             <!-- </div> -->
@@ -41,18 +41,7 @@
                 value="{{ csrf_token('authenticate') }}"
             >
 
-            {#
-                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                See https://symfony.com/doc/current/security/remember_me.html
-
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" name="_remember_me"> Remember me
-                    </label>
-                </div>
-            #}
-
-            <button id="loginBtn" class="mt-4 btn btn-lg cardButton col-12" type="submit">
+            <button class="mt-4 btn defaultBtn col-12" type="submit">
                 Se connecter
             </button>
         </form>

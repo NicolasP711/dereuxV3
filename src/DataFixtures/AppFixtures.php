@@ -7,6 +7,7 @@ use Doctrine\Persistence\ObjectManager;
 use App\Entity\Article;
 use App\Entity\ArticleComment;
 use App\Entity\Artwork;
+use App\Entity\Contact;
 use App\Entity\User;
 use \DateTime;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -108,6 +109,21 @@ class AppFixtures extends Fixture
             ;
 
             $manager->persist($commentArticle);
+        }
+
+        for($i = 0; $i < 200; $i++){
+
+            $contact = new Contact();
+
+            $contact
+                ->setName($faker->word(1))
+                ->setSubject($faker->sentence(1))
+                ->setMessage($faker->paragraph(1))
+                ->setEmail( $faker->email() )
+                ->setDateSent($faker->dateTimeBetween($admin->getRegistrationDate(), 'now'))
+            ;
+
+            $manager->persist($contact);
         }
 
         $manager->flush();

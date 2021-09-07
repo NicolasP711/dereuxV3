@@ -59,7 +59,7 @@ class Article1Type extends AbstractType
         ->add('save', SubmitType::class, [
             'label' => 'Publier',
             'attr' => [
-                'class' => 'btn btn-success col-12',
+                'class' => 'btn defaultBtn col-12',
             ],
         ])
         ;

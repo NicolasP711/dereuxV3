@@ -87,7 +87,7 @@ class ArtworkController extends AbstractController
     
 
     /**
-     * @Route("/nouvelle-oeuvre", name="artwork_new", methods={"GET","POST"})
+     * @Route("/admin/nouvelle-oeuvre", name="artwork_new")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function new(Request $request): Response
@@ -422,7 +422,7 @@ class ArtworkController extends AbstractController
     /**
      *  Page affichant les résultats de recherches faites par le formulaire de recherche dans la navbar
      *
-     * @Route("/recherche/utilisateur", name="artwork_search")
+     * @Route("/utilisateur/recherche", name="artwork_search")
      *
      */
     public function artworkSearch(Request $request, PaginatorInterface $paginator): Response
@@ -457,7 +457,7 @@ class ArtworkController extends AbstractController
     /**
      *  Page affichant les résultats de recherches faites par le formulaire de recherche dans la navbar
      *
-     * @Route("/recherche/admin", name="admin_artwork_search")
+     * @Route("/admin/recherche", name="admin_artwork_search")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function adminArtworkSearch(Request $request, PaginatorInterface $paginator): Response

@@ -7,21 +7,21 @@
 {% block body %}
 <h1 class="h2 my-4 text-center">Résultat(s) de la recherche <span class="searchResult">"{{ query|length > 10 ? query|slice(0, 25) ~ '...' : query }}"</span></h1>
 
-    <div class="mt-5 mb-3 text-center">
+    <div class="mb-4 text-center">
       <div class="d-inline-block">
           {# Affichage du menu permettant de naviguer entre les différentes pages #}
           {{ knp_pagination_render(users) }}
       </div>
     </div>
 
-    <p class="text-center">Nombre d'utilisateur(s) trouvé : {{ users.getTotalItemCount }}</p>
-    <a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('admin_user')}}"><i class="fas fa-sync-alt me-2"></i>Réinitaliser les filtres</a>
+    <p class="text-center"><b>Nombre d'utilisateur(s) trouvé:</b> {{ users.getTotalItemCount }}</p>
+    <a id="adminBtn" class="createArticleBtn btn mb-2 me-2" href="{{ path('admin_user')}}"><i class="fas fa-sync-alt me-2"></i>Réinitaliser les filtres</a>
 
 
 
 
     <!-- Click on Modal Button -->
-<button type="button" class="createArticleBtn btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
+<button type="button" class="createArticleBtn btn altBtn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
   <i class="fas fa-search me-2"></i>Rechercher
 </button>
 
@@ -40,7 +40,7 @@
                       <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
                   </div>
                   <div class="modal-footer d-block">
-                      <button type="submit" class="btn btn-warning float-end">Rechercher</button>
+                      <button type="submit" class="btn altBtn float-end">Rechercher</button>
                   </div>
               </form>
           </div>
@@ -68,13 +68,13 @@
             <td><b>{{ user.pseudonym|length > 40 ? user.pseudonym|striptags|slice(0, 40) ~ '…' : user.pseudonym|striptags  }}</b></td>
             <td>{{ user.email|length > 40 ? user.email|striptags|slice(0, 40) ~ '…' : user.email|striptags  }}</td>
             <td>{% if user.roles[0] == 'ROLE_ADMIN' %}Administrateur{% else %}Utilisateur{% endif %}</td>
-            <td>{{ user.registrationDate ? user.registrationDate|date('d-m-Y H:i:s') : '' }}</td>
+            <td>{{ user.registrationDate ? user.registrationDate|date('d/m/Y H:i:s') : '' }}</td>
             <td>
                 <div class="d-flex">
                   <a class="me-2" href="{{ path('user_show', {'id': user.id}) }}) }}"><i class="far fa-eye"></i></a>
                   {% if user.roles[0] == 'ROLE_ADMIN' %}
                   {% else %}
-                    <a class="text-danger" href="{{ path('admin_delete_account', {'id': user.id}) }}" onclick="return confirm('Souhaitez vous vraiment supprimer ce compte ?');"><i class="fas fa-trash-alt me-2"></i></a>
+                    <a id="deleteIcon" href="{{ path('admin_delete_account', {'id': user.id}) }}" onclick="return confirm('Souhaitez vous vraiment supprimer ce compte ?');"><i class="fas fa-trash me-2"></i></a>
                   {% endif %}
                   </div>
 

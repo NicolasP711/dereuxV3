@@ -8,7 +8,7 @@
 {% include 'partials/flashes/success.html.twig' %}
 
 
-    <h1 class="text-center mt-4">{{app.user.pseudonym|slice(0, 10)}}</h1>
+    <h1 class="h2 text-center mt-4">{{app.user.pseudonym|slice(0, 10)}}</h1>
 
     {% if app.user.photo is null %}
 
@@ -39,7 +39,7 @@
     <div id="profilBtn" class="mt-5">
 
         <div class="dropdown mb-5">
-            <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="btn defaultBtn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fas fa-user-edit me-1"></i>Modifier mon profil
             </a>
           
@@ -49,13 +49,7 @@
               <li><a class="dropdown-item" href="{{ path('edit_password') }}"><i class="fas fa-key me-1"></i>Modifier mon mot de passe</a></li>
             </ul>
           </div>
-        {#<a href="{{ path('edit_profil') }}"><button type="button" class="btn btn-primary mb-5"><i class="fas fa-user-edit me-2"></i>Modifier mon profil</button></a>
-        <a href="{{ path('edit_password') }}"><button type="button" class="btn btn-primary mb-5"><i class="fas fa-user-edit me-2"></i>Modifier mon mot de passe</button></a>
-
-        <a href="{{ path('edit_photo') }}"><button type="button" class="btn btn-primary mb-5"><i class="fas fa-image me-2"></i>Changer d'image de profil</button></a>#}
-
         <a href="{{ path('app_logout') }}" onclick="return confirm('Souhaitez vous vraiment vous déconnecter ?');"><button type="button" class="btn btn-warning mb-5"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</button></a>
-
         <a href="{{ path('delete_account') }}" onclick="return confirm('Souhaitez vous vraiment supprimer votre compte ?');"><button type="button" class="btn btn-danger mb-5"><i class="fas fa-trash-alt me-2"></i>Supprimer mon compte</button></a>
     </div>
 

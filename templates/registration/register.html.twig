@@ -12,10 +12,11 @@
     {% endfor %}
 
             <div class="offset-md-3 col-md-6 offset-md-3">
-                <h2 class="h1 mt-4 text-center">Inscription</h2>
+                <h1 class="h2 mt-4 text-center">Inscription</h1>
                 <p class="text-center">Inscrivez vous afin d'intégrer la communauté des fans de Philippe Dereux.</p>
 
                 {{ form_start(registrationForm) }}
+
                 <div class="form-group mb-3">
                     {{ form_row(registrationForm.pseudonym) }}
                 </div>
@@ -40,20 +41,26 @@
                         <span class="input-group-text" id="basic-addon1"><i id="togglePassword1" class="fas fa-eye" onclick="toggleCurrentPassword2()"></i></span>
                     </div>
                 </div>
+
                 {{ form_errors(registrationForm) }}
+
                 <div class="form-group mb-3">
                     <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}"></div>
                 </div>
+
                 <div class="form-group mb-3">
                     {{ form_row(registrationForm.save) }}
                 </div>
+
                 {{ form_end(registrationForm) }}
+
                 <a href="{{ path('app_login') }}">Vous avez déjà un compte ? Connectez-vous !</a>
 
             </div>
 
             {% endblock %}
+
             {% block stylesheets %}
-                {# Insertion du fichier JS dans le block stylesheets, ce n'est pas une erreur, la documentation de Recaptcha préconise en effet d'intégrer ce fichier JS dans le head #}
+                {# Insert JS file in stylesheets block, Recaptcha documentation tell to put this file in head #}
                 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
             {% endblock %}

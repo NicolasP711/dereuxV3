@@ -147,7 +147,7 @@ class BlogController extends AbstractController
     /**
      *  Page affichant les résultats de recherches faites par le formulaire de recherche dans la navbar
      *
-     * @Route("/recherche/utilisateur/", name="article_search")
+     * @Route("/utilisateur/recherche", name="article_search")
      */
     public function articleSearch(Request $request, PaginatorInterface $paginator): Response
     {

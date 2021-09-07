@@ -24,7 +24,7 @@
 
     {{ form_end(form) }}
 
-    <a class="btn btn-primary my-4 me-1" href="{{ path('admin_artwork_index') }}">Retour aux oeuvres</a>
-    <a class="btn btn-warning my-4 me-1" href="{{ path('artwork_index') }}">Gestion des oeuvres</a>
+    <a class="btn defaultBtn my-4 me-1" href="{{ path('admin_artwork_index') }}">Retour aux oeuvres</a>
+    <a id="adminBtn" class="btn my-4 me-1" href="{{ path('artwork_index') }}">Gestion des oeuvres</a>
 
 {% endblock %}

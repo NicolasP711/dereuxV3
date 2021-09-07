@@ -40,7 +40,7 @@ class EditPhotoFormType extends AbstractType
         ->add('save', SubmitType::class, [
             'label' => 'Modifier ma photo de profil',
             'attr' => [
-                'class' => 'btn btn-primary',
+                'class' => 'btn defaultBtn w-100',
             ],
         ])
         ;

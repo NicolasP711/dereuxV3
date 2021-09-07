@@ -7,18 +7,18 @@
 {% block body %}
   {% include 'partials/flashes/error.html.twig' %}
   {% include 'partials/flashes/success.html.twig' %}
-    <h1 class="h2 mt-4 text-center">Gestion des contacts</h1>
+    <h1 class="h2 my-4 text-center">Gestion des contacts</h1>
 
-    <div class="text-center">
+    <div class="mb-4 text-center">
       <div class="d-inline-block">
           {# Affichage du menu permettant de naviguer entre les différentes pages #}
           {{ knp_pagination_render(contacts) }}
       </div>
     </div>
 
-    <p class="text-center">Nombre total de contact(s) : {{ contacts.getTotalItemCount }}</p>
+    <p class="text-center"><b>Nombre total de contact(s):</b> {{ contacts.getTotalItemCount }}</p>
     <!-- Click on Modal Button -->
-<button type="button" class="createArticleBtn btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
+<button type="button" class="createArticleBtn btn altBtn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
   <i class="fas fa-search me-2"></i>Rechercher
 </button>
 
@@ -37,7 +37,7 @@
                       <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
                   </div>
                   <div class="modal-footer d-block">
-                      <button type="submit" class="btn btn-warning float-end">Rechercher</button>
+                      <button type="submit" class="btn altBtn float-end">Rechercher</button>
                   </div>
               </form>
           </div>
@@ -70,13 +70,13 @@
             <td>{{ contact.message|length > 40 ? contact.message|striptags|slice(0, 40) ~ '…' : contact.message|striptags  }}</td>
 
 
-            <td>{{ contact.dateSent ? contact.dateSent|date('d-m-Y H:i:s') : '' }}</td>
+            <td>{{ contact.dateSent ? contact.dateSent|date('d/m/Y H:i:s') : '' }}</td>
             <td>
                 <div class="d-flex">
                     <a class="me-2" href="{{ path('contact_show', {'slug': contact.slug}) }}"><i class="far fa-eye"></i></a>
                     <form method="post" action="{{ path('admin_contact_delete', {'slug': contact.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer ce contact ?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contact.id) }}">
-                        <button id="deleteBtn"><i class="fas fa-trash"></i></button>
+                        <button id="deleteIcon"><i class="fas fa-trash"></i></button>
                     </form>
                 </div>
 

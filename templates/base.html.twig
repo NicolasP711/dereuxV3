@@ -169,7 +169,7 @@
                       </li>
                     {% else %}
                       <li class="nav-item">
-                        <li><a class="nav-link" href="{{ path('contact') }}"><i class="fas fa-phone-square-alt me-1"></i>Contact</a></li>
+                        <li><a class="nav-link {{ currentRoute == 'contact' ? ' active' }}" href="{{ path('contact') }}"><i class="fas fa-phone-square-alt me-1"></i>Contact</a></li>
                       </li>
 
               {% endif %}
@@ -177,7 +177,15 @@
                   {% if is_granted('ROLE_USER') %}
                   <ul class="navbar-nav ms-auto mb-2 mb-md-0">
                     <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle {{ currentRoute == 'profil' or currentRoute == 'edit_password' or currentRoute == 'edit_profil' or currentRoute == 'edit_photo' ? ' active' }}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <a class="nav-link dropdown-toggle {{
+                      currentRoute == 'profil'
+                      or currentRoute == 'edit_password'
+                      or currentRoute == 'edit_profil'
+                      or currentRoute == 'edit_photo'
+                      or currentRoute == 'admin_user'
+                      or currentRoute == 'admin_user_search'
+                      or currentRoute == 'user_show' ? ' active'
+                    }}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user me-1"></i>Mon profil
                       </a>
                       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -217,7 +225,7 @@
         </main>
         <footer class="footer mt-auto py-3 text-light" id="footer">
             <div class="container d-flex flex-row justify-content-around">
-              <span><i class="fas fa-info-circle me-1"></i>CGU</span>
+              <span><i class="fas fa-info-circle me-1"></i><a class="text-decoration-none text-white" href="{{ path('cgu') }}">CGU</a></span>
               <span id="footerName">Les amis de Dereux - 2021</span>
             </div>
         </footer>

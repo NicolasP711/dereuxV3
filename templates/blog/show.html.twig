@@ -16,12 +16,12 @@
 
     <div id="profilBtn" class="mt-5">
         {% if is_granted("ROLE_ADMIN") %}
-            <a class="btn btn-warning mb-5" href="{{ path('blog_admin') }}">Gestion du blog</a>
+            <a id="adminBtn" class="btn mb-5" href="{{ path('blog_admin') }}">Gestion du blog</a>
             <a class="btn defaultBtn mb-5" href="{{ path('blog_index') }}">Retour aux articles</a>
-            <a class="btn btn-primary mb-5" href="{{ path('blog_edit', {'slug': article.slug}) }}">Éditer</a>
+            <a id="adminBtn" class="btn mb-5" href="{{ path('blog_edit', {'slug': article.slug}) }}">Éditer</a>
             <form method="post" action="{{ path('blog_delete', {'slug': article.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cet article ?');">
               <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
-              <button class="btn btn-danger">Supprimer</button>
+              <button id="deleteBtn" class="btn">Supprimer</button>
           </form>
         {% else %}
             <a class="btn defaultBtn" href="{{ path('blog_index') }}">Retour aux articles</a>
@@ -66,7 +66,7 @@
 
           
           {% if is_granted('ROLE_USER') and app.user.id is defined and comment.author.id == app.user.id %}
-              <a class="btn altBtn" href="{{ path('comment_edit', {'slug': comment.slug}) }}"><i class="fas fa-edit me-1"></i>Modifier</a>
+              <a id="adminBtn" class="btn" href="{{ path('comment_edit', {'slug': comment.slug}) }}"><i class="fas fa-edit me-1"></i>Modifier</a>
           {% endif %}
           <hr>
 
@@ -100,7 +100,7 @@
                 {{ form_end(form) }}
       {% else %}
       <div class="d-flex flex-row justify-content-center">
-        <button type="button" class="my-4 btn btn-primary"><a class="text-white text-decoration-none"href="{{ path('app_login') }}">Connectez vous pour ajouter un commentaire</a></button>
+        <button type="button" class="my-4 btn altBtn"><a class="text-white text-decoration-none"href="{{ path('app_login') }}">Connectez vous pour ajouter un commentaire</a></button>
       </div>
       {% endif %}
     </div>

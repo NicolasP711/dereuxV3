@@ -26,6 +26,40 @@ class ArtworkType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+        ->add('picture', FileType::class, [
+            'label' => 'Selectionnez une image',
+            'data_class' => null,
+            'attr' => [
+                'accept' => 'image/jpeg, image/png',
+                'class' => 'mb-4',
+            ],
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Merci de renseigner une image'
+                ]),
+                new File([
+                    'maxSize' => '10M',
+                    'mimeTypes' => [
+                        'image/jpeg',
+                        'image/png',
+                    ],
+                    'mimeTypesMessage' => 'L\'image doit être de type jpeg ou png',
+                    'maxSizeMessage' => 'Fichier trop volumineux {{ size }}{{ suffix }}. La taille maximum autorisée est {{ limit }}{{ suffix }}',
+                ]),
+                new Image([
+                    'minWidth' => '1024',
+                    'minHeight' => '768',
+                    'maxWidth' => '4096',
+                    'maxHeight' => '2160',
+                    'minWidthMessage' => 'Votre fichier fait {{ width }} pixels de large. La largeur minimum est de 1024px (la hauteur minimum est de 768 pixels)',
+                    'minHeightMessage' => 'Votre fichier fait {{ height }} pixels de haut. La hauteur minimum est de 768px (la largeur minimum est de 1024 pixels)',
+                    'maxWidthMessage' => 'Votre fichier fait {{ width }} pixels de large. La largeur maximum est de 4096px (la hauteur maximum est de 2160 pixels)',
+                    'maxHeightMessage' => 'Votre fichier fait {{ height }} pixels de haut. La hauteur maximum est de 2160px (la largeur maximum est de 4096 pixels)',
+
+
+                ])
+            ],
+        ])
         ->add('title', TextType::class, [
             'label' => 'Titre',
             'help' => 'Le titre doit contenir entre 3 et 150 caractères',
@@ -64,40 +98,6 @@ class ArtworkType extends AbstractType
                 ),
             ),
         ])
-        ->add('picture', FileType::class, [
-            'label' => 'Selectionnez une image',
-            'data_class' => null,
-            'attr' => [
-                'accept' => 'image/jpeg, image/png',
-                'class' => 'mb-4',
-            ],
-            'constraints' => [
-                new NotBlank([
-                    'message' => 'Vous devez sélectionner une image'
-                ]),
-                new File([
-                    'maxSize' => '10M',
-                    'mimeTypes' => [
-                        'image/jpeg',
-                        'image/png',
-                    ],
-                    'mimeTypesMessage' => 'L\'image doit être de type jpeg ou png',
-                    'maxSizeMessage' => 'Fichier trop volumineux {{ size }}{{ suffix }}. La taille maximum autorisée est {{ limit }}{{ suffix }}',
-                ]),
-                new Image([
-                    'minWidth' => '1024',
-                    'minHeight' => '768',
-                    'maxWidth' => '4096',
-                    'maxHeight' => '2160',
-                    'minWidthMessage' => 'Votre fichier fait {{ width }} pixels de large. La largeur minimum est de 1024px (la hauteur minimum est de 768 pixels)',
-                    'minHeightMessage' => 'Votre fichier fait {{ height }} pixels de haut. La hauteur minimum est de 768px (la largeur minimum est de 1024 pixels)',
-                    'minWidthMessage' => 'Votre fichier fait {{ width }} pixels de large. La largeur maximum est de 4096px (la hauteur maximum est de 2160 pixels)',
-                    'minHeightMessage' => 'Votre fichier fait {{ height }} pixels de haut. La hauteur maximum est de 2160px (la largeur maximum est de 4096 pixels)',
-
-
-                ])
-            ],
-        ])
         ->add('artist', TextType::class, [
             'label' => 'Artiste',
             'help' => 'Le nom de l\'artiste doit contenir entre 3 et 150 caractères',
@@ -115,7 +115,7 @@ class ArtworkType extends AbstractType
         ])
             ->add('yearOfCreation', ChoiceType::class, [
                 'label' => 'Date de création de l\'oeuvre',
-                'choices' => $this->getYears(1800),
+                'choices' =>$this->getYears(1800),
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Merci de renseigner une année de création'
@@ -125,7 +125,7 @@ class ArtworkType extends AbstractType
             ->add('save', SubmitType::class, [
                 'label' => 'Publier',
                 'attr' => [
-                    'class' => 'btn btn-success mt-3 col-12',
+                    'class' => 'btn defaultBtn mt-3 col-12',
                 ],
             ])
         ;
@@ -142,6 +142,9 @@ class ArtworkType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Artwork::class,
+            'attr' => [
+                'novalidate' => 'novalidate'
+            ]
         ]);
     }
 }

@@ -78,8 +78,7 @@ class ContactFormType extends AbstractType
             ->add('save', SubmitType::class, [
                 'label' => 'Envoyer',
                 'attr' => [
-                    'class' => 'btn mt-3 cardButton col-12',
-                    'id' => 'loginBtn'
+                    'class' => 'btn mt-3 defaultBtn col-12',
                 ]
             ])
         ;

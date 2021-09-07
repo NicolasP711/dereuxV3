@@ -7,17 +7,16 @@
 {% include 'partials/flashes/error.html.twig' %}
 {% include 'partials/flashes/success.html.twig' %}
 
-<h1 class="h2 text-center my-4">Blog</h1>
+<h1 class="h2 text-center mt-4 mb-3">Blog</h1>
 <p class="text-center">Vous trouverez ici les dernières actualités du site.</p>
-
-<p class="text-center">Nombre total d'articles : {{ articles.getTotalItemCount }}</p>
-<p class="text-center my-4">
+<p class="text-center"><b>Nombre total d'articles:</b> {{ articles.getTotalItemCount }}</p>
+<p class="text-center">
   {# Création d'un lien permettant de trier par titre #}
   <span class="mx-2">{{ knp_pagination_sortable(articles, 'Trier par titre', 'a.title') }}</span>
   {# Création d'un lien permettant de trier par date #}
   <span class="mx-2">{{ knp_pagination_sortable(articles, 'Trier par date', 'a.publicationDate') }}</span>
 </p>
-<div class="mt-5 mb-3 text-center">
+<div class="text-center my-4">
   <div class="d-inline-block">
       {# Affichage du menu permettant de naviguer entre les différentes pages #}
       {{ knp_pagination_render(articles) }}
@@ -66,7 +65,10 @@
 
         <div class="card-footer">
 
-            <p class="card-text me-3">Publié le : <b>{{ article.publicationDate|date('d/m/Y à H:i:s') }}</b><br>par : {% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</p>
+            <p class="card-text me-3">Publié le: <b>{{ article.publicationDate|date('d/m/Y à H:i:s') }}</b><br>par : {% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</p>
+            {% if article.ArticleComments is not empty %}
+            <p class="card-text me-3">Commentaire(s): <b>{{ article.ArticleComments|length }}</b></p>
+            {% endif %}
             <div id="articleButton">
             <a href="{{ path('blog_show', {'slug': article.slug}) }}" class="btn defaultBtn">
                 Voir l'article

@@ -7,22 +7,22 @@
 {% block body %}
 <h1 class="h2 my-4 text-center">Résultat(s) de la recherche <span class="searchResult">"{{ query|length > 10 ? query|slice(0, 25) ~ '...' : query }}"</span></h1>
 
-    <div class="mt-5 mb-3 text-center">
+    <div class="mb-4 text-center">
       <div class="d-inline-block">
           {# Affichage du menu permettant de naviguer entre les différentes pages #}
           {{ knp_pagination_render(artworks) }}
       </div>
     </div>
 
-    <p class="text-center">Nombre d'article(s) trouvé : {{ artworks.getTotalItemCount }}</p>
-    <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
-    <a class="createArticleBtn btn btn-warning mb-2 me-2" href="{{ path('admin_artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitaliser les filtres</a>
+    <p class="text-center"><b>Nombre d'oeuvre(s) trouvé:</b> {{ artworks.getTotalItemCount }}</p>
+    <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
+    <a id="adminBtn" class="createArticleBtn btn mb-2 me-2" href="{{ path('admin_artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitaliser les filtres</a>
 
 
 
 
     <!-- Click on Modal Button -->
-<button type="button" class="createArticleBtn btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
+<button type="button" class="createArticleBtn btn altBtn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
   <i class="fas fa-search me-2"></i>Rechercher
 </button>
 
@@ -41,7 +41,7 @@
                       <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
                   </div>
                   <div class="modal-footer d-block">
-                      <button type="submit" class="btn btn-warning float-end">Rechercher</button>
+                      <button type="submit" class="btn altBtn float-end">Rechercher</button>
                   </div>
               </form>
           </div>
@@ -70,7 +70,7 @@
             <td><b>{{ artwork.title|length > 20 ? artwork.title|striptags|slice(0, 20) ~ '…' : artwork.title|striptags  }}</b></td>
             <td>{{ artwork.description|length > 40 ? artwork.description|striptags|slice(0, 40) ~ '…' : artwork.description|striptags }}</td>
             <td>{{ artwork.yearOfCreation }}</td>
-            <td>{{ artwork.publicationDate ? artwork.publicationDate|date('d-m-Y H:i:s') : '' }}</td>
+            <td>{{ artwork.publicationDate ? artwork.publicationDate|date('d/m/Y H:i:s') : '' }}</td>
             <td>{{artwork.author.pseudonym}}</td>
             <td>
                 <div class="d-flex">
@@ -78,7 +78,7 @@
                     <a class="me-2" href="{{ path('admin_artwork_edit', {'slug': artwork.slug}) }}"><i class="fas fa-edit"></i></a>
                     <form method="post" action="{{ path('admin_artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
-                        <button id="deleteBtn"><i class="fas fa-trash"></i></button>
+                        <button id="deleteIcon"><i class="fas fa-trash"></i></button>
                     </form>
                 </div>
 
