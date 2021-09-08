@@ -34,9 +34,6 @@ class ArtworkType extends AbstractType
                 'class' => 'mb-4',
             ],
             'constraints' => [
-                new NotBlank([
-                    'message' => 'Merci de renseigner une image'
-                ]),
                 new File([
                     'maxSize' => '10M',
                     'mimeTypes' => [
@@ -114,8 +111,10 @@ class ArtworkType extends AbstractType
             ]
         ])
             ->add('yearOfCreation', ChoiceType::class, [
-                'label' => 'Date de création de l\'oeuvre',
-                'choices' =>$this->getYears(1800),
+                'label' => 'Année de création de l\'oeuvre',
+                'required' => true,
+                'placeholder' => 'Choisissez une année de création',
+                'choices' =>$this->getYears(1000),
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Merci de renseigner une année de création'

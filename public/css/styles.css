@@ -5,6 +5,7 @@
 
 body{
   font-family: 'Roboto';
+  background-color: #fcfbf0;
 }
 
 #articleButton{
@@ -166,10 +167,6 @@ img.displayed {
 
 .blogArticle{
   overflow-wrap: break-word;
-}
-
-body{
-  background-color: #fcfbf0;
 }
 
 .sortable{

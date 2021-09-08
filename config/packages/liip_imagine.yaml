@@ -20,3 +20,6 @@ liip_imagine:
 
         artwork:
             quality: 100
+            filters:
+                scale:
+                    dim: [200, 200]

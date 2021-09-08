@@ -57,7 +57,7 @@ class Contact
     private $dateSent;
 
     /**
-     * @ORM\Column(type="string", length=320)
+     * @ORM\Column(type="string", length=180)
      */
     private $email;
 

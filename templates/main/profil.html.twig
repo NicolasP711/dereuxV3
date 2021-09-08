@@ -12,11 +12,11 @@
 
     {% if app.user.photo is null %}
 
-            <img class="d-block rounded-circle me-auto ms-auto mt-4" src="{{ asset('img/profil_default.png')|imagine_filter('profil') }}" alt="">
+            <img class="d-block rounded-circle me-auto ms-auto mt-4" src="{{ asset('img/profil_default.png')|imagine_filter('profil') }}" alt="Image de profil par défaut">
 
     {% else %}
 
-            <img id="profilImg" class="d-block rounded-circle me-auto ms-auto mt-4" src="{{ asset('img/users/' ~ app.user.photo)|imagine_filter('profil') }}" alt="">
+            <img id="profilImg" class="d-block rounded-circle me-auto ms-auto mt-4" src="{{ asset('img/users/' ~ app.user.photo)|imagine_filter('profil') }}" alt="Image de profil">
 
     {% endif %}
 

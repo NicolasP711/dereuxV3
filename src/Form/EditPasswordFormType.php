@@ -54,7 +54,7 @@ class EditPasswordFormType extends AbstractType
                 'maxMessage' => 'Votre nouveau mot de passe doit contenir au maximum {{ limit }} caractères'
             ]),
             new Regex([
-                'pattern' => "/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !\"\#\$%&\'\(\)*+,\-.\/:;<=>?@[\\^\]_`\{|\}~])^.{0,4096}$/",
+                'pattern' => "/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[ !\"\#\$%&\'\(\)*+,\-.\/:;<=>?@[\\^\]_`\{|\}~])^.{0,255}$/",
                 'message' => 'Le nouveau mot de passe doit contenir obligatoirement une minuscule, une majuscule, un chiffre et un caractère spécial',
             ])
         ]
