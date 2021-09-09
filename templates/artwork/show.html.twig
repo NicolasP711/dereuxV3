@@ -9,7 +9,7 @@
 
     <article>
 
-        <img id="artworkImg" class="d-block me-auto ms-auto mt-4" src="{{ asset('img/artworks/' ~ artwork.picture)|imagine_filter('artwork') }}" alt="{{ artwork.title }}">
+        <img id="artworkImg" class="d-block me-auto ms-auto mt-4" src="{{ asset('img/artworks/' ~ artwork.picture)}}" alt="{{ artwork.title }}">
         <p class="mb-4 text-center">Titre de l'oeuvre: <b>{{artwork.title}}</b> Créée par <b>{{ artwork.artist }}</b> en <b>{{ artwork.yearOfCreation }}</b></p>
 
 

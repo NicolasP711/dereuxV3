@@ -46,6 +46,9 @@ class EditPasswordFormType extends AbstractType
         ],
         'mapped' => false,
         'constraints' => [
+            new NotBlank([
+                'message' => 'Veuillez renseigner un nouveau mot de passe',
+            ]),
             new Length([
                 'min' => 8,
                 'minMessage' => 'Votre nouveau mot de passe doit contenir au moins {{ limit }} caractères',

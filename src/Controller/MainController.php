@@ -16,6 +16,7 @@ use App\Repository\UserRepository;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -160,18 +161,18 @@ class MainController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
 
-            $newPassword = $form->get('plainPassword')['first']->getData();
 
-            // Grâce au service, on génère un nouveau hash de notre nouveau mot de passe
-            $hashOfNewPassword = $encoder->encodePassword($user, $newPassword);
+            $newPassword = $form->get('plainPassword')['password']->getData();
+                // Grâce au service, on génère un nouveau hash de notre nouveau mot de passe
+                $hashOfNewPassword = $encoder->encodePassword($user, $newPassword);
 
-            // On change l'ancien mot de passe hashé par le nouveau que l'on a généré juste au dessus
-            $user->setPassword( $hashOfNewPassword );
-            $em->persist($user);
-            $em->flush();
+                // On change l'ancien mot de passe hashé par le nouveau que l'on a généré juste au dessus
+                $user->setPassword( $hashOfNewPassword );
+                $em->persist($user);
+                $em->flush();
 
-            $this->addFlash('success', 'Mot de passe modifié avec succès.');
-            return $this->redirectToRoute('profil');
+                $this->addFlash('success', 'Mot de passe modifié avec succès.');
+                return $this->redirectToRoute('profil');
         }
 
         // Pour que la vue puisse afficher le formulaire, on doit lui envoyer le formulaire généré, avec $form->createView()

@@ -64,7 +64,7 @@
       <p class="card-text">{{ artwork.description|length > 100 ? artwork.description|striptags|slice(0, 100) ~ '…' : artwork.description|striptags }}</p>
       <p>Artiste: <b>{{ artwork.artist }}</b><br>Créée en: <b>{{ artwork.yearOfCreation }}</b></p>
       <div class="d-flex justify-content-between">
-        <a href="{{ path('artwork_show', {'slug': artwork.slug}) }}" class="btn defaultBtn">Lire la suite</a>
+        <a href="{{ path('artwork_show', {'slug': artwork.slug}) }}" class="btn defaultBtn">Voir l'oeuvre</a>
         {% if is_granted('ROLE_ADMIN') %}
         <a id="adminBtn" href="{{ path('artwork_edit', {'slug': artwork.slug}) }}" class="btn">Éditer</a>
         <form method="post" action="{{ path('artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">

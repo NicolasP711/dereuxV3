@@ -66,7 +66,7 @@
 
           
           {% if is_granted('ROLE_USER') and app.user.id is defined and comment.author.id == app.user.id %}
-              <a id="adminBtn" class="btn" href="{{ path('comment_edit', {'slug': comment.slug}) }}"><i class="fas fa-edit me-1"></i>Modifier</a>
+              <a class="btn altBtn" href="{{ path('comment_edit', {'slug': comment.slug}) }}"><i class="fas fa-edit me-1"></i>Modifier</a>
           {% endif %}
           <hr>
 
