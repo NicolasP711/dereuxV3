@@ -15,7 +15,10 @@
 
     <div id="profilBtn" class="mt-5">
       <a class="btn defaultBtn mb-5" href="{{ path('admin_user') }}">Liste des utilisateurs</a>
-      <a id="deleteBtn" class="btn mb-5" href="{{ path('admin_delete_account', {'id': user.id}) }}" onclick="return confirm('Souhaitez vous vraiment supprimer ce compte ?');">Supprimer</a>
+      {% if user.roles[0] == 'ROLE_ADMIN' %}
+      {% else %}
+        <a id="deleteBtn" class="btn mb-5" href="{{ path('admin_delete_account', {'id': user.id}) }}" onclick="return confirm('Souhaitez vous vraiment supprimer ce compte ?');">Supprimer</a>
+      {% endif %}
 
     </div>
 

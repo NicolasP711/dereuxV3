@@ -80,7 +80,7 @@ class ArtworkController extends AbstractController
             $requestedPage,     // Numéro de la page dont on veux les articles
             10      // Nombre d'articles par page
         );
-        return $this->render('artwork/adminIndex.html.twig', [
+        return $this->render('artwork/admin.html.twig', [
             'artworks' => $pageArtworks,
         ]);
     }

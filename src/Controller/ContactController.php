@@ -48,7 +48,7 @@ class ContactController extends AbstractController
 
 
     /**
-     * @Route("/admin/liste", name="contact_list", methods={"GET"})
+     * @Route("/admin", name="contact_list", methods={"GET"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function contactList(Request $request, PaginatorInterface $paginator)
@@ -69,7 +69,7 @@ class ContactController extends AbstractController
             $requestedPage,     // Numéro de la page dont on veux les articles
             10      // Nombre d'articles par page
         );
-        return $this->render('contact/contactList.html.twig', [
+        return $this->render('contact/admin.html.twig', [
             'contacts' => $pageContacts,
         ]);
     }
