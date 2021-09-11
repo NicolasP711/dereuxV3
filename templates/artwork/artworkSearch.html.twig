@@ -27,7 +27,7 @@
     {% if is_granted('ROLE_ADMIN') %}
       <a class="createArticleBtn btn btn-success mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
     {% endif %}
-    <a id="adminBtn" class="createArticleBtn btn mb-2 me-2" href="{{ path('artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitialiser les filtres</a>
+    <a class="createArticleBtn adminBtn btn mb-2 me-2" href="{{ path('artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitialiser les filtres</a>
 
 
 
@@ -71,7 +71,7 @@
       <div class="d-flex justify-content-between">
         <a href="{{ path('artwork_show', {'slug': artwork.slug}) }}" class="btn defaultBtn">Lire la suite</a>
         {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('artwork_edit', {'slug': artwork.slug}) }}" id="adminBtn" class="btn">Éditer</a>
+        <a href="{{ path('artwork_edit', {'slug': artwork.slug}) }}" class="btn adminBtn">Éditer</a>
         <form method="post" action="{{ path('artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
           <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
           <button class="btn btn-danger">Supprimer</button>

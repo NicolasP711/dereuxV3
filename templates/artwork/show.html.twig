@@ -21,9 +21,9 @@
 
     <div id="profilBtn" class="mt-5">
         {% if is_granted("ROLE_ADMIN") %}
-            <a id="adminBtn" class="btn mb-5" href="{{ path('admin_artwork_index') }}">Gestion des oeuvres</a>
+            <a class="btn adminBtn mb-5" href="{{ path('admin_artwork_index') }}">Gestion des oeuvres</a>
             <a class="btn defaultBtn mb-5" href="{{ path('artwork_index') }}">Retour aux oeuvres</a>
-            <a id="adminBtn" class="btn mb-5" href="{{ path('artwork_edit', {'slug': artwork.slug}) }}">Éditer</a>
+            <a class="btn adminBtn mb-5" href="{{ path('artwork_edit', {'slug': artwork.slug}) }}">Éditer</a>
             <form method="post" action="{{ path('artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Voulez vous vraiment supprimer cette oeuvre ?');">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
                 <button id="deleteBtn" class="btn mb-5">Supprimer</button>
@@ -59,7 +59,7 @@
         {% endif %}
 
         <h4><strong>{{ comment.author.pseudonym }}</strong></h4> <span>- {{ comment.publicationDate|date('d/m/Y à H:i:s') }}</span>
-        <p class="mt-2" id="commentContent">{{ comment.content|purify }}</p>
+        <p class="mt-2" id="commentContent">{{ comment.content|striptags }}</p>
 
           {% if is_granted('ROLE_ADMIN') or app.user.id is defined and comment.author.id == app.user.id %}
               <a onclick="return confirm('Souhaitez vous vraiment supprimer ce commentaire ?');" class="btn btn-danger" href="{{ path('delete_artwork_comment', {'slug': comment.slug, csrf_token: csrf_token('delete_artwork_comment_' ~ comment.id)}) }}"><i class="text-white fas fa-trash me-1"></i>Supprimer</a>

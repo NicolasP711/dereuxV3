@@ -37,7 +37,6 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()){
-            
             // Verif captcha
             $captchaResponse = $request->get('g-recaptcha-response', null);
 
@@ -46,8 +45,6 @@ class RegistrationController extends AbstractController
                 $form->addError(new FormError('Veuillez remplir le captcha de sécurité'));
 
             }
-            
-            
             if ($form->isValid()) {
                 // encode the plain password
                 $user->setPassword(

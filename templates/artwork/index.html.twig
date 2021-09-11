@@ -61,12 +61,14 @@
     <img src="{{ asset('img/artworks/' ~ artwork.picture)|imagine_filter('artwork') }}" alt="{{ artwork.title }}">
     <div class="card-body">
       <h5 class="card-title">{{ artwork.title|length > 40 ? artwork.title|striptags|slice(0, 40) ~ '…' : artwork.title|striptags  }}</h5>
-      <p class="card-text">{{ artwork.description|length > 100 ? artwork.description|striptags|slice(0, 100) ~ '…' : artwork.description|striptags }}</p>
+      <p class="card-text">{{ artwork.description|length > 100 ? artwork.description|purify|striptags|slice(0, 100) ~ '…' : artwork.description|striptags }}</p>
       <p>Artiste: <b>{{ artwork.artist }}</b><br>Créée en: <b>{{ artwork.yearOfCreation }}</b></p>
+      <p>Date de publication: <b>{{ artwork.publicationDate ? artwork.publicationDate|date('d/m/Y') : '' }}</b><br>
+        Publié par: {% if artwork.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ artwork.author.pseudonym }}</b>{% endif %}</p>
       <div class="d-flex justify-content-between">
         <a href="{{ path('artwork_show', {'slug': artwork.slug}) }}" class="btn defaultBtn">Voir l'oeuvre</a>
         {% if is_granted('ROLE_ADMIN') %}
-        <a id="adminBtn" href="{{ path('artwork_edit', {'slug': artwork.slug}) }}" class="btn">Éditer</a>
+        <a href="{{ path('artwork_edit', {'slug': artwork.slug}) }}" class="btn adminBtn">Éditer</a>
         <form method="post" action="{{ path('artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
           <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
           <button id="deleteBtn" class="btn">Supprimer</button>

@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'adminBase.html.twig' %}
 
 {% block title %}{{ user.pseudonym|length > 40 ? user.pseudonym|striptags|slice(0, 40) ~ '…' : user.pseudonym|striptags  }}{% endblock %}
 

@@ -141,12 +141,21 @@ figure{
   background-color: rgb(67, 40, 24);
 }
 
+#adminHeader{
+  background-color: rgb(3, 26, 107);
+}
+
 .cardButton{
   background-color:  rgb(148, 161, 135);
 }
 
 #footer{
   background-color: rgb(67, 40, 24);
+  margin-top: 10%;
+}
+
+#adminFooter{
+  background-color: rgb(3, 26, 107);
   margin-top: 10%;
 }
 
@@ -242,7 +251,7 @@ img.displayed {
 }
 
 .fa-trash{
-  color: red;
+  color: rgb(130, 25, 25);
 }
 
 li{
@@ -298,7 +307,7 @@ li{
   color: #ffffff;
 }
 
-#adminBtn{
+.adminBtn{
   background-color: rgb(3, 26, 107);
   color: #ffffff;
 }

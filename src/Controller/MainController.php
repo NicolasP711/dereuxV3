@@ -214,7 +214,6 @@ class MainController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
-        
             $this->addFlash('success', 'Compte supprimé avec succès.');
 
 
@@ -278,8 +277,6 @@ class MainController extends AbstractController
 
         return $this->render('main/userShow.html.twig', [
             'user' => $user,
-
-
         ]);
     }
 

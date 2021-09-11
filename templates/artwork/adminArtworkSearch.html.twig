@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'adminBase.html.twig' %}
 
 {% set query = app.request.query.get('q') %}
 
@@ -16,7 +16,7 @@
 
     <p class="text-center"><b>Nombre d'oeuvre(s) trouvé:</b> {{ artworks.getTotalItemCount }}</p>
     <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
-    <a id="adminBtn" class="createArticleBtn btn mb-2 me-2" href="{{ path('admin_artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitaliser les filtres</a>
+    <a class="createArticleBtn adminBtn btn mb-2 me-2" href="{{ path('admin_artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitaliser les filtres</a>
 
 
 

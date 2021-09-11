@@ -33,23 +33,6 @@ class ContactController extends AbstractController
         $contact->setDateSent( new DateTime() );
 
         if($form->isSubmitted() && $form->isValid()){
-            $data = $form->getData();
-            $mail = $data->getEmail();
-            $email = (new TemplatedEmail())
-            ->from(new Address('expediteur@exemple.fr', 'noreply'))
-            ->to($mail)
-            ->subject('Sujet du mail')
-            ->htmlTemplate('test/test.html.twig')    // Fichier twig du mail en version html
-            ->textTemplate('test/test.txt.twig')     // Fichier twig du mail en version text
-            /* Il est possible de faire passer aux deux templates twig des variables en ajoutant le code suivant :
-            ->context([
-                'fruits' => ['Pomme', 'Cerise', 'Poire']
-            ])
-            */
-        ;
-
-            // Envoi du mail
-            $mailer->send($email);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($contact);

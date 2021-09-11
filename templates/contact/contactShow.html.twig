@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'adminBase.html.twig' %}
 
 {% block title %}{{ contact.subject|length > 40 ? contact.subject|striptags|slice(0, 40) ~ '…' : contact.subject|striptags  }}{% endblock %}
 
@@ -7,16 +7,16 @@
   {% include 'partials/flashes/success.html.twig' %}
 
     <div class="text-center">
-            <p class="h3 my-4"><b>Sujet:</b> {{ contact.subject }}</p>
-            <p><b>Auteur:</b> {{contact.name}}</p>
+            <p class="h3 my-4"><b>Sujet:</b> {{ contact.subject|striptags }}</p>
+            <p><b>Auteur:</b> {{contact.name|striptags}}</p>
             <p><b>Adresse email:</b> {{ contact.email }}</p>
             <p><b>Date d'envoi:</b> {{ contact.dateSent ? contact.dateSent|date('d/m/Y à H:i:s') : '' }}</p>
-            <p><b>Message:</b> {{ contact.message }}</p>
+            <p><b>Message:</b> {{ contact.message|striptags }}</p>
     </div>
 
 
     <div id="profilBtn" class="mt-5">
-      <a id="adminBtn" class="btn mb-5" href="{{ path('contact_list') }}">Liste des contacts</a>
+      <a class="btn adminBtn mb-5" href="{{ path('contact_list') }}">Liste des contacts</a>
       <form method="post" action="{{ path('admin_contact_delete', {'slug': contact.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer ce contact ?');">
         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contact.id) }}">
         <button id="deleteBtn" class="btn">Supprimer</button>

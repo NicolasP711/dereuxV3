@@ -1,0 +1,241 @@
+{% set currentRoute = app.request.attributes.get('_route') %}
+<!DOCTYPE html>
+<html lang="fr" class="h-100">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+        
+        {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+        {% block stylesheets %}
+            {#{{ encore_entry_link_tags('app') }}#}
+        {% endblock %}
+
+        {% block javascripts %}
+            {#{{ encore_entry_script_tags('app') }}#}
+        {% endblock %}
+    </head>
+    <body class="d-flex flex-column h-100">
+        <header>
+            <!-- Fixed navbar -->
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top" id="adminHeader">
+
+
+
+              <div class="container-fluid">
+                <a class="navbar-brand" href="{{path('home')}}">Les amis de Dereux</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                  <div class="offcanvas-header">
+                      <h5 class="offcanvas-title text-white" id="offcanvasExampleLabel">Les amis de Philippe Dereux</h5>
+                      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                  </div>
+                  <div class="offcanvas-body">
+                    <li class="nav-item">
+                      <a class="nav-link text-center text-white" aria-current="page" href="{{ path('home') }}"><i class="fas fa-home me-1"></i>Accueil</a>
+                    </li>
+                    <hr>
+                    <li class="nav-item">
+                      <a class="nav-link text-center text-white" href="{{ path('blog_index') }}"><i class="fas fa-blog me-1"></i>Blog</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('blog_admin') }}"><i class="fas fa-cog me-1"></i>Gestion du blog</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('blog_new') }}"><i class="fas fa-plus me-1"></i>Ajouter un article</a>
+                      </li>
+                    {% endif %}
+                    <hr>
+                    <li class="nav-item">
+                      <a class="nav-link text-center text-white" href="{{ path('artwork_index') }}"><i class="fas fa-palette me-1"></i>Oeuvres</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('admin_artwork_index') }}"><i class="fas fa-cog me-1"></i>Gestion des oeuvres</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('artwork_new') }}"><i class="fas fa-plus me-1"></i>Ajouter une oeuvre</a>
+                      </li>
+                    {% endif %}
+                    <hr>
+                    <li class="nav-item">
+                      <a class="nav-link text-center text-white" href="{{ path('contact') }}"><i class="fas fa-phone-square-alt me-1"></i>Contact</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('contact_list') }}"><i class="fas fa-cog me-1"></i>Gestion des contacts</a>
+                      </li>
+                    {% endif %}
+                    <hr>
+                    {% if is_granted('ROLE_USER') %}
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('profil') }}"><i class="fas fa-user me-1"></i>Mon profil</a>
+                      </li>
+                      {% if is_granted('ROLE_ADMIN') %}
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('admin_user') }}"><i class="fas fa-cog me-1"></i>Gestion des utilisateurs</a>
+                      </li>
+                      {% endif %}
+                      <hr>
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt me-1"></i>Déconnexion</a>
+                      </li>
+                    {% else %}
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('app_login') }}"><i class="fas fa-sign-in-alt me-1"></i>Connexion</a>
+                      </li>
+                      <hr>
+                      <li class="nav-item">
+                        <a class="nav-link text-center text-white" href="{{ path('app_register') }}"><i class="fas fa-sign-in-alt me-1"></i>Inscription</a>
+                      </li>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                  <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                      <a class="nav-link {{ currentRoute == 'home' ? ' active' }}" aria-current="page" href="{{path('home')}}"><i class="fas fa-home me-1"></i>Accueil</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {{ 
+                          currentRoute == 'blog_index'
+                        or currentRoute == 'blog_admin'
+                        or currentRoute == 'blog_show'
+                        or currentRoute == 'blog_edit'
+                        or currentRoute == 'blog_new'
+                        or currentRoute == 'admin_article_search'
+                        or currentRoute == 'article_search'
+                        or currentRoute == 'admin_blog_edit' ? ' active' 
+                      }}" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="fas fa-blog me-1"></i>Blog
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                          <li><a class="dropdown-item" href="{{ path('blog_index') }}"><i class="fas fa-blog me-1"></i>Blog</a></li>
+                          <li><a class="dropdown-item" href="{{ path('blog_admin') }}"><i class="fas fa-cog me-1"></i>Gestion du blog</a></li>
+                          <li><a class="dropdown-item" href="{{ path('blog_new') }}"><i class="fas fa-plus me-1"></i>Ajouter un article</a></li>
+                        </ul>
+                      </li>
+                    {% else %}
+                      <li class="nav-item">
+                        <a class="nav-link {{ currentRoute == 'blog_index' ? ' active' }}" href="{{ path('blog_index') }}"><i class="fas fa-blog me-1"></i>Blog</a>
+                      </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {{ 
+                          currentRoute == 'artwork_index'
+                        or currentRoute == 'admin_artwork_index'
+                        or currentRoute == 'artwork_show'
+                        or currentRoute == 'artwork_edit'
+                        or currentRoute == 'artwork_new'
+                        or currentRoute == 'admin_artwork_search'
+                        or currentRoute == 'artwork_search' ? ' active' 
+                      }}" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="fas fa-palette me-1"></i>Oeuvres
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                          <li><a class="dropdown-item" href="{{ path('artwork_index') }}"><i class="fas fa-palette me-1"></i>Oeuvres</a></li>
+                          <li><a class="dropdown-item" href="{{ path('admin_artwork_index') }}"><i class="fas fa-cog me-1"></i>Gestion des oeuvres</a></li>
+                          <li><a class="dropdown-item" href="{{ path('artwork_new') }}"><i class="fas fa-plus me-1"></i>Ajouter une oeuvre</a></li>
+                        </ul>
+                      </li>
+                    {% else %}
+                      <li class="nav-item">
+                        <a class="nav-link {{ currentRoute == 'artwork_index' ? ' active' }}" href="{{ path('artwork_index') }}"><i class="fas fa-palette me-1"></i>Oeuvres</a>
+                      </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {{
+                          currentRoute == 'contact'
+                          or currentRoute == 'contact_list'
+                          or currentRoute == 'admin_contact_search'
+                          or currentRoute == 'contact_show' ? ' active'
+                        }}" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="fas fa-phone-square-alt me-1"></i>Contact
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                          <li><a class="dropdown-item" href="{{ path('contact') }}"><i class="fas fa-phone-square-alt me-1"></i>Contact</a></li>
+                          <li><a class="dropdown-item" href="{{ path('contact_list') }}"><i class="fas fa-cog me-1"></i>Gestion des contacts</a></li>
+                        </ul>
+                      </li>
+                    {% else %}
+                      <li class="nav-item">
+                        <li><a class="nav-link {{ currentRoute == 'contact' ? ' active' }}" href="{{ path('contact') }}"><i class="fas fa-phone-square-alt me-1"></i>Contact</a></li>
+                      </li>
+
+              {% endif %}
+                  </ul>
+                  {% if is_granted('ROLE_USER') %}
+                  <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle {{
+                      currentRoute == 'profil'
+                      or currentRoute == 'edit_password'
+                      or currentRoute == 'edit_profil'
+                      or currentRoute == 'edit_photo'
+                      or currentRoute == 'admin_user'
+                      or currentRoute == 'admin_user_search'
+                      or currentRoute == 'user_show' ? ' active'
+                    }}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user me-1"></i>Mon profil
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{path('profil')}}"><i class="fas fa-user me-1"></i>Mon profil</a></li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                          <li><a class="dropdown-item" href="{{ path('admin_user') }}"><i class="fas fa-cog me-1"></i>Gestion des utilisateurs</a></li>
+                        {% endif %}
+                        <li><a class="dropdown-item" onclick="return confirm('Souhaitez vous vraiment vous déconnecter ?');" href="{{path('app_logout')}}"><i class="fas fa-sign-out-alt me-1"></i>Déconnexion</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                  {% else %}
+                  <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                    <li class="nav-item dropdown">
+                      <a class="nav-link {{ currentRoute == 'app_login' or currentRoute == 'app_register' ? ' active' }} dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-sign-in-alt me-1"></i>Connexion
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{path('app_login')}}">Connexion</a></li>
+                        <li><a class="dropdown-item" href="{{path('app_register')}}">Inscription</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                  {% endif %}
+                  <!-- <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                  </form> -->
+                </div>
+              </div>
+            </nav>
+          </header>
+        <main class="flex-shrink-0">
+          <div class="container">
+            {% block body %}{% endblock %}
+          </div>
+        </main>
+        <footer class="footer mt-auto py-3 text-light" id="adminFooter">
+            <div class="container d-flex flex-row justify-content-around">
+              <span><i class="fas fa-info-circle me-1"></i><a class="text-decoration-none text-white" href="{{ path('cgu') }}">CGU</a></span>
+              <span id="footerName">Les amis de Dereux - 2021</span>
+            </div>
+        </footer>
+        <script
+			  src="https://code.jquery.com/jquery-3.6.0.min.js"
+			  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+			  crossorigin="anonymous">
+        </script>
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/script.js') }}"></script>
+    </body>
+</html>

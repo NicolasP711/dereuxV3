@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'adminBase.html.twig' %}
 
 {% block title %}Éditer {{ artwork.title|length > 20 ? artwork.title|slice(0, 20) ~ '…' : artwork.title  }}{% endblock %}
 
@@ -11,7 +11,7 @@
 
     <div id="profilBtn" class="mt-5">
 
-        <a id="adminBtn" class="btn mb-5" href="{{ path('admin_artwork_index') }}">Gestion des oeuvres</a>
+        <a class="btn adminBtn mb-5" href="{{ path('admin_artwork_index') }}">Gestion des oeuvres</a>
         <a class="btn defaultBtn mb-5" href="{{ path('artwork_index') }}">Retour aux oeuvres</a>
 
         <form method="post" action="{{ path('artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Voulez vous vraiment supprimer cette oeuvre ?');">

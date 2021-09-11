@@ -38,9 +38,9 @@ class AppFixtures extends Fixture
 
         $admin
             // ->setPhoto($image)
-            ->setEmail('admin@a.a')
+            ->setEmail('admin@dereux.com')
             ->setRegistrationDate(new DateTime('-1 year'))
-            ->setPseudonym('Batman')
+            ->setPseudonym('Administrateur')
             ->setRoles(["ROLE_ADMIN"])
             ->setIsVerified('true')
             ->setPassword( $this->encoder->encodePassword($admin, 'aaAA11$$') )
@@ -74,7 +74,7 @@ class AppFixtures extends Fixture
                 ->setPublicationDate( $faker->dateTimeBetween($admin->getRegistrationDate(), 'now') )
                 ->setAuthor($admin)
                 ->setTitle( $faker->sentence(1) )
-                ->setContent( $faker->paragraph(15) )
+                ->setContent( $faker->paragraph(50) )
             ;
 
             $manager->persist($article);
@@ -90,8 +90,8 @@ class AppFixtures extends Fixture
                 ->setPublicationDate( $faker->dateTimeBetween($admin->getRegistrationDate(), 'now') )
                 ->setAuthor($admin)
                 ->setTitle( $faker->sentence(1) )
-                ->setDescription( $faker->paragraph(15) )
-                ->setArtist( $faker->word(2) )
+                ->setDescription( $faker->paragraph(25) )
+                ->setArtist( $faker->name() )
             ;
 
             $manager->persist($artwork);
@@ -116,9 +116,9 @@ class AppFixtures extends Fixture
             $contact = new Contact();
 
             $contact
-                ->setName($faker->word(1))
+                ->setName($faker->name())
                 ->setSubject($faker->sentence(1))
-                ->setMessage($faker->paragraph(1))
+                ->setMessage($faker->paragraph(15))
                 ->setEmail( $faker->email() )
                 ->setDateSent($faker->dateTimeBetween($admin->getRegistrationDate(), 'now'))
             ;

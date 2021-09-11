@@ -57,10 +57,10 @@
     <div class="col-12 my-5">
       <div class="card h-100">
 
-          <h2 class="card-title ms-3 my-3">{{ article.title|length > 50 ? article.title|striptags|slice(0, 50) ~ '…' : article.title|striptags  }}</h2>
+          <h2 class="card-title ms-3 mt-3">{{ article.title|length > 50 ? article.title|slice(0, 50) ~ '…' : article.title }}</h2>
 
           <div class="card-body">
-            <p class="card-text">{{ article.content|length > 480 ? article.content|striptags|slice(0, 480) ~ '…' : article.content|striptags  }}</p>
+            <p class="card-text">{{ article.content|length > 480 ? article.content|purify|striptags|slice(0, 480) ~ '…' : article.content|purify|striptags  }}</p>
           </div>
 
         <div class="card-footer">

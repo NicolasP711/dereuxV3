@@ -1,24 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{article.title}}{% endblock %}
+{% block title %}{{article.title|striptags}}{% endblock %}
 
 {% block body %}
   {% include 'partials/flashes/error.html.twig' %}
   {% include 'partials/flashes/success.html.twig' %}
 
     <article>
-            <h1 class="blogArticle my-4 col-12"><b>{{article.title|striptags|slice(0, 100)}}</b></h1>
+            <h1 class="h2 blogArticle mt-4 col-12">{{article.title|striptags|slice(0, 100)}}</h1>
+            <p>Publié le <b>{{ article.publicationDate ? article.publicationDate|date('d/m/Y à H:i:s') : '' }}</b> par {% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</p>
+            <hr>
             <div class="blogArticle mb-4 col-12">{{ article.content|purify }}</div>
-            <p>Publié le <b>{{ article.publicationDate ? article.publicationDate|date('Y-m-d à H:i:s') : '' }}</b> par {% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</p>
-
+            <hr>
     </article>
 
 
     <div id="profilBtn" class="mt-5">
         {% if is_granted("ROLE_ADMIN") %}
-            <a id="adminBtn" class="btn mb-5" href="{{ path('blog_admin') }}">Gestion du blog</a>
+            <a class="btn adminBtn mb-5" href="{{ path('blog_admin') }}">Gestion du blog</a>
             <a class="btn defaultBtn mb-5" href="{{ path('blog_index') }}">Retour aux articles</a>
-            <a id="adminBtn" class="btn mb-5" href="{{ path('blog_edit', {'slug': article.slug}) }}">Éditer</a>
+            <a class="btn adminBtn mb-5" href="{{ path('blog_edit', {'slug': article.slug}) }}">Éditer</a>
             <form method="post" action="{{ path('blog_delete', {'slug': article.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cet article ?');">
               <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
               <button id="deleteBtn" class="btn">Supprimer</button>
@@ -55,7 +56,7 @@
         {% endif %}
 
         <h4><strong>{{ comment.author.pseudonym }}</strong></h4> <span>- {{ comment.publicationDate|date('d/m/Y à H\\hi') }}</span>
-        <p class="mt-2" id="commentContent">{{ comment.content|purify }}</p>
+        <p class="mt-2" id="commentContent">{{ comment.content|striptags }}</p>
 
           {% if is_granted('ROLE_ADMIN') or app.user.id is defined and comment.author.id == app.user.id %}
               <a class="btn btn-danger" href="{{ path('delete_article_comment', {'slug': comment.slug, csrf_token: csrf_token('delete_article_comment_' ~ comment.id)}) }}"><i class="text-white fas fa-trash me-1"></i>Supprimer</a>
