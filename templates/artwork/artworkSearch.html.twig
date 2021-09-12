@@ -62,7 +62,7 @@
 
   <div id="artworkIndex">
     {% for artwork in artworks %}
-      <div class="card h-100 my-4" style="width: 21rem;">
+      <div class="card h-100 shadow my-4" style="width: 21rem;">
         <img src="{{ asset('img/artworks/' ~ artwork.picture)|imagine_filter('artwork') }}" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{ artwork.title|length > 40 ? artwork.title|striptags|slice(0, 40) ~ '…' : artwork.title|striptags  }}</h5>
