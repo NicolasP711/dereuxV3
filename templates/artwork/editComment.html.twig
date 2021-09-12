@@ -3,20 +3,22 @@
 {% block title %}Éditer un commentaire{% endblock %}
 
 {% block body %}
-    <h1 class="my-4 text-center">Éditer un commentaire</h1>
+    <h1 class="h2 my-4 text-center">Éditer un commentaire</h1>
 
-    {{ include('artwork/_form.html.twig') }}
-    <div id="profilBtn" class="mt-5">
+    <div class="offset-lg-2 col-lg-8 offset-lg-2 mt-5">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+        {{ form_end(form) }}
 
-        {% if is_granted('ROLE_ADMIN') %}
-            <a class="btn adminBtn mb-5" href="{{ path('admin_artwork_index') }}">Gestion des oeuvres</a>
-        {% endif %}
-        <a class="btn defaultBtn mb-5" href="{{ path('artwork_index') }}">Retour aux oeuvres</a>
-        <form method="post" action="{{ path('delete_artwork_comment', {'slug': artworkComment.slug, csrf_token: csrf_token('delete_artwork_comment_' ~ artworkComment.id)}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer ce commentaire ?');">
-            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artworkComment.id) }}">
-            <button class="btn btn-danger mb-5">Supprimer</button>
-        </form>
-        
-
+        <div id="profilBtn" class="mt-5">
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="btn adminBtn mb-5" href="{{ path('admin_artwork_index') }}">Gestion des oeuvres</a>
+            {% endif %}
+            <a class="btn defaultBtn mb-5" href="{{ path('artwork_index') }}">Retour aux oeuvres</a>
+            <form method="post" action="{{ path('delete_artwork_comment', {'slug': artworkComment.slug, csrf_token: csrf_token('delete_artwork_comment_' ~ artworkComment.id)}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer ce commentaire ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artworkComment.id) }}">
+                <button class="btn btn-danger mb-5">Supprimer</button>
+            </form>
+        </div>
     </div>
 {% endblock %}

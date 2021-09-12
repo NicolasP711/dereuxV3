@@ -19,84 +19,83 @@
     <p class="text-center"><b>Nombre total d'oeuvre(s):</b> {{ artworks.getTotalItemCount }}</p>
     <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('admin_artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
 
-
     <!-- Click on Modal Button -->
-<button type="button" class="createArticleBtn btn altBtn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
-  <i class="fas fa-search me-2"></i>Rechercher
-</button>
+  <button type="button" class="createArticleBtn btn altBtn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
+    <i class="fas fa-search me-2"></i>Rechercher
+  </button>
 
-<!-- Modal -->
-<div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Rechercher une oeuvre</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <form action="{{ path('admin_artwork_search') }}" method="GET">
-                  <div class="mb-3">
-                      <label class="form-label">Rechercher une oeuvre</label>
-                      <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
-                  </div>
-                  <div class="modal-footer d-block">
-                      <button type="submit" class="btn altBtn float-end">Rechercher</button>
-                  </div>
-              </form>
-          </div>
-      </div>
+  <!-- Modal -->
+  <div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Rechercher une oeuvre</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ path('admin_artwork_search') }}" method="GET">
+                    <div class="mb-3">
+                        <label class="form-label">Rechercher une oeuvre</label>
+                        <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
+                    </div>
+                    <div class="modal-footer d-block">
+                        <button type="submit" class="btn altBtn float-end">Rechercher</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
   </div>
-</div>
 
 
-    <div class="table-responsive">
+  <div class="table-responsive">
     <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th scope="col">{{ knp_pagination_sortable(artworks, 'Id', 'a.id') }}</th>
-            <th scope="col">{{ knp_pagination_sortable(artworks, 'Titre', 'a.title') }}</th>
-            <th scope="col">{{ knp_pagination_sortable(artworks, 'Description', 'a.content') }}</th>
-            <th scope="col">{{ knp_pagination_sortable(artworks, 'Année de création', 'a.yearOfCreation') }}</th>
-            <th scope="col">{{ knp_pagination_sortable(artworks, 'Date de publication', 'a.publicationDate') }}</th>
-            <th scope="col">Auteur</th>
+            <th class="text-center" scope="col">{{ knp_pagination_sortable(artworks, 'Id', 'a.id') }}</th>
+            <th class="text-center" scope="col">{{ knp_pagination_sortable(artworks, 'Titre', 'a.title') }}</th>
+            <th class="text-center" scope="col">{{ knp_pagination_sortable(artworks, 'Description', 'a.description') }}</th>
+            <th class="text-center" scope="col">{{ knp_pagination_sortable(artworks, 'Artiste', 'a.artist') }}</th>
+            <th class="text-center" scope="col">{{ knp_pagination_sortable(artworks, 'Année de création', 'a.yearOfCreation') }}</th>
+            <th class="text-center" scope="col">{{ knp_pagination_sortable(artworks, 'Date de publication', 'a.publicationDate') }}</th>
+            <th class="text-center" scope="col">Auteur</th>
             <th scope="col">Actions</th>
-
           </tr>
         </thead>
         <tbody>
-            {% for artwork in artworks %}
+        {% for artwork in artworks %}
           <tr>
-              <td>{{ artwork.id }}</td>
-            <td><b>{{ artwork.title|length > 40 ? artwork.title|striptags|slice(0, 40) ~ '…' : artwork.title|striptags  }}</b></td>
-            <td>{{ artwork.description|length > 40 ? artwork.description|striptags|slice(0, 40) ~ '…' : artwork.description|striptags  }}</td>
-            <td>{{ artwork.yearOfCreation }}</td>
-            <td>{{ artwork.publicationDate ? artwork.publicationDate|date('d/m/Y H:i:s') : '' }}</td>
-            <td>{% if artwork.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ artwork.author.pseudonym }}</b>{% endif %}</td>
+            <td class="text-center">{{ artwork.id }}</td>
+            <td class="text-center"><b>{{ artwork.title|length > 20 ? artwork.title|striptags|slice(0, 20) ~ '…' : artwork.title|striptags  }}</b></td>
+            <td class="text-center">{{ artwork.description|length > 20 ? artwork.description|striptags|slice(0, 20) ~ '…' : artwork.description|striptags  }}</td>
+            <td class="text-center"><b>{{ artwork.artist|length > 20 ? artwork.artist|striptags|slice(0, 20) ~ '…' : artwork.artist|striptags  }}</b></td>
+            <td class="text-center">{{ artwork.yearOfCreation }}</td>
+            <td class="text-center">{{ artwork.publicationDate ? artwork.publicationDate|date('d/m/Y H:i:s') : '' }}</td>
+            <td class="text-center">{% if artwork.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ artwork.author.pseudonym }}</b>{% endif %}</td>
             <td>
-                <div class="d-flex">
-                    <a class="me-2" href="{{ path('artwork_show', {'slug': artwork.slug}) }}"><i class="far fa-eye"></i></a>
-                    <a class="me-2" href="{{ path('admin_artwork_edit', {'slug': artwork.slug}) }}"><i class="fas fa-edit"></i></a>
-                    <form method="post" action="{{ path('admin_artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
-                        <button id="deleteIcon"><i class="fas fa-trash"></i></button>
-                    </form>
-                </div>
-
+              <div class="d-flex">
+                  <a class="me-2" href="{{ path('artwork_show', {'slug': artwork.slug}) }}"><i class="far fa-eye"></i></a>
+                  <a class="me-2" href="{{ path('admin_artwork_edit', {'slug': artwork.slug}) }}"><i class="fas fa-edit"></i></a>
+                  <form method="post" action="{{ path('admin_artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
+                    <button id="deleteIcon"><i class="fas fa-trash"></i></button>
+                  </form>
+              </div>
             </td>
           </tr>
           {% else %}
           <tr>
               <td colspan="12" class="text-center">Aucune oeuvre trouvée</td>
           </tr>
-      {% endfor %}
+        {% endfor %}
         </tbody>
-      </table>
+    </table>
+  </div>
+    <div class="mt-5 mb-3 text-center">
+      <div class="d-inline-block">
+          {# Affichage du menu permettant de naviguer entre les différentes pages #}
+          {{ knp_pagination_render(artworks) }}
       </div>
-      <div class="mt-5 mb-3 text-center">
-        <div class="d-inline-block">
-            {# Affichage du menu permettant de naviguer entre les différentes pages #}
-            {{ knp_pagination_render(artworks) }}
-        </div>
-      </div>
+    </div>
 
-      {% endblock %}
+{% endblock %}

@@ -4,74 +4,69 @@
 
 {% block body %}
 
-{% include 'partials/flashes/error.html.twig' %}
-{% include 'partials/flashes/success.html.twig' %}
+  {% include 'partials/flashes/error.html.twig' %}
+  {% include 'partials/flashes/success.html.twig' %}
 
-<h1 class="h2 text-center mt-4 mb-3">Blog</h1>
-<p class="text-center">Vous trouverez ici les dernières actualités du site.</p>
-<p class="text-center"><b>Nombre total d'articles:</b> {{ articles.getTotalItemCount }}</p>
-<p class="text-center">
-  {# Création d'un lien permettant de trier par titre #}
-  <span class="mx-2">{{ knp_pagination_sortable(articles, 'Trier par titre', 'a.title') }}</span>
-  {# Création d'un lien permettant de trier par date #}
-  <span class="mx-2">{{ knp_pagination_sortable(articles, 'Trier par date', 'a.publicationDate') }}</span>
-</p>
-<div class="text-center my-4">
-  <div class="d-inline-block">
+  <h1 class="h2 text-center mt-4 mb-3">Blog</h1>
+  <p class="text-center">Vous trouverez ici les dernières actualités du site.</p>
+  <p class="text-center"><b>Nombre total d'articles:</b> {{ articles.getTotalItemCount }}</p>
+  <p class="text-center">
+    {# Création d'un lien permettant de trier par titre #}
+    <span class="mx-2">{{ knp_pagination_sortable(articles, 'Trier par titre', 'a.title') }}</span>
+    {# Création d'un lien permettant de trier par date #}
+    <span class="mx-2">{{ knp_pagination_sortable(articles, 'Trier par date', 'a.publicationDate') }}</span>
+  </p>
+  <div class="text-center my-4">
+    <div class="d-inline-block">
       {# Affichage du menu permettant de naviguer entre les différentes pages #}
       {{ knp_pagination_render(articles) }}
+    </div>
   </div>
-</div>
-{% if is_granted('ROLE_ADMIN') %}
-  <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
-{% endif %}
-<button type="button" class="createArticleBtn btn altBtn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
-  <i class="fas fa-search me-2"></i>Rechercher
-</button>
+  {% if is_granted('ROLE_ADMIN') %}
+    <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
+  {% endif %}
+  <button type="button" class="createArticleBtn btn altBtn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
+    <i class="fas fa-search me-2"></i>Rechercher
+  </button>
 
-<!-- Modal -->
-<div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Rechercher un article</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <form action="{{ path('article_search') }}" method="GET">
-                  <div class="mb-3">
-                      <label class="form-label">Rechercher un article</label>
-                      <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
-                  </div>
-                  <div class="modal-footer d-block">
-                      <button type="submit" class="btn altBtn float-end">Rechercher</button>
-                  </div>
-              </form>
-          </div>
-      </div>
+  <!-- Modal -->
+  <div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Rechercher un article</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ path('article_search') }}" method="GET">
+                    <div class="mb-3">
+                        <label class="form-label">Rechercher un article</label>
+                        <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
+                    </div>
+                    <div class="modal-footer d-block">
+                        <button type="submit" class="btn altBtn float-end">Rechercher</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
   </div>
-</div>
-
 
   {% for article in articles %}
     <div class="col-12 my-5">
       <div class="card h-100">
-
           <h2 class="card-title ms-3 mt-3">{{ article.title|length > 50 ? article.title|slice(0, 50) ~ '…' : article.title }}</h2>
-
           <div class="card-body">
             <p class="card-text">{{ article.content|length > 480 ? article.content|purify|striptags|slice(0, 480) ~ '…' : article.content|purify|striptags  }}</p>
           </div>
-
         <div class="card-footer">
-
-            <p class="card-text me-3">Publié le: <b>{{ article.publicationDate|date('d/m/Y à H:i:s') }}</b><br>par : {% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</p>
-            {% if article.ArticleComments is not empty %}
+          <p class="card-text me-3">Publié le: <b>{{ article.publicationDate|date('d/m/Y à H:i:s') }}</b><br>par : {% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</p>
+          {% if article.ArticleComments is not empty %}
             <p class="card-text me-3">Commentaire(s): <b>{{ article.ArticleComments|length }}</b></p>
-            {% endif %}
-            <div id="articleButton">
+          {% endif %}
+          <div id="articleButton">
             <a href="{{ path('blog_show', {'slug': article.slug}) }}" class="btn defaultBtn">
-                Voir l'article
+              Voir l'article
             </a>
             {% if is_granted('ROLE_ADMIN') %}
               <a id="editBlogIndex" href="{{ path('blog_edit', {'slug': article.slug}) }}" class="btn altBtn">
@@ -90,11 +85,8 @@
 
   <div class="my-3 text-center">
     <div class="d-inline-block">
-        {# Affichage du menu permettant de naviguer entre les différentes pages #}
-        {{ knp_pagination_render(articles) }}
+      {# Affichage du menu permettant de naviguer entre les différentes pages #}
+      {{ knp_pagination_render(articles) }}
     </div>
   </div>
-
-
-
 {% endblock %}

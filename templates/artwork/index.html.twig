@@ -7,87 +7,86 @@
 {% block body %}
   {% include 'partials/flashes/error.html.twig' %}
   {% include 'partials/flashes/success.html.twig' %}
-    <h1 class="h2 text-center mt-4 mb-3">Oeuvres</h1>
-    <p class="text-center">Vous trouverez ici les oeuvres ajoutées au site.</p>
-    <p class="text-center"><b>Nombre total d'oeuvres:</b> {{ artworks.getTotalItemCount }}</p>
-    <p class="text-center">
-      {# Création d'un lien permettant de trier par titre #}
-      <span class="mx-2">{{ knp_pagination_sortable(artworks, 'Trier par titre', 'a.title') }}</span>
-      {# Création d'un lien permettant de trier par date #}
-      <span class="mx-2">{{ knp_pagination_sortable(artworks, 'Trier par date', 'a.publicationDate') }}</span>
-    </p>
-    <div class="text-center my-4">
-      <div class="d-inline-block">
-          {# Affichage du menu permettant de naviguer entre les différentes pages #}
-          {{ knp_pagination_render(artworks) }}
-      </div>
-    </div>
-    {% if is_granted('ROLE_ADMIN') %}
-      <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
-    {% endif %}
-
-    <!-- Click on Modal Button -->
-<button type="button" class="createArticleBtn altBtn btn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
-  <i class="fas fa-search me-2"></i>Rechercher
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Rechercher une oeuvre</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <form action="{{ path('artwork_search') }}" method="GET">
-                  <div class="mb-3">
-                      <label class="form-label">Rechercher une oeuvre</label>
-                      <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
-                  </div>
-                  <div class="modal-footer d-block">
-                      <button type="submit" class="btn altBtn float-end">Rechercher</button>
-                  </div>
-              </form>
-          </div>
-      </div>
-  </div>
-</div>
-
-
-<div id="artworkIndex">
-{% for artwork in artworks %}
-  <div class="card h-100 my-4" style="width: 21rem;">
-    <img src="{{ asset('img/artworks/' ~ artwork.picture)|imagine_filter('artwork') }}" alt="{{ artwork.title }}">
-    <div class="card-body">
-      <h5 class="card-title">{{ artwork.title|length > 40 ? artwork.title|striptags|slice(0, 40) ~ '…' : artwork.title|striptags  }}</h5>
-      <p class="card-text">{{ artwork.description|length > 100 ? artwork.description|purify|striptags|slice(0, 100) ~ '…' : artwork.description|striptags }}</p>
-      <p>Artiste: <b>{{ artwork.artist }}</b><br>Créée en: <b>{{ artwork.yearOfCreation }}</b></p>
-      <p>Date de publication: <b>{{ artwork.publicationDate ? artwork.publicationDate|date('d/m/Y') : '' }}</b><br>
-        Publié par: {% if artwork.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ artwork.author.pseudonym }}</b>{% endif %}</p>
-      <div class="d-flex justify-content-between">
-        <a href="{{ path('artwork_show', {'slug': artwork.slug}) }}" class="btn defaultBtn">Voir l'oeuvre</a>
-        {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('artwork_edit', {'slug': artwork.slug}) }}" class="btn adminBtn">Éditer</a>
-        <form method="post" action="{{ path('artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
-          <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
-          <button id="deleteBtn" class="btn">Supprimer</button>
-        </form>
-        {% endif %}
-      </div>
-
+  <h1 class="h2 text-center mt-4 mb-3">Oeuvres</h1>
+  <p class="text-center">Vous trouverez ici les oeuvres ajoutées au site.</p>
+  <p class="text-center"><b>Nombre total d'oeuvres:</b> {{ artworks.getTotalItemCount }}</p>
+  <p class="text-center">
+    {# Création d'un lien permettant de trier par titre #}
+    <span class="mx-2">{{ knp_pagination_sortable(artworks, 'Trier par titre', 'a.title') }}</span>
+    {# Création d'un lien permettant de trier par date #}
+    <span class="mx-2">{{ knp_pagination_sortable(artworks, 'Trier par date', 'a.publicationDate') }}</span>
+  </p>
+  <div class="text-center my-4">
+    <div class="d-inline-block">
+        {# Affichage du menu permettant de naviguer entre les différentes pages #}
+        {{ knp_pagination_render(artworks) }}
     </div>
   </div>
-  {% else %}
-  <p class="text-center">Aucune oeuvre trouvée</p>
-  {% endfor %}
-</div>
+  {% if is_granted('ROLE_ADMIN') %}
+    <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
+  {% endif %}
 
-      <div class="mt-5 mb-3 text-center">
-        <div class="d-inline-block">
-            {# Affichage du menu permettant de naviguer entre les différentes pages #}
-            {{ knp_pagination_render(artworks) }}
+  <!-- Click on Modal Button -->
+  <button type="button" class="createArticleBtn altBtn btn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
+    <i class="fas fa-search me-2"></i>Rechercher
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Rechercher une oeuvre</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ path('artwork_search') }}" method="GET">
+                    <div class="mb-3">
+                        <label class="form-label">Rechercher une oeuvre</label>
+                        <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
+                    </div>
+                    <div class="modal-footer d-block">
+                        <button type="submit" class="btn altBtn float-end">Rechercher</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div id="artworkIndex">
+  {% for artwork in artworks %}
+    <div class="card h-100 my-4" style="width: 21rem;">
+      <img src="{{ asset('img/artworks/' ~ artwork.picture)|imagine_filter('artwork') }}" alt="{{ artwork.title }}">
+      <div class="card-body">
+        <h5 class="card-title">{{ artwork.title|length > 40 ? artwork.title|striptags|slice(0, 40) ~ '…' : artwork.title|striptags  }}</h5>
+        <p class="card-text">{{ artwork.description|length > 100 ? artwork.description|purify|striptags|slice(0, 100) ~ '…' : artwork.description|striptags }}</p>
+        <p>Artiste: <b>{{ artwork.artist }}</b><br>Créée en: <b>{{ artwork.yearOfCreation }}</b></p>
+        <p>
+          Date de publication: <b>{{ artwork.publicationDate ? artwork.publicationDate|date('d/m/Y') : '' }}</b><br>
+          Publié par: {% if artwork.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ artwork.author.pseudonym }}</b>{% endif %}
+        </p>
+        <div class="d-flex justify-content-between">
+          <a href="{{ path('artwork_show', {'slug': artwork.slug}) }}" class="btn defaultBtn">Voir l'oeuvre</a>
+          {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('artwork_edit', {'slug': artwork.slug}) }}" class="btn adminBtn">Éditer</a>
+            <form method="post" action="{{ path('artwork_delete', {'slug': artwork.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cette oeuvre ?');">
+              <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artwork.id) }}">
+              <button id="deleteBtn" class="btn">Supprimer</button>
+            </form>
+          {% endif %}
         </div>
       </div>
+    </div>
+  {% else %}
+    <p class="text-center">Aucune oeuvre trouvée</p>
+  {% endfor %}
+  </div>
 
-      {% endblock %}
+  <div class="mt-5 mb-3 text-center">
+    <div class="d-inline-block">
+        {# Affichage du menu permettant de naviguer entre les différentes pages #}
+        {{ knp_pagination_render(artworks) }}
+    </div>
+  </div>
+{% endblock %}

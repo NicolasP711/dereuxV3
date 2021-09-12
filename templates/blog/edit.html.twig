@@ -10,7 +10,6 @@
     {{ form_end(form) }}
 
     <div id="profilBtn" class="mt-5">
-
         <a class="btn adminBtn mb-5" href="{{ path('blog_admin') }}">Gestion du blog</a>
         <a class="btn defaultBtn mb-5" href="{{ path('blog_index') }}">Retour aux articles</a>
         <form method="post" action="{{ path('blog_delete', {'slug': article.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cet article ?');">
