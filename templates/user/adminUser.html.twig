@@ -7,7 +7,9 @@
 {% block body %}
   {% include 'partials/flashes/error.html.twig' %}
   {% include 'partials/flashes/success.html.twig' %}
-    <h1 class="h2 my-4 text-center">Gestion des utilisateurs</h1>
+    <h1 class="h2 mt-4 mb-3 text-center">Gestion des utilisateurs</h1>
+    <p class="text-center"><b>Nombre total d'utilisateur(s):</b> {{ users.getTotalItemCount }}</p>
+
 
     <div class="mb-4 text-center">
       <div class="d-inline-block">
@@ -15,8 +17,6 @@
           {{ knp_pagination_render(users) }}
       </div>
     </div>
-
-    <p class="text-center"><b>Nombre total d'utilisateur(s):</b> {{ users.getTotalItemCount }}</p>
 
     <!-- Click on Modal Button -->
 <button type="button" class="createArticleBtn btn altBtn mb-2" data-bs-toggle="modal" data-bs-target="#modalForm">
@@ -54,7 +54,7 @@
             <th scope="col">{{ knp_pagination_sortable(users, 'Id', 'a.id') }}</th>
             <th scope="col">{{ knp_pagination_sortable(users, 'Pseudonyme', 'a.pseudonym') }}</th>
             <th scope="col">{{ knp_pagination_sortable(users, 'Adresse email', 'a.email') }}</th>
-            <th scope="col">{{ knp_pagination_sortable(users, 'Role', 'a.roles') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(users, 'Rôle', 'a.roles') }}</th>
             <th scope="col">{{ knp_pagination_sortable(users, 'Date d\'enregistrement', 'a.registrationDate') }}</th>
             <th scope="col">Actions</th>
 
@@ -70,10 +70,10 @@
             <td>{{ user.registrationDate ? user.registrationDate|date('d/m/Y H:i:s') : '' }}</td>
             <td>
                 <div class="d-flex">
-                    <a class="me-2" href="{{ path('user_show', {'id': user.id}) }}"><i class="far fa-eye"></i></a>
+                    <a class="me-2" href="{{ path('user_show', {'slug': user.slug}) }}"><i class="far fa-eye"></i></a>
                     {% if user.roles[0] == 'ROLE_ADMIN' %}
                     {% else %}
-                      <a id="deleteIcon" href="{{ path('admin_delete_account', {'id': user.id}) }}" onclick="return confirm('Souhaitez vous vraiment supprimer ce compte ?');"><i class="fas fa-trash me-2"></i></a>
+                      <a id="deleteIcon" href="{{ path('admin_delete_account', {'slug': user.slug}) }}" onclick="return confirm('Souhaitez vous vraiment supprimer ce compte ?');"><i class="fas fa-trash me-2"></i></a>
                     {% endif %}
                 </div>
 

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\EditPasswordFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,14 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Form\EditUserFormType;
 use App\Form\EditPhotoFormType;
-use App\Repository\UserRepository;
-use DateTime;
-use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 
 
 class MainController extends AbstractController
@@ -138,7 +129,7 @@ class MainController extends AbstractController
     /**
      * Page de modification de la photo de profil
      *
-     * @Route("/modifier-ma-photo-de-profil/", name="edit_photo")
+     * @Route("/modifier-mon-image-de-profil/", name="edit_photo")
      * @Security("is_granted('ROLE_USER')")
      *
      */

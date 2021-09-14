@@ -11,10 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mime\Address;
 use DateTime;
+use App\Recaptcha\RecaptchaValidator;  // Importation de notre service de validation du captcha
+use Symfony\Component\Form\FormError;
 
 /**
  * @Route("/contact")
@@ -25,21 +24,30 @@ class ContactController extends AbstractController
     /**
      * @Route("/", name="contact")
      */
-    public function contact(Request $request, MailerInterface $mailer): Response
+    public function contact(Request $request, RecaptchaValidator $recaptcha): Response
     {
         $contact = new Contact();
         $form = $this->createForm(ContactFormType::class, $contact);
         $form->handleRequest($request);
         $contact->setDateSent( new DateTime() );
 
-        if($form->isSubmitted() && $form->isValid()){
+        if($form->isSubmitted()){
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($contact);
-            $em->flush();
+            if(!$recaptcha->verify( $request->request->get('g-recaptcha-response'), $request->server->get('REMOTE_ADDR') )){
 
-            $this->addFlash('success', 'Message envoyé avec succès.');
-            return $this->redirectToRoute('home');
+                // Ajout d'une nouvelle erreur manuellement dans le formulaire
+                $form->addError(new FormError('Veuillez remplir le captcha de sécurité'));
+            }
+
+            if($form->isValid()){
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($contact);
+                $em->flush();
+
+                $this->addFlash('success', 'Message envoyé avec succès.');
+                return $this->redirectToRoute('home');
+            }
         }
         return $this->render('contact/contact.html.twig',[
             'contactForm' => $form->createView()

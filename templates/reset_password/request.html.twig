@@ -8,15 +8,17 @@
     {% endfor %}
     <h1 class="h2 text-center my-4">Réinitialiser mon mot de passe</h1>
 
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
-        <div>
-            <small>
-                Veuillez entrer l'adresse email associée à votre compte.
-                Un lien afin de réinitaliser votre mot de passe lui sera envoyée.
-            </small>
-        </div>
+    <div class="offset-lg-3 col-lg-6 offset-lg-3 mt-5">
+        {{ form_start(requestForm) }}
+            {{ form_row(requestForm.email) }}
+            <div>
+                <small>
+                    Veuillez entrer l'adresse email associée à votre compte.
+                    Un lien afin de réinitaliser votre mot de passe lui sera envoyée.
+                </small>
+            </div>
 
-        <button class="my-3 w-100 btn defaultBtn">Envoyer</button>
-    {{ form_end(requestForm) }}
+            <button class="my-3 w-100 btn defaultBtn">Envoyer</button>
+        {{ form_end(requestForm) }}
+    </div>
 {% endblock %}

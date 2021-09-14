@@ -15,7 +15,7 @@
       </div>
 
       <p class="text-center"><b>Nombre d'oeuvre(s) trouvé:</b> {{ artworks.getTotalItemCount }}</p>
-      <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
+      <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
       <a class="createArticleBtn adminBtn btn mb-2 me-2" href="{{ path('admin_artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitaliser les filtres</a>
 
       <!-- Click on Modal Button -->
@@ -28,13 +28,13 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Rechercher un article</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Rechercher une oeuvre</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
               <form action="" method="GET">
                   <div class="mb-3">
-                    <label class="form-label">Rechercher un article</label>
+                    <label class="form-label">Rechercher une oeuvre</label>
                     <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
                   </div>
                   <div class="modal-footer d-block">
@@ -65,7 +65,7 @@
               <tr>
                 <td class="text-center">{{ artwork.id }}</td>
                 <td class="text-center"><b>{{ artwork.title|length > 20 ? artwork.title|striptags|slice(0, 20) ~ '…' : artwork.title|striptags  }}</b></td>
-                <td class="text-center">{{ artwork.description|length > 20 ? artwork.description|striptags|slice(0, 20) ~ '…' : artwork.description|striptags }}</td>
+                <td class="text-center">{{ artwork.description|length > 20 ? artwork.description|purify|striptags|slice(0, 20) ~ '…' : artwork.description|purify|striptags }}</td>
                 <td class="text-center"><b>{{ artwork.artist|length > 20 ? artwork.artist|striptags|slice(0, 20) ~ '…' : artwork.artist|striptags  }}</b></td>
                 <td class="text-center">{{ artwork.yearOfCreation }}</td>
                 <td class="text-center">{{ artwork.publicationDate ? artwork.publicationDate|date('d/m/Y H:i:s') : '' }}</td>
@@ -83,7 +83,7 @@
               </tr>
             {% else %}
               <tr>
-                <td colspan="12" class="text-center">Aucun article trouvé</td>
+                <td colspan="12" class="text-center">Aucune oeuvre trouvée</td>
               </tr>
             {% endfor %}
           </tbody>

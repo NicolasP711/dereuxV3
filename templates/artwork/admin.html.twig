@@ -7,7 +7,9 @@
 {% block body %}
   {% include 'partials/flashes/error.html.twig' %}
   {% include 'partials/flashes/success.html.twig' %}
-    <h1 class="h2 my-4 text-center">Gestion des oeuvres</h1>
+    <h1 class="h2 mt-4 mb-3 text-center">Gestion des oeuvres</h1>
+
+    <p class="text-center mt-1"><b>Nombre total d'oeuvre(s):</b> {{ artworks.getTotalItemCount }}</p>
 
     <div class="mb-4 text-center">
       <div class="d-inline-block">
@@ -16,7 +18,6 @@
       </div>
     </div>
 
-    <p class="text-center"><b>Nombre total d'oeuvre(s):</b> {{ artworks.getTotalItemCount }}</p>
     <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('admin_artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
 
     <!-- Click on Modal Button -->
@@ -67,7 +68,7 @@
           <tr>
             <td class="text-center">{{ artwork.id }}</td>
             <td class="text-center"><b>{{ artwork.title|length > 20 ? artwork.title|striptags|slice(0, 20) ~ '…' : artwork.title|striptags  }}</b></td>
-            <td class="text-center">{{ artwork.description|length > 20 ? artwork.description|striptags|slice(0, 20) ~ '…' : artwork.description|striptags  }}</td>
+            <td class="text-center">{{ artwork.description|length > 20 ? artwork.description|purify|striptags|slice(0, 20) ~ '…' : artwork.description|purify|striptags  }}</td>
             <td class="text-center"><b>{{ artwork.artist|length > 20 ? artwork.artist|striptags|slice(0, 20) ~ '…' : artwork.artist|striptags  }}</b></td>
             <td class="text-center">{{ artwork.yearOfCreation }}</td>
             <td class="text-center">{{ artwork.publicationDate ? artwork.publicationDate|date('d/m/Y H:i:s') : '' }}</td>

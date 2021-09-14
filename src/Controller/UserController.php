@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use App\Repository\UserRepository;
 
 /**
  * @Route("/user")
@@ -51,7 +50,7 @@ class UserController extends AbstractController
     /**
      *  Page affichant les résultats de recherches faites par le formulaire de recherche dans la navbar
      *
-     * @Route("/admin/recherche-utilisateur", name="admin_user_search")
+     * @Route("/admin/recherche", name="admin_user_search")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function adminUserSearch(Request $request, PaginatorInterface $paginator): Response
@@ -85,7 +84,7 @@ class UserController extends AbstractController
 
     /** Fonction permettant de supprimer son compte depuis la page de profil
      *
-     * @Route("/admin/supprimer-profil/{id}", name="admin_delete_account")
+     * @Route("/admin/supprimer-profil/{slug}", name="admin_delete_account")
      * @Security("is_granted('ROLE_ADMIN')")
      *
      */
@@ -101,7 +100,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/admin/utilisateur/{id}", name="user_show")
+     * @Route("/admin/utilisateur/{slug}", name="user_show")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function show(User $user): Response

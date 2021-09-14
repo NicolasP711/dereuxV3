@@ -17,7 +17,7 @@ class EditPhotoFormType extends AbstractType
     {
         $builder
         ->add('photo', FileType::class, [
-            'label' => 'Selectionnez une nouvelle photo',
+            'label' => 'Selectionnez une nouvelle image',
             'attr' => [
                 'accept' => 'image/jpeg, image/png',
                 'class' => 'mb-4',
@@ -38,7 +38,7 @@ class EditPhotoFormType extends AbstractType
             ],
         ])
         ->add('save', SubmitType::class, [
-            'label' => 'Modifier ma photo de profil',
+            'label' => 'Modifier',
             'attr' => [
                 'class' => 'btn defaultBtn w-100',
             ],
@@ -51,6 +51,9 @@ class EditPhotoFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'attr' => [
+                'novalidate' => 'novalidate'
+            ]
         ]);
     }
 }

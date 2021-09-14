@@ -5,7 +5,9 @@
 {% block title %}Résultat(s) de la recherche "{{ query }}"{% endblock %}
 
 {% block body %}
-<h1 class="h2 my-4 text-center">Résultat(s) de la recherche <span class="searchResult">"{{ query|length > 10 ? query|slice(0, 25) ~ '...' : query }}"</span></h1>
+<h1 class="h2 mt-4 mb-3 text-center">Résultat(s) de la recherche <span class="searchResult">"{{ query|length > 10 ? query|slice(0, 25) ~ '...' : query }}"</span></h1>
+<p class="text-center"><b>Nombre d'utilisateur(s) trouvé:</b> {{ users.getTotalItemCount }}</p>
+
 
     <div class="mb-4 text-center">
       <div class="d-inline-block">
@@ -14,7 +16,6 @@
       </div>
     </div>
 
-    <p class="text-center"><b>Nombre d'utilisateur(s) trouvé:</b> {{ users.getTotalItemCount }}</p>
     <a class="createArticleBtn adminBtn btn mb-2 me-2" href="{{ path('admin_user')}}"><i class="fas fa-sync-alt me-2"></i>Réinitaliser les filtres</a>
 
 
@@ -55,7 +56,7 @@
             <th scope="col">{{ knp_pagination_sortable(users, 'Id', 'a.id') }}</th>
             <th scope="col">{{ knp_pagination_sortable(users, 'Pseudonyme', 'a.pseudonym') }}</th>
             <th scope="col">{{ knp_pagination_sortable(users, 'Adresse email', 'a.email') }}</th>
-            <th scope="col">{{ knp_pagination_sortable(users, 'Role', 'a.roles') }}</th>
+            <th scope="col">{{ knp_pagination_sortable(users, 'Rôle', 'a.roles') }}</th>
             <th scope="col">{{ knp_pagination_sortable(users, 'Date d\'enregistrement', 'a.registrationDate') }}</th>
             <th scope="col">Actions</th>
 
@@ -71,10 +72,10 @@
             <td>{{ user.registrationDate ? user.registrationDate|date('d/m/Y H:i:s') : '' }}</td>
             <td>
                 <div class="d-flex">
-                  <a class="me-2" href="{{ path('user_show', {'id': user.id}) }}) }}"><i class="far fa-eye"></i></a>
+                  <a class="me-2" href="{{ path('user_show', {'slug': user.slug}) }}) }}"><i class="far fa-eye"></i></a>
                   {% if user.roles[0] == 'ROLE_ADMIN' %}
                   {% else %}
-                    <a id="deleteIcon" href="{{ path('admin_delete_account', {'id': user.id}) }}" onclick="return confirm('Souhaitez vous vraiment supprimer ce compte ?');"><i class="fas fa-trash me-2"></i></a>
+                    <a id="deleteIcon" href="{{ path('admin_delete_account', {'slug': user.slug}) }}" onclick="return confirm('Souhaitez vous vraiment supprimer ce compte ?');"><i class="fas fa-trash me-2"></i></a>
                   {% endif %}
                   </div>
 

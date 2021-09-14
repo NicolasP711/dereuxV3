@@ -164,6 +164,16 @@ figure{
   color: white;
 }
 
+#offcanvas-admin{
+  background-color: rgb(3, 26, 107);
+  color: white;
+}
+
+#offcanvas-header-admin{
+  background-color: rgb(3, 26, 107);
+  color: white;
+}
+
 .offcanvas-menu, .offcanvas-header{
   background-color: rgb(67, 40, 24);
 }

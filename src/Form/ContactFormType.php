@@ -38,7 +38,7 @@ class ContactFormType extends AbstractType
                 'label' => 'Adresse Email',
                 'constraints' => [
                     new Email([
-                        'message' => 'L\'adresse email {{ value }} n\'est pas une adresse email valide'
+                        'message' => 'L\'adresse email renseignée n\'est pas une adresse email valide'
                     ]),
                     new NotBlank([
                         'message' => 'Merci de renseigner une adresse email'

@@ -34,6 +34,9 @@ class ArtworkType extends AbstractType
                 'class' => 'mb-4',
             ],
             'constraints' => [
+                new NotBlank([
+                    'message' => 'Merci de renseigner une image'
+                ]),
                 new File([
                     'maxSize' => '10M',
                     'mimeTypes' => [
@@ -74,15 +77,15 @@ class ArtworkType extends AbstractType
         ])
         ->add('description', CKEditorType::class, [
             'label' => 'Description',
-            'purify_html' => true,
             'help' => 'La description doit contenir au maximum 3000 caractères',
+            'purify_html' => true,
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Merci de renseigner un contenu'
+                    'message' => 'Merci de renseigner une description'
                 ]),
                 new Length ([
                     'max' => 3000,
-                    'maxMessage' => 'Le contenu doit contenir au maximum {{ limit }} caractères',
+                    'maxMessage' => 'La description doit contenir au maximum {{ limit }} caractères',
                 ]),
             ],
             'config' => array(

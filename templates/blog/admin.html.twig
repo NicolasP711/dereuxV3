@@ -7,7 +7,10 @@
 {% block body %}
   {% include 'partials/flashes/error.html.twig' %}
   {% include 'partials/flashes/success.html.twig' %}
-  <h1 class="h2 my-4 text-center">Gestion du blog</h1>
+  <h1 class="h2 mt-4 mb-3 text-center">Gestion du blog</h1>
+
+  <p class="text-center"><b>Nombre total d'articles:</b> {{ articles.getTotalItemCount }}</p>
+
 
   <div class="mb-4 text-center">
     <div class="d-inline-block">
@@ -16,7 +19,6 @@
     </div>
   </div>
 
-  <p class="text-center"><b>Nombre total d'articles:</b> {{ articles.getTotalItemCount }}</p>
   <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('admin_blog_new')}}"><i class="fas fa-plus me-2"></i>Créer un article</a>
 
   <!-- Click on Modal Button -->
@@ -65,7 +67,7 @@
           <tr>
             <td class="text-center">{{ article.id }}</td>
             <td class="text-center"><b>{{ article.title|length > 40 ? article.title|striptags|slice(0, 40) ~ '…' : article.title|striptags  }}</b></td>
-            <td class="text-center">{{ article.content|length > 40 ? article.content|striptags|slice(0, 40) ~ '…' : article.content|striptags  }}</td>
+            <td class="text-center">{{ article.content|length > 40 ? article.content|purify|striptags|slice(0, 40) ~ '…' : article.content|purify|striptags  }}</td>
             <td class="text-center">{{ article.publicationDate ? article.publicationDate|date('d/m/Y H:i:s') : '' }}</td>
             <td class="text-center">{% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</td>
             <td>

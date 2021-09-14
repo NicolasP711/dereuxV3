@@ -63,7 +63,7 @@
           <tr>
             <td class="text-center">{{ article.id }}</td>
             <td class="text-center"><b>{{ article.title|length > 20 ? article.title|striptags|slice(0, 20) ~ '…' : article.title|striptags  }}</b></td>
-            <td class="text-center">{{ article.content|length > 40 ? article.content|striptags|slice(0, 40) ~ '…' : article.content|striptags  }}</td>
+            <td class="text-center">{{ article.content|length > 40 ? article.content|purify|striptags|slice(0, 40) ~ '…' : article.content|purify|striptags  }}</td>
             <td class="text-center">{{ article.publicationDate ? article.publicationDate|date('d/m/Y H:i:s') : '' }}</td>
             <td class="text-center">{% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</td>
             <td>

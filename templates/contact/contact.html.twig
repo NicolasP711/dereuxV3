@@ -25,6 +25,10 @@
                 <div class="form-group mb-3">
                     {{ form_row(contactForm.message) }}
                 </div>
+                {{ form_errors(contactForm) }}
+                <div class="form-group mb-3">
+                    <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}"></div>
+                </div>
                 <div class="form-group mb-3">
                     {{ form_row(contactForm.save) }}
                 </div>
@@ -38,5 +42,10 @@
         <figcaption>Citation figurant dans <cite><a target="_blank" href="https://www.babelio.com/livres/Dereux-Journal-des-epluchures/548094">Journal des épluchures</a></cite> écrit par <b>Philippe Dereux</b>.</figcaption>
       </figure>
 
+{% endblock %}
+
+{% block stylesheets %}
+    {# Insertion du fichier JS dans le block stylesheets, ce n'est pas une erreur, la documentation de Recaptcha préconise en effet d'intégrer ce fichier JS dans le head #}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}
 
