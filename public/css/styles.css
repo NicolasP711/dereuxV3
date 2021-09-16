@@ -164,6 +164,10 @@ figure{
   color: white;
 }
 
+label.required:after {
+  content: " *";
+}
+
 #offcanvas-admin{
   background-color: rgb(3, 26, 107);
   color: white;
