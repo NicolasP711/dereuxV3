@@ -166,6 +166,7 @@ figure{
 
 label.required:after {
   content: " *";
+  color: rgb(255, 0, 0);
 }
 
 #offcanvas-admin{
@@ -350,4 +351,8 @@ li{
   background-color: rgb(130, 25, 25);
   border: 1px solid rgb(130, 25, 25);
   color: #ffffff;
+}
+
+.invalid-feedback{
+  margin-bottom: 10px;
 }

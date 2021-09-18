@@ -74,7 +74,7 @@ class Artwork
     private $artworkComments;
 
     /**
-     * @ORM\Column(type="string", length=4, nullable=true)
+     * @ORM\Column(type="integer", length=4, nullable=true)
      */
     private $yearOfCreation;
 
@@ -105,7 +105,7 @@ class Artwork
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 

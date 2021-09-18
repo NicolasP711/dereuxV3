@@ -1,12 +1,23 @@
 {% extends 'adminBase.html.twig' %}
 
-{% block title %}Éditer {{ article.title|length > 20 ? article.title|slice(0, 20) ~ '…' : article.title  }}{% endblock %}
+{% block title %}Édition article{% endblock %}
 
 {% block body %}
-    <h1 class="h2 my-4 text-center">Éditer l'article : {{ article.title|length > 20 ? article.title|slice(0, 20) ~ '…' : article.title  }}</h1>
+    <h1 class="h2 my-4 text-center">Édition</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+    <div class="form-group mb-3">
+        <label class="required" for="article1_title">{{form.title.vars.label}}</label>
+        {{ form_errors(form.title) }}
+        {{ form_widget(form.title) }}
+        {{ form_help(form.title) }}
+    </div>
+    <div class="form-group mb-3">
+        <label class="required" for="article1_content">{{form.content.vars.label}}</label>
+        {{ form_errors(form.content) }}
+        {{ form_widget(form.content) }}
+        {{ form_help(form.content) }}
+    </div>
     {{ form_end(form) }}
 
     <div id="profilBtn" class="mt-5">

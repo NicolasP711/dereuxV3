@@ -56,7 +56,7 @@ class AppFixtures extends Fixture
 
             $user
                 ->setRegistrationDate(new DateTime('-1 year'))
-                ->setPseudonym( $faker->word(1) )
+                ->setPseudonym( $faker->userName() )
                 ->setEmail( $faker->email() )
                 ->setIsVerified('true')
                 ->setPassword( $this->encoder->encodePassword($admin, 'aaAA11$$') )

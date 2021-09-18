@@ -26,16 +26,16 @@ class EditUserFormType extends AbstractType
         $builder
         ->add('pseudonym', TextType::class, [
             'label' => 'Pseudonyme',
-            'help' => 'Le pseudonyme doit contenir entre 2 et 50 caractères.',
+            'help' => 'Le pseudonyme doit contenir entre 2 et 50 caractères',
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Merci de renseigner un pseudonyme.',
+                    'message' => 'Merci de renseigner un pseudonyme',
                 ]),
                 new Length([
                     'min' => 2,
-                    'minMessage' => 'Votre pseudonyme doit contenir au moins {{ limit }} caractères.',
+                    'minMessage' => 'Votre pseudonyme doit contenir au moins {{ limit }} caractères',
                     'max' => 40,
-                    'maxMessage' => 'Votre pseudonyme doit contenir au maximum {{ limit }} caractères.',
+                    'maxMessage' => 'Votre pseudonyme doit contenir au maximum {{ limit }} caractères',
                 ]),
             ],
             'attr' => [
@@ -46,10 +46,10 @@ class EditUserFormType extends AbstractType
             'label' => 'Email',
             'constraints' => [
                 new Email([
-                    'message' => 'L\'adresse email renseignée n\'est pas une adresse email valide.'
+                    'message' => 'L\'adresse email renseignée n\'est pas une adresse email valide'
                 ]),
                 new NotBlank([
-                    'message' => 'Merci de renseigner une adresse email.'
+                    'message' => 'Merci de renseigner une adresse email'
                 ]),
             ]
         ])
@@ -59,10 +59,10 @@ class EditUserFormType extends AbstractType
             'required' => true,
             'constraints' => [
                 new NotBlank([
-                    'message' => 'Merci de renseigner votre mot de passe actuel.'
+                    'message' => 'Merci de renseigner votre mot de passe actuel'
                 ]),
                 new UserPassword([
-                    'message' => 'Le mot de passe doit correspondre au mot de passe actuel.'
+                    'message' => 'Le mot de passe doit correspondre au mot de passe actuel'
                 ]),
             ]
         ])

@@ -9,14 +9,16 @@
         <div class="offset-lg-3 col-lg-6 offset-lg-3 mt-5">
             {{ form_start(photoForm) }}
             <div class="form-group mb-3">
-                {{ form_row(photoForm.photo) }}
+                <label class="required" for="article1_title">{{photoForm.photo.vars.label}}</label>
+                {{ form_errors(photoForm.photo) }}
+                {{ form_widget(photoForm.photo) }}
+                {{ form_help(photoForm.photo) }}
             </div>
             <div class="form-group mb-3">
                 {{ form_row(photoForm.save) }}
             </div>
             {{ form_end(photoForm) }}
         </div>
-
 
 {% endblock %}
 

@@ -12,7 +12,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"email"}, message="Cette adresse email est déjà utilisée.")
+ * @UniqueEntity(fields={"email"}, message="Cette adresse email est déjà utilisée")
+ * @UniqueEntity(fields={"pseudonym"}, message="Ce pseudonyme est déjà utilisé")
  */
 class User implements UserInterface
 {
@@ -69,7 +70,7 @@ class User implements UserInterface
     private $isVerified = false;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, unique=true)
      */
     private $pseudonym;
 

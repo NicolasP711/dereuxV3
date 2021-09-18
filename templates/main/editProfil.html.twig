@@ -12,22 +12,31 @@
 
     <div class="offset-lg-3 col-lg-6 offset-lg-3 mt-5">
         {{ form_start(editProfilForm) }}
-    {{ form_errors(editProfilForm) }}
+        {{ form_errors(editProfilForm) }}
         <div class="form-group mb-3">
-            {{ form_row(editProfilForm.pseudonym)}}
+            <label class="required" for="edit_user_form_pseudonym">{{editProfilForm.pseudonym.vars.label}}</label>
+            {{ form_errors(editProfilForm.pseudonym) }}
+            {{ form_widget(editProfilForm.pseudonym) }}
+            {{ form_help(editProfilForm.pseudonym) }}
         </div>
         <div class="form-group mb-3">
-        {{ form_row(editProfilForm.email) }}
+            <label class="required" for="edit_user_form_email">{{editProfilForm.email.vars.label}}</label>
+            {{ form_errors(editProfilForm.email) }}
+            {{ form_widget(editProfilForm.email) }}
+            {{ form_help(editProfilForm.email) }}
         </div>
+
+
         <div class="form-group mb-3">
-            {{ form_label(editProfilForm.currentpassword) }}
+            <label class="required" for="edit_user_form_currentpasword">{{editProfilForm.currentpassword.vars.label}}</label>
+            {{ form_errors(editProfilForm.currentpassword) }}
             <div class="input-group mb-3">
-            {{ form_widget(editProfilForm.currentpassword) }}
-            <span class="input-group-text" id="basic-addon1"><i id="togglePassword" class="fas fa-eye" onclick="toggleCurrentPassword()"></i></span>
+                {{ form_widget(editProfilForm.currentpassword) }}
+                <span class="input-group-text" id="basic-addon1"><i id="togglePassword" class="fas fa-eye" onclick="toggleCurrentPassword()"></i></span>
             </div>
-            <small>{{ form_help(editProfilForm.currentpassword) }}</small>
-    
+            {{ form_help(editProfilForm.currentpassword) }}
         </div>
+
         <div class="form-group mb-3">
             <button type="submit" id="loginBtn" class="btn defaultBtn w-100">Modifier</button>
         </div>

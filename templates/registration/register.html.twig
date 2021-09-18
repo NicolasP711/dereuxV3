@@ -18,28 +18,37 @@
                 {{ form_start(registrationForm) }}
 
                 <div class="form-group mb-3">
-                    {{ form_row(registrationForm.pseudonym) }}
+                    <label class="required" for="registration_form_pseudonym">{{registrationForm.pseudonym.vars.label}}</label>
+                    {{ form_errors(registrationForm.pseudonym) }}
+                    {{ form_widget(registrationForm.pseudonym) }}
+                    {{ form_help(registrationForm.pseudonym) }}
                 </div>
 
                 <div class="form-group mb-3">
-                    {{ form_row(registrationForm.email) }}
+                    <label class="required" for="registration_form_email">{{registrationForm.email.vars.label}}</label>
+                    {{ form_errors(registrationForm.email) }}
+                    {{ form_widget(registrationForm.email) }}
+                    {{ form_help(registrationForm.email) }}
                 </div>
 
                 <div class="form-group mb-3">
-                    {{ form_label(registrationForm.plainPassword.password) }}
+                    <label class="required" for="registration_form_plainPassword_password">{{registrationForm.plainPassword.password.vars.label}}</label>
+                    {{ form_errors(registrationForm.plainPassword.password) }}
                     <div class="input-group mb-3">
                         {{ form_widget(registrationForm.plainPassword.password) }}
-                        <span class="input-group-text" id="basic-addon1"><i id="togglePassword" class="fas fa-eye" onclick="toggleCurrentPassword1()"></i></span>
-                        <small>{{ form_help(registrationForm.plainPassword.password) }}</small>
+                        <span class="input-group-text" id="basic-addon1"><i id="togglePassword" class="fas fa-eye" onclick="toggleRegisterPassword1()"></i></span>
                     </div>
+                    {{ form_help(registrationForm.plainPassword.password) }}
                 </div>
 
                 <div class="form-group mb-3">
-                    {{ form_label(registrationForm.plainPassword.confirm) }}
+                    <label class="required" for="registration_form_plainPassword_confirm">{{registrationForm.plainPassword.confirm.vars.label}}</label>
+                    {{ form_errors(registrationForm.plainPassword.confirm) }}
                     <div class="input-group mb-3">
                         {{ form_widget(registrationForm.plainPassword.confirm) }}
-                        <span class="input-group-text" id="basic-addon1"><i id="togglePassword1" class="fas fa-eye" onclick="toggleCurrentPassword2()"></i></span>
+                        <span class="input-group-text" id="basic-addon1"><i id="togglePassword1" class="fas fa-eye" onclick="toggleRegisterPassword2()"></i></span>
                     </div>
+                    {{ form_help(registrationForm.plainPassword.confirm) }}
                 </div>
 
                 {{ form_errors(registrationForm) }}

@@ -50,7 +50,7 @@ function toggleCurrentPasswordEditPassword()
     }
 }
 
-function toggleCurrentPassword1()
+function toggleRegisterPassword1()
 {
     var actualPassword = document.getElementById("registration_form_plainPassword_password");
     var toggle = document.getElementById("togglePassword");
@@ -66,7 +66,7 @@ function toggleCurrentPassword1()
     }
 }
 
-function toggleCurrentPassword2()
+function toggleRegisterPassword2()
 {
     var actualPassword = document.getElementById("registration_form_plainPassword_confirm");
     var toggle = document.getElementById("togglePassword1");

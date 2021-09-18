@@ -28,6 +28,7 @@ class ArtworkType extends AbstractType
         $builder
         ->add('picture', FileType::class, [
             'label' => 'Selectionnez une image',
+            'help' => 'Largeur: 1024 à 4096 pixels. Hauteur: 768 à 2160 pixels',
             'data_class' => null,
             'attr' => [
                 'accept' => 'image/jpeg, image/png',
@@ -115,15 +116,12 @@ class ArtworkType extends AbstractType
         ])
             ->add('yearOfCreation', ChoiceType::class, [
                 'label' => 'Année de création de l\'oeuvre',
-                'required' => true,
+                'required' => false,
+                'help' => 'Facultatif, si vous laissez ce champ vide, l\'année de création sera considérée comme inconnue',
                 'placeholder' => 'Choisissez une année de création',
-                'choices' =>$this->getYears(1000),
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Merci de renseigner une année de création'
-                    ]),
-                ]
+                'choices' => $this->getYears(0),
             ])
+
             ->add('save', SubmitType::class, [
                 'label' => 'Publier',
                 'attr' => [

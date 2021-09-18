@@ -74,9 +74,12 @@
     {% if is_granted('ROLE_USER') %}
       <h2 class="h3 text-center my-5">Ajouter un commentaire :</h2>
       {{ form_start(form) }}
-        <div class="form-group mb-3">
-            {{ form_row(form.content) }}
-        </div>
+      <div class="form-group mb-3">
+        <label class="required" for="article_comment_form_content">{{form.content.vars.label}}</label>
+        {{ form_errors(form.content) }}
+        {{ form_widget(form.content) }}
+        {{ form_help(form.content) }}
+      </div>
         {{ form_errors(form) }}
         <div class="form-group mb-3">
             <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}"></div>
