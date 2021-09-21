@@ -93,7 +93,7 @@ class Artwork
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -129,7 +129,7 @@ class Artwork
         return $this->artist;
     }
 
-    public function setArtist(string $artist): self
+    public function setArtist(?string $artist): self
     {
         $this->artist = $artist;
 

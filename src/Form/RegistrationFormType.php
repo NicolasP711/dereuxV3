@@ -23,6 +23,7 @@ class RegistrationFormType extends AbstractType
         $builder
         ->add('pseudonym', TextType::class, [
             'label' => 'Pseudonyme',
+            'help' => 'Le pseudonyme doit contenir entre 2 et 50 caractères',
             'constraints' => [
                 new NotBlank([
                     'message' => 'Merci de renseigner un pseudonyme',
@@ -30,7 +31,7 @@ class RegistrationFormType extends AbstractType
                 new Length([
                     'min' => 2,
                     'minMessage' => 'Votre pseudonyme doit contenir au moins {{ limit }} caractères',
-                    'max' => 40,
+                    'max' => 50,
                     'maxMessage' => 'Votre pseudonyme doit contenir au maximum {{ limit }} caractères',
                 ]),
             ],
@@ -53,7 +54,7 @@ class RegistrationFormType extends AbstractType
             'invalid_message' => 'Le mot de passe ne correspond pas à sa confirmation',
             'first_options' => [
                 'label' => 'Mot de passe',
-                'help' => 'Le mot de passe doit contenir au minimum 8 caractères dont une minuscule, une majuscule, un chiffre et un caractère spécial',
+                'help' => 'Le mot de passe doit contenir entre 8 et 255 caractères dont une minuscule, une majuscule, un chiffre et un caractère spécial',
             ],
             'second_options' => [
                 'label' => 'Confirmation du mot de passe',

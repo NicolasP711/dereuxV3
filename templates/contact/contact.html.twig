@@ -13,25 +13,44 @@
                 <p class="text-center my-3">Nous vous répondrons dans les plus brefs délais.</p>
 
                 {{ form_start(contactForm) }}
-                <div class="form-group mb-3">
-                    {{ form_row(contactForm.name) }}
-                </div>
-                <div class="form-group mb-3">
-                    {{ form_row(contactForm.email) }}
-                </div>
-                <div class="form-group mb-3">
-                    {{ form_row(contactForm.subject) }}
-                </div>
-                <div class="form-group mb-3">
-                    {{ form_row(contactForm.message) }}
-                </div>
-                {{ form_errors(contactForm) }}
-                <div class="form-group mb-3">
-                    <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}"></div>
-                </div>
-                <div class="form-group mb-3">
-                    {{ form_row(contactForm.save) }}
-                </div>
+
+                    <div class="form-group mb-3">
+                        <label class="required" for="contact_form_name">{{contactForm.name.vars.label}}</label>
+                        {{ form_errors(contactForm.name) }}
+                        {{ form_widget(contactForm.name) }}
+                        {{ form_help(contactForm.name) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="required" for="contact_form_email">{{contactForm.email.vars.label}}</label>
+                        {{ form_errors(contactForm.email) }}
+                        {{ form_widget(contactForm.email) }}
+                        {{ form_help(contactForm.email) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="required" for="contact_form_subject">{{contactForm.subject.vars.label}}</label>
+                        {{ form_errors(contactForm.subject) }}
+                        {{ form_widget(contactForm.subject) }}
+                        {{ form_help(contactForm.subject) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="required" for="contact_form_message">{{contactForm.message.vars.label}}</label>
+                        {{ form_errors(contactForm.message) }}
+                        {{ form_widget(contactForm.message) }}
+                        {{ form_help(contactForm.message) }}
+                    </div>
+
+                    {{ form_errors(contactForm) }}
+                    <div class="form-group mb-3">
+                        <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}"></div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_row(contactForm.save) }}
+                    </div>
+
                 {{ form_end(contactForm) }}
             </div>
     </div>
@@ -40,7 +59,7 @@
             <p>Dans une discussion j'ai plus de plaisir à avoir tort que raison. J'ai ainsi l'impression d'avoir appris quelque chose.</p>
         </blockquote>
         <figcaption>Citation figurant dans <cite><a target="_blank" href="https://www.babelio.com/livres/Dereux-Journal-des-epluchures/548094">Journal des épluchures</a></cite> écrit par <b>Philippe Dereux</b>.</figcaption>
-      </figure>
+    </figure>
 
 {% endblock %}
 

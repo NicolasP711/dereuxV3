@@ -32,7 +32,6 @@ class ArtworkType extends AbstractType
             'data_class' => null,
             'attr' => [
                 'accept' => 'image/jpeg, image/png',
-                'class' => 'mb-4',
             ],
             'constraints' => [
                 new NotBlank([

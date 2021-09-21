@@ -19,7 +19,7 @@ class Contact
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=120)
+     * @ORM\Column(type="string", length=150)
      */
     private $name;
 

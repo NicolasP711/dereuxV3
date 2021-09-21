@@ -22,7 +22,6 @@ class EditPhotoFormType extends AbstractType
             'help' => 'Largeur: 1024 à 4096 pixels. Hauteur: 768 à 2160 pixels',
             'attr' => [
                 'accept' => 'image/jpeg, image/png',
-                'class' => 'mb-4',
             ],
             'constraints' => [
                 new NotBlank([

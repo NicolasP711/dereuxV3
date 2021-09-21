@@ -39,7 +39,7 @@ class EditPasswordFormType extends AbstractType
         'second_name' => 'confirm',
         'first_options' => [
             'label' => 'Nouveau mot de passe',
-            'help' => 'Le nouveau mot de passe doit contenir au minimum 8 caractères dont une minuscule, une majuscule, un chiffre et un caractère spécial',
+            'help' => 'Le nouveau mot de passe doit contenir entre 8 et 255 caractères dont une minuscule, une majuscule, un chiffre et un caractère spécial',
         ],
         'second_options' => [
             'label' => 'Confirmation du nouveau mot de passe',

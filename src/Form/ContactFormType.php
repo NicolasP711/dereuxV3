@@ -21,7 +21,7 @@ class ContactFormType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom ou pseudonyme',
-                'help' => 'Le nom ou pseudonyme doit contenir entre 2 et 120 caractères',
+                'help' => 'Le nom ou pseudonyme doit contenir entre 2 et 150 caractères',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Merci de renseigner votre nom ou un pseudonyme',
@@ -29,7 +29,7 @@ class ContactFormType extends AbstractType
                     new Length([
                         'min' => 2,
                         'minMessage' => 'Votre nom complet ou votre pseudonyme doit contenir au moins {{ limit }} caractères',
-                        'max' => 120,
+                        'max' => 150,
                         'maxMessage' => 'Votre nom complet ou votre pseudonyme doit contenir au maximum {{ limit }} caractères',
                     ]),
                 ],
