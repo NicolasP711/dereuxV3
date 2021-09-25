@@ -18,8 +18,11 @@ class ChangePasswordFormType extends AbstractType
         $builder
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
+                'first_name' => 'password',
+                'second_name' => 'confirm',
                 'first_options' => [
                     'attr' => ['autocomplete' => 'new-password'],
+                    'help' => 'Le mot de passe doit contenir entre 8 et 255 caractères dont une minuscule, une majuscule, un chiffre et un caractère spécial',
                     'constraints' => [
                         new NotBlank([
                             'message' => 'Veuillez renseigner un mot de passe',

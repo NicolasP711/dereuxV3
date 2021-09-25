@@ -18,14 +18,23 @@
         {{ form_widget(form.content) }}
         {{ form_help(form.content) }}
     </div>
+    {{ form_errors(form) }}
+    <div class="form-group mb-3">
+        <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}"></div>
+    </div>
     {{ form_end(form) }}
 
     <div id="profilBtn" class="mt-5">
         <a class="btn adminBtn mb-5" href="{{ path('blog_admin') }}">Gestion du blog</a>
-        <a class="btn defaultBtn mb-5" href="{{ path('blog_index') }}">Retour aux articles</a>
-        <form method="post" action="{{ path('blog_delete', {'slug': article.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cet article ?');">
+        <a class="btn defaultBtn mb-5" href="{{ path('blog_show', {'slug': article.slug}) }}">Retourner sur l'article</a>
+        <form method="post" action="{{ path('admin_blog_delete', {'slug': article.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer cet article ?');">
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ article.id) }}">
             <button id="deleteBtn" class="btn mb-5">Supprimer</button>
         </form>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {# Insertion du fichier JS dans le block stylesheets, ce n'est pas une erreur, la documentation de Recaptcha préconise en effet d'intégrer ce fichier JS dans le head #}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}

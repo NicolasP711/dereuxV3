@@ -5,13 +5,15 @@
 {% block body %}
   {% include 'partials/flashes/error.html.twig' %}
   {% include 'partials/flashes/success.html.twig' %}
-  <h1 class="text-center blogArticle my-4 col-12"><b>{{artwork.title|striptags|slice(0, 100)}}</b></h1>
+  <h1 class="h2 text-center blogArticle mt-4 mb-2 col-12"><b>{{artwork.title|striptags|slice(0, 100)}}</b></h1>
+  <p class="mb-4 text-center">Créée par <b>{{ artwork.artist }}</b> en <b>{{ artwork.yearOfCreation }}</b></p>
 
   <article>
-      <img id="artworkImg" class="d-block me-auto ms-auto mt-4" src="{{ asset('img/artworks/' ~ artwork.picture)}}" alt="{{ artwork.title }}">
-      <p class="mb-4 text-center">Titre de l'oeuvre: <b>{{artwork.title}}</b> Créée par <b>{{ artwork.artist }}</b> en <b>{{ artwork.yearOfCreation }}</b></p>
+      <img id="artworkImg" class="d-block me-auto ms-auto my-4" src="{{ asset('img/artworks/' ~ artwork.picture)}}" alt="{{ artwork.title }}">
+      <p>Publiée le <b>{{ artwork.publicationDate ? artwork.publicationDate|date('d/m/Y à H:i:s') : '' }}</b> par {% if artwork.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ artwork.author.pseudonym }}</b>{% endif %}</p>
+      <hr>
       <div class="blogArticle mb-4 col-12">{{ artwork.description|purify }}</div>
-      <p>Publié le <b>{{ artwork.publicationDate ? artwork.publicationDate|date('d/m/Y à H:i:s') : '' }}</b> par {% if artwork.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ artwork.author.pseudonym }}</b>{% endif %}</p>
+      <hr>
   </article>
 
 
@@ -49,7 +51,7 @@
           <img class="rounded-circle me-1" width="40" height="40" src="{{ asset('img/users/' ~ comment.author.photo)|imagine_filter('profil') }}" alt="image de profil">
         {% endif %}
 
-        <h4><strong>{{ comment.author.pseudonym }}</strong></h4> <span>- {{ comment.publicationDate|date('d/m/Y à H:i:s') }}</span>
+        <h4 class="h5"><strong>{{ comment.author.pseudonym }}</strong></h4> <span>- {{ comment.publicationDate|date('d/m/Y à H:i:s') }}</span>
         <p class="mt-2" id="commentContent">{{ comment.content|striptags }}</p>
 
           {% if is_granted('ROLE_ADMIN') or app.user.id is defined and comment.author.id == app.user.id %}

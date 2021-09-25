@@ -49,7 +49,7 @@
                         <a class="nav-link text-center text-white" href="{{ path('blog_admin') }}"><i class="fas fa-cog me-1"></i>Gestion du blog</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link text-center text-white" href="{{ path('blog_new') }}"><i class="fas fa-plus me-1"></i>Ajouter un article</a>
+                        <a class="nav-link text-center text-white" href="{{ path('admin_blog_new') }}"><i class="fas fa-plus me-1"></i>Ajouter un article</a>
                       </li>
                     {% endif %}
                     <hr>
@@ -120,7 +120,7 @@
                         <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
                           <li><a class="dropdown-item" href="{{ path('blog_index') }}"><i class="fas fa-blog me-1"></i>Blog</a></li>
                           <li><a class="dropdown-item" href="{{ path('blog_admin') }}"><i class="fas fa-cog me-1"></i>Gestion du blog</a></li>
-                          <li><a class="dropdown-item" href="{{ path('blog_new') }}"><i class="fas fa-plus me-1"></i>Ajouter un article</a></li>
+                          <li><a class="dropdown-item" href="{{ path('admin_blog_new') }}"><i class="fas fa-plus me-1"></i>Ajouter un article</a></li>
                         </ul>
                       </li>
                     {% else %}
@@ -144,7 +144,7 @@
                         <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
                           <li><a class="dropdown-item" href="{{ path('artwork_index') }}"><i class="fas fa-palette me-1"></i>Oeuvres</a></li>
                           <li><a class="dropdown-item" href="{{ path('admin_artwork_index') }}"><i class="fas fa-cog me-1"></i>Gestion des oeuvres</a></li>
-                          <li><a class="dropdown-item" href="{{ path('artwork_new') }}"><i class="fas fa-plus me-1"></i>Ajouter une oeuvre</a></li>
+                          <li><a class="dropdown-item" href="{{ path('admin_artwork_new') }}"><i class="fas fa-plus me-1"></i>Ajouter une oeuvre</a></li>
                         </ul>
                       </li>
                     {% else %}

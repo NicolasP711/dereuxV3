@@ -46,7 +46,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ path('admin_artwork_search') }}" method="GET">
+                <form action="{{ path('artwork_search') }}" method="GET">
                     <div class="mb-3">
                         <label class="form-label">Rechercher une oeuvre</label>
                         <input required type="text" class="form-control" id="article" name="q" placeholder="Rechercher...." />
@@ -62,12 +62,12 @@
 
   <div id="artworkIndex">
     {% for artwork in artworks %}
-      <div class="card h-100 shadow my-4" style="width: 21rem;">
-        <img src="{{ asset('img/artworks/' ~ artwork.picture)|imagine_filter('artwork') }}" class="card-img-top" alt="...">
+      <div class="card h-100 shadow mt-2 mb-5" style="width: 21rem;">
+        <img src="{{ asset('img/artworks/' ~ artwork.picture) }}" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{ artwork.title|length > 40 ? artwork.title|striptags|slice(0, 40) ~ '…' : artwork.title|striptags  }}</h5>
           <p class="card-text">{{ artwork.description|length > 100 ? artwork.description|purify|striptags|slice(0, 100) ~ '…' : artwork.description|purify|striptags }}</p>
-          <p>Artiste: <b>{{ artwork.artist }}</b><br>Créée en: {% if artwork.yearOfCreation is empty %}<b>Inconnu</b>{% else %}{{ artwork.yearOfCreation }}</b>{% endif %}</p>
+          <p>Artiste: <b>{{ artwork.artist }}</b><br>Créée en: {% if artwork.yearOfCreation is empty %}<b>Inconnu</b>{% else %}<b>{{ artwork.yearOfCreation }}</b>{% endif %}</p>
           <p>Date de publication: <b>{{ artwork.publicationDate ? artwork.publicationDate|date('d/m/Y') : '' }}</b><br>
             Publié par: {% if artwork.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ artwork.author.pseudonym }}</b>{% endif %}</p>
           <div class="d-flex justify-content-between">

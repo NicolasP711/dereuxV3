@@ -43,6 +43,11 @@ class EditPasswordFormType extends AbstractType
         ],
         'second_options' => [
             'label' => 'Confirmation du nouveau mot de passe',
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Veuillez confirmer votre mot de passe',
+                ]),
+            ]
         ],
         'mapped' => false,
         'constraints' => [

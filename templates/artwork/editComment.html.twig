@@ -7,18 +7,38 @@
 
     <div class="offset-lg-2 col-lg-8 offset-lg-2 mt-5">
         {{ form_start(form) }}
-            {{ form_widget(form) }}
+        <div class="form-group mb-3">
+            <label class="required" for="artwork_comment_form_content">{{form.content.vars.label}}</label>
+            {{ form_errors(form.content) }}
+            {{ form_widget(form.content) }}
+            {{ form_help(form.content) }}
+        </div>
+
+            {{ form_errors(form) }}
+            <div class="form-group mb-2">
+                <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}"></div>
+            </div>
+
+            <div class="form-group">
+                {{ form_row(form.save) }}
+            </div>
+
         {{ form_end(form) }}
 
         <div id="profilBtn" class="mt-5">
             {% if is_granted('ROLE_ADMIN') %}
                 <a class="btn adminBtn mb-5" href="{{ path('admin_artwork_index') }}">Gestion des oeuvres</a>
             {% endif %}
-            <a class="btn defaultBtn mb-5" href="{{ path('artwork_index') }}">Retour aux oeuvres</a>
+            <a class="btn defaultBtn mb-5" href="{{ path('artwork_show', {'slug': artwork.slug}) }}">Retourner sur l'oeuvre</a>
             <form method="post" action="{{ path('delete_artwork_comment', {'slug': artworkComment.slug, csrf_token: csrf_token('delete_artwork_comment_' ~ artworkComment.id)}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer ce commentaire ?');">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ artworkComment.id) }}">
                 <button class="btn btn-danger mb-5">Supprimer</button>
             </form>
         </div>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {# Insertion du fichier JS dans le block stylesheets, ce n'est pas une erreur, la documentation de Recaptcha préconise en effet d'intégrer ce fichier JS dans le head #}
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}

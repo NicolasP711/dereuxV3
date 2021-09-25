@@ -17,9 +17,3 @@ liip_imagine:
             filters:
                 scale:
                     dim: [80, 80]
-
-        artwork:
-            quality: 100
-            filters:
-                scale:
-                    dim: [200, 200]

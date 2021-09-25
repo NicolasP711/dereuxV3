@@ -52,27 +52,25 @@
     <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th scope="col">{{ knp_pagination_sortable(contacts, 'Id', 'a.id') }}</th>
-            <th scope="col">{{ knp_pagination_sortable(contacts, 'Nom', 'a.name') }}</th>
-            <th scope="col">{{ knp_pagination_sortable(contacts, 'Adresse email', 'a.email') }}</th>
-            <th scope="col">{{ knp_pagination_sortable(contacts, 'Sujet', 'a.subject') }}</th>
-            <th scope="col">{{ knp_pagination_sortable(contacts, 'Message', 'a.message') }}</th>
-            <th scope="col">{{ knp_pagination_sortable(contacts, 'Date d\'envoi', 'a.dateSent') }}</th>
-            <th scope="col">Actions</th>
+            <th class="text-center" scope="col">{{ knp_pagination_sortable(contacts, 'Id', 'a.id') }}</th>
+            <th class="text-center" scope="col">{{ knp_pagination_sortable(contacts, 'Nom', 'a.name') }}</th>
+            <th class="text-center" scope="col">{{ knp_pagination_sortable(contacts, 'Adresse email', 'a.email') }}</th>
+            <th class="text-center" scope="col">{{ knp_pagination_sortable(contacts, 'Sujet', 'a.subject') }}</th>
+            <th class="text-center" scope="col">{{ knp_pagination_sortable(contacts, 'Message', 'a.message') }}</th>
+            <th class="text-center" scope="col">{{ knp_pagination_sortable(contacts, 'Date d\'envoi', 'a.dateSent') }}</th>
+            <th class="text-center" scope="col">Actions</th>
 
           </tr>
         </thead>
         <tbody>
             {% for contact in contacts %}
           <tr>
-              <td>{{ contact.id }}</td>
-            <td><b>{{ contact.name|length > 40 ? contact.name|striptags|slice(0, 40) ~ '…' : contact.name|striptags  }}</b></td>
-            <td>{{ contact.email|length > 40 ? contact.email|striptags|slice(0, 40) ~ '…' : contact.email|striptags  }}</td>
-            <td>{{ contact.subject|length > 40 ? contact.subject|striptags|slice(0, 40) ~ '…' : contact.subject|striptags  }}</td>
-            <td>{{ contact.message|length > 40 ? contact.message|striptags|slice(0, 40) ~ '…' : contact.message|striptags  }}</td>
-
-
-            <td>{{ contact.dateSent ? contact.dateSent|date('d/m/Y H:i:s') : '' }}</td>
+            <td class="text-center">{{ contact.id }}</td>
+            <td class="text-center"><b>{{ contact.name|length > 20 ? contact.name|striptags|slice(0, 20) ~ '…' : contact.name|striptags  }}</b></td>
+            <td class="text-center">{{ contact.email|length > 20 ? contact.email|striptags|slice(0, 20) ~ '…' : contact.email|striptags  }}</td>
+            <td class="text-center">{{ contact.subject|length > 20 ? contact.subject|striptags|slice(0, 20) ~ '…' : contact.subject|striptags  }}</td>
+            <td class="text-center">{{ contact.message|length > 20 ? contact.message|striptags|slice(0, 20) ~ '…' : contact.message|striptags  }}</td>
+            <td class="text-center">{{ contact.dateSent ? contact.dateSent|date('d/m/Y H:i:s') : '' }}</td>
             <td>
                 <div class="d-flex">
                     <a class="me-2" href="{{ path('contact_show', {'slug': contact.slug}) }}"><i class="far fa-eye"></i></a>

@@ -6,8 +6,27 @@
     <h1 class="my-4 h2 text-center">Réinitialisez votre mot de passe</h1>
 
     <div class="offset-md-3 col-md-6 offset-md-3">
+
         {{ form_start(resetForm) }}
-            {{ form_row(resetForm.plainPassword) }}
+        <div class="form-group mb-3">
+            <label class="required" for="change_password_form_plainPassword_first">{{resetForm.plainPassword.password.vars.label}}</label>
+            {{ form_errors(resetForm.plainPassword.password) }}
+            <div class="input-group mb-3">
+                {{ form_widget(resetForm.plainPassword.password) }}
+                <span class="input-group-text" id="basic-addon1"><i id="toggleResetPasswordPassword" class="fas fa-eye" onclick="toggleResetPasswordPassword()"></i></span>
+                {{ form_help(resetForm.plainPassword.password) }}
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="required" for="change_password_form_plainPassword_second">{{resetForm.plainPassword.confirm.vars.label}}</label>
+            {{ form_errors(resetForm.plainPassword.confirm) }}
+            <div class="input-group mb-3">
+                {{ form_widget(resetForm.plainPassword.confirm) }}
+                <span class="input-group-text" id="basic-addon2"><i id="toggleResetPasswordConfirm" class="fas fa-eye" onclick="toggleResetPasswordConfirm()"></i></span>
+                {{ form_help(resetForm.plainPassword.confirm) }}
+            </div>
+        </div>
             <button class="my-3 col-12 btn defaultBtn">Réinitialiser le mot de passe</button>
         {{ form_end(resetForm) }}
     </div>

@@ -19,7 +19,7 @@
       <a class="btn adminBtn mb-5" href="{{ path('contact_list') }}">Liste des contacts</a>
       <form method="post" action="{{ path('admin_contact_delete', {'slug': contact.slug}) }}" onsubmit="return confirm('Souhaitez vous vraiment supprimer ce contact ?');">
         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contact.id) }}">
-        <button id="deleteBtn" class="btn">Supprimer</button>
+        <button id="deleteBtn" class="btn mb-4">Supprimer</button>
     </form>
     </div>
 

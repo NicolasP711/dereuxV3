@@ -34,7 +34,7 @@ class EditUserFormType extends AbstractType
                 new Length([
                     'min' => 2,
                     'minMessage' => 'Votre pseudonyme doit contenir au moins {{ limit }} caractères',
-                    'max' => 40,
+                    'max' => 50,
                     'maxMessage' => 'Votre pseudonyme doit contenir au maximum {{ limit }} caractères',
                 ]),
             ],

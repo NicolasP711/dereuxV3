@@ -113,3 +113,35 @@ function toggleCurrentPassword4()
         toggle.classList.add("fas", "fa-eye");
     }
 }
+
+function toggleResetPasswordConfirm()
+{
+    var actualPassword = document.getElementById("change_password_form_plainPassword_confirm");
+    var toggle = document.getElementById("toggleResetPasswordConfirm");
+
+    if (actualPassword.type === "password") {
+        actualPassword.type = "text";
+        toggle.classList.remove("fas", "fa-eye");
+        toggle.classList.add("fas", "fa-eye-slash");
+    } else {
+        actualPassword.type = "password";
+        toggle.classList.remove("fas", "fa-eye-slash");
+        toggle.classList.add("fas", "fa-eye");
+    }
+}
+
+function toggleResetPasswordPassword()
+{
+    var actualPassword = document.getElementById("change_password_form_plainPassword_password");
+    var toggle = document.getElementById("toggleResetPasswordPassword");
+
+    if (actualPassword.type === "password") {
+        actualPassword.type = "text";
+        toggle.classList.remove("fas", "fa-eye");
+        toggle.classList.add("fas", "fa-eye-slash");
+    } else {
+        actualPassword.type = "password";
+        toggle.classList.remove("fas", "fa-eye-slash");
+        toggle.classList.add("fas", "fa-eye");
+    }
+}

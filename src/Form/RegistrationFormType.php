@@ -58,6 +58,11 @@ class RegistrationFormType extends AbstractType
             ],
             'second_options' => [
                 'label' => 'Confirmation du mot de passe',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez confirmer votre mot de passe',
+                    ]),
+                ]
             ],
             'mapped' => false,
             'constraints' => [

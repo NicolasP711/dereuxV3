@@ -15,7 +15,7 @@
       </div>
 
       <p class="text-center"><b>Nombre d'oeuvre(s) trouvé:</b> {{ artworks.getTotalItemCount }}</p>
-      <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
+      <a class="createArticleBtn btn defaultBtn mb-2 me-2" href="{{ path('admin_artwork_new')}}"><i class="fas fa-plus me-2"></i>Créer une oeuvre</a>
       <a class="createArticleBtn adminBtn btn mb-2 me-2" href="{{ path('admin_artwork_index')}}"><i class="fas fa-sync-alt me-2"></i>Réinitaliser les filtres</a>
 
       <!-- Click on Modal Button -->
@@ -69,7 +69,7 @@
                 <td class="text-center"><b>{{ artwork.artist|length > 20 ? artwork.artist|striptags|slice(0, 20) ~ '…' : artwork.artist|striptags  }}</b></td>
                 <td class="text-center">{% if artwork.yearOfCreation is empty %}Inconnu{% else %}{{ artwork.yearOfCreation }}{% endif %}</td>
                 <td class="text-center">{{ artwork.publicationDate ? artwork.publicationDate|date('d/m/Y H:i:s') : '' }}</td>
-                <td class="text-center">{{artwork.author.pseudonym}}</td>
+                <td class="text-center">{% if artwork.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ artwork.author.pseudonym }}</b>{% endif %}</td>
                 <td>
                   <div class="d-flex">
                       <a class="me-2" href="{{ path('artwork_show', {'slug': artwork.slug}) }}"><i class="far fa-eye"></i></a>

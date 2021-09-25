@@ -7,7 +7,7 @@
   {% include 'partials/flashes/success.html.twig' %}
 
   <article>
-    <h1 class="h2 blogArticle mt-4 col-12">{{article.title|striptags|slice(0, 100)}}</h1>
+    <h1 class="h2 blogArticle mt-4 col-12"><b>{{article.title|striptags|slice(0, 100)}}</b></h1>
     <p>Publié le <b>{{ article.publicationDate ? article.publicationDate|date('d/m/Y à H:i:s') : '' }}</b> par {% if article.author is empty %}<b>Utilisateur supprimé</b>{% else %}<b>{{ article.author.pseudonym }}</b>{% endif %}</p>
     <hr>
     <div class="blogArticle mb-4 col-12">{{ article.content|purify }}</div>
@@ -48,7 +48,7 @@
           <img class="rounded-circle me-1" width="40" height="40" src="{{ asset('img/users/' ~ comment.author.photo)|imagine_filter('profil') }}" alt="image de profil">
         {% endif %}
 
-        <h4><strong>{{ comment.author.pseudonym }}</strong></h4> <span>- {{ comment.publicationDate|date('d/m/Y à H\\hi') }}</span>
+        <h4 class="h5"><strong>{{ comment.author.pseudonym }}</strong></h4> <span>- {{ comment.publicationDate|date('d/m/Y à H\\hi') }}</span>
         <p class="mt-2" id="commentContent">{{ comment.content|striptags }}</p>
 
         {% if is_granted('ROLE_ADMIN') or app.user.id is defined and comment.author.id == app.user.id %}

@@ -217,22 +217,30 @@ class BlogController extends AbstractController
      * @Route("/admin/nouvel-article/", name="blog_new", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, RecaptchaValidator $recaptcha): Response
     {
         $article = new Article();
         $form = $this->createForm(Article1Type::class, $article);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $article->setPublicationDate( new DateTime() );
-            $article->setAuthor($this->getUser());
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($article);
-            $entityManager->flush();
+        if ($form->isSubmitted()){
 
-            $this->addFlash('success', 'Article créé avec succès.');
+            if(!$recaptcha->verify( $request->request->get('g-recaptcha-response'), $request->server->get('REMOTE_ADDR') )){
 
-            return $this->redirectToRoute('blog_index', [], Response::HTTP_SEE_OTHER);
+                $form->addError(new FormError('Veuillez remplir le captcha de sécurité'));
+            }
+
+            if ($form->isValid()) {
+                $article->setPublicationDate( new DateTime() );
+                $article->setAuthor($this->getUser());
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($article);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Article créé avec succès.');
+
+                return $this->redirectToRoute('blog_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('blog/new.html.twig', [
@@ -242,25 +250,34 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/admin/nouvel-article", name="admin_blog_new", methods={"GET","POST"})
+     * @Route("/admin/admin-nouvel-article", name="admin_blog_new", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function adminNew(Request $request): Response
+    public function adminNew(Request $request, RecaptchaValidator $recaptcha): Response
     {
         $article = new Article();
         $form = $this->createForm(Article1Type::class, $article);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $article->setPublicationDate( new DateTime() );
-            $article->setAuthor($this->getUser());
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($article);
-            $entityManager->flush();
+        if ($form->isSubmitted()){
 
-            $this->addFlash('success', 'Article créé avec succès.');
+            if(!$recaptcha->verify( $request->request->get('g-recaptcha-response'), $request->server->get('REMOTE_ADDR') )){
 
-            return $this->redirectToRoute('blog_admin', [], Response::HTTP_SEE_OTHER);
+                // Ajout d'une nouvelle erreur manuellement dans le formulaire
+                $form->addError(new FormError('Veuillez remplir le captcha de sécurité'));
+            }
+
+            if ($form->isValid()) {
+                $article->setPublicationDate( new DateTime() );
+                $article->setAuthor($this->getUser());
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($article);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Article créé avec succès.');
+
+                return $this->redirectToRoute('blog_admin', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('blog/new.html.twig', [
@@ -273,41 +290,60 @@ class BlogController extends AbstractController
      * @Route("/editer-commentaire/{slug}", name="comment_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_USER')")
      */
-    public function editArticleComment(Request $request, ArticleComment $articleComment): Response
+    public function editArticleComment(Request $request, ArticleComment $articleComment, RecaptchaValidator $recaptcha): Response
     {
         $form = $this->createForm(ArticleCommentFormType::class, $articleComment);
         $form->handleRequest($request);
         $article = $articleComment->getArticle();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if ($form->isSubmitted()){
 
-            $this->addFlash('success', 'Commentaire édité avec succès.');
+            if(!$recaptcha->verify( $request->request->get('g-recaptcha-response'), $request->server->get('REMOTE_ADDR') )){
 
-            return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug()], Response::HTTP_SEE_OTHER);
+                // Ajout d'une nouvelle erreur manuellement dans le formulaire
+                $form->addError(new FormError('Veuillez remplir le captcha de sécurité'));
+            }
+
+            if($form->isValid()) {
+
+                $this->getDoctrine()->getManager()->flush();
+                $this->addFlash('success', 'Commentaire édité avec succès.');
+                return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug()], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('blog/editComment.html.twig', [
             'articleComment' => $articleComment,
             'form' => $form->createView(),
+            'article' => $article,
         ]);
     }
 
     /**
-     * @Route("/editer-article/{slug}", name="blog_edit", methods={"GET","POST"})
+     * @Route("/admin/editer-article/{slug}", name="blog_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function edit(Request $request, Article $article): Response
+    public function edit(Request $request, Article $article, RecaptchaValidator $recaptcha): Response
     {
         $form = $this->createForm(Article1Type::class, $article);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if ($form->isSubmitted()){
 
-            $this->addFlash('success', 'Article édité avec succès.');
+            if(!$recaptcha->verify( $request->request->get('g-recaptcha-response'), $request->server->get('REMOTE_ADDR') )){
 
-            return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug()], Response::HTTP_SEE_OTHER);
+                // Ajout d'une nouvelle erreur manuellement dans le formulaire
+                $form->addError(new FormError('Veuillez remplir le captcha de sécurité'));
+            }
+
+            if ($form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                $this->addFlash('success', 'Article édité avec succès.');
+
+                return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug()], Response::HTTP_SEE_OTHER);
+            }
+
         }
 
         return $this->render('blog/edit.html.twig', [
@@ -317,20 +353,29 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/admin/editer-article/{slug}", name="admin_blog_edit", methods={"GET","POST"})
+     * @Route("/admin/admin-editer-article/{slug}", name="admin_blog_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function adminEdit(Request $request, Article $article): Response
+    public function adminEdit(Request $request, Article $article, RecaptchaValidator $recaptcha): Response
     {
         $form = $this->createForm(Article1Type::class, $article);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if ($form->isSubmitted()){
 
-            $this->addFlash('success', 'Article édité avec succès.');
+            if(!$recaptcha->verify( $request->request->get('g-recaptcha-response'), $request->server->get('REMOTE_ADDR') )){
 
-            return $this->redirectToRoute('blog_admin', [], Response::HTTP_SEE_OTHER);
+                // Ajout d'une nouvelle erreur manuellement dans le formulaire
+                $form->addError(new FormError('Veuillez remplir le captcha de sécurité'));
+            }
+
+            if ($form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                $this->addFlash('success', 'Article édité avec succès.');
+
+                return $this->redirectToRoute('blog_admin', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('blog/edit.html.twig', [
