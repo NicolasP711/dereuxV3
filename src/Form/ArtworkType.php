@@ -47,10 +47,10 @@ class ArtworkType extends AbstractType
                     'maxSizeMessage' => 'Fichier trop volumineux {{ size }}{{ suffix }}. La taille maximum autorisée est {{ limit }}{{ suffix }}',
                 ]),
                 new Image([
-                    'minWidth' => '1024',
-                    'minHeight' => '768',
+                    'minWidth' => '400',
+                    'minHeight' => '400',
                     'maxWidth' => '4096',
-                    'maxHeight' => '2160',
+                    'maxHeight' => '4096',
                     'minWidthMessage' => 'Votre fichier fait {{ width }} pixels de large. La largeur minimum est de 1024px (la hauteur minimum est de 768 pixels)',
                     'minHeightMessage' => 'Votre fichier fait {{ height }} pixels de haut. La hauteur minimum est de 768px (la largeur minimum est de 1024 pixels)',
                     'maxWidthMessage' => 'Votre fichier fait {{ width }} pixels de large. La largeur maximum est de 4096px (la hauteur maximum est de 2160 pixels)',
@@ -77,14 +77,14 @@ class ArtworkType extends AbstractType
         ])
         ->add('description', CKEditorType::class, [
             'label' => 'Description',
-            'help' => 'La description doit contenir au maximum 3000 caractères',
+            'help' => 'La description doit contenir au maximum 20 000 caractères',
             'purify_html' => true,
             'constraints' => [
                 new NotBlank([
                     'message' => 'Merci de renseigner une description'
                 ]),
                 new Length ([
-                    'max' => 3000,
+                    'max' => 20000,
                     'maxMessage' => 'La description doit contenir au maximum {{ limit }} caractères',
                 ]),
             ],

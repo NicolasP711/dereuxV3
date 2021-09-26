@@ -36,13 +36,13 @@ class Article1Type extends AbstractType
         ->add('content', CKEditorType::class, [
             'label' => 'Contenu',
             'purify_html' => true,
-            'help' => 'Le contenu doit contenir au maximum 10 000 caractères',
+            'help' => 'Le contenu doit contenir au maximum 20 000 caractères',
             'constraints' => [
                 new NotBlank([
                     'message' => 'Merci de renseigner un contenu'
                 ]),
                 new Length ([
-                    'max' => 10000,
+                    'max' => 20000,
                     'maxMessage' => 'Le contenu doit contenir au maximum {{ limit }} caractères',
                 ]),
             ],

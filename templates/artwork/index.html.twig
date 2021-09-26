@@ -57,7 +57,7 @@
   <div id="artworkIndex">
   {% for artwork in artworks %}
     <div class="card h-100 shadow mt-2 mb-5" style="width: 21rem;">
-      <img src="{{ asset('img/artworks/' ~ artwork.picture) }}" alt="{{ artwork.title }}">
+      <img class="artworkImg" src="{{ asset('img/artworks/' ~ artwork.picture) }}" alt="{{ artwork.title }}">
       <div class="card-body">
         <h5 class="card-title">{{ artwork.title|length > 40 ? artwork.title|striptags|slice(0, 40) ~ '…' : artwork.title|striptags  }}</h5>
         <p class="card-text">{{ artwork.description|length > 100 ? artwork.description|purify|striptags|slice(0, 100) ~ '…' : artwork.description|purify|striptags }}</p>

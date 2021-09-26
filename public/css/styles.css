@@ -361,6 +361,9 @@ li{
   width: 300px;
   height: 300px;
   margin-top: 4%;
-  margin-bottom: 4%;
   opacity: 0.6;
+}
+
+.artworkImg{
+  max-height: 350px;
 }

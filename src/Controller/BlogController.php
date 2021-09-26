@@ -40,9 +40,9 @@ class BlogController extends AbstractController
         $query = $em->createQuery('SELECT a FROM App\Entity\Article a');
 
         $pageArticles = $paginator->paginate(
-            $query,     // Requête de selection des articles en BDD
-            $requestedPage,     // Numéro de la page dont on veux les articles
-            10      // Nombre d'articles par page
+            $query,     // Selection request of article in db
+            $requestedPage,     // Page number which we want articles
+            10      // Number of article by page
         );
         return $this->render('blog/index.html.twig', [
             'articles' => $pageArticles,
@@ -214,7 +214,7 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/admin/nouvel-article/", name="blog_new", methods={"GET","POST"})
+     * @Route("/admin/nouvel-article/", name="blog_new")
      * @Security("is_granted('ROLE_ADMIN')")
      */
     public function new(Request $request, RecaptchaValidator $recaptcha): Response

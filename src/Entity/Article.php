@@ -6,7 +6,7 @@ use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo; // Importation de la classe permettant de faire un slug
+use Gedmo\Mapping\Annotation as Gedmo; // Import class for slug
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
@@ -26,7 +26,7 @@ class Article
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=10000)
+     * @ORM\Column(type="text", length=20000)
      */
     private $content;
 

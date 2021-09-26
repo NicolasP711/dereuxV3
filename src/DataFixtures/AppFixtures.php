@@ -65,37 +65,37 @@ class AppFixtures extends Fixture
             $manager->persist($user);
         }
 
-        // Création de 200 articles
+        // Create 200 articles
         for($i = 0; $i < 200; $i++){
 
             $article = new Article();
 
             $article
-                ->setPublicationDate( $faker->dateTimeBetween($admin->getRegistrationDate(), 'now') )
-                ->setAuthor($admin)
-                ->setTitle( $faker->sentence(1) )
-                ->setContent( $faker->paragraph(50) )
+                ->setPublicationDate( $faker->dateTimeBetween($admin->getRegistrationDate(), 'now') ) //Article's publication date: Random date
+                ->setAuthor($admin) // Article's author: Admin
+                ->setTitle( $faker->sentence(1) ) // Article's title: 1 random sentence
+                ->setContent( $faker->paragraph(50) ) // Article's content: 50 random sentence
             ;
 
             $manager->persist($article);
         }
 
-        for($i = 0; $i < 200; $i++){
+        // for($i = 0; $i < 200; $i++){
 
-            $artwork = new Artwork();
+        //     $artwork = new Artwork();
 
-            $artwork
-                ->setPicture('e3689961e4320f8dd775b5471bcf79fd.png')
-                ->setYearOfCreation('1901')
-                ->setPublicationDate( $faker->dateTimeBetween($admin->getRegistrationDate(), 'now') )
-                ->setAuthor($admin)
-                ->setTitle( $faker->sentence(1) )
-                ->setDescription( $faker->paragraph(25) )
-                ->setArtist( $faker->name() )
-            ;
+        //     $artwork
+        //         ->setPicture('e3689961e4320f8dd775b5471bcf79fd.png')
+        //         ->setYearOfCreation('1901')
+        //         ->setPublicationDate( $faker->dateTimeBetween($admin->getRegistrationDate(), 'now') )
+        //         ->setAuthor($admin)
+        //         ->setTitle( $faker->sentence(1) )
+        //         ->setDescription( $faker->paragraph(25) )
+        //         ->setArtist( $faker->name() )
+        //     ;
 
-            $manager->persist($artwork);
-        }
+        //     $manager->persist($artwork);
+        // }
 
         for($e = 0; $e < 200; $e++){
 

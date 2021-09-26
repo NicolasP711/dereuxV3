@@ -11,16 +11,10 @@
         <p class="text-center">Connectez vous afin d'intéragir avec les autres.</p>
         <div id="loginForm" class="offset-md-3 col-md-6 offset-md-3">
         <form method="post">
+
             {% if error %}
                 <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
-            {#
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-                </div>
-            {% endif %}
-            #}
 
             <label for="inputEmail">Adresse email</label>
             <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control mb-3" autocomplete="email" required autofocus>

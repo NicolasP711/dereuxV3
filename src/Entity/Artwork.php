@@ -25,7 +25,7 @@ class Artwork
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=3000)
+     * @ORM\Column(type="text", length=20000)
      */
     private $description;
 
