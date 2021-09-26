@@ -356,3 +356,11 @@ li{
 .invalid-feedback{
   margin-bottom: 10px;
 }
+
+#logo{
+  width: 300px;
+  height: 300px;
+  margin-top: 4%;
+  margin-bottom: 4%;
+  opacity: 0.6;
+}
