@@ -22,6 +22,32 @@ body{
   user-select: none;
 }
 
+.btn:focus, .btn:active, .btn-close:focus , .btn-close:active{
+  outline: none;
+  box-shadow: none;
+}
+
+.defaultBtn:hover{
+  color: #ffffff;
+  background-color: rgb(81, 122, 114);
+}
+
+.altBtn:hover{
+  color: #ffffff;
+  background-color: rgb(156, 122, 190);
+}
+
+.adminBtn:hover{
+  color: #ffffff;
+  background-color: rgb(43, 66, 147);
+}
+
+.btn-danger:hover{
+  color: #ffffff;
+  border: 1px solid rgb(170, 65, 65);
+  background-color: rgb(170, 65, 65);
+}
+
 @media (min-width: 768px) {
 
   .bd-placeholder-img-lg {
@@ -342,12 +368,6 @@ li{
 }
 
 .btn-danger{
-  background-color: rgb(130, 25, 25);
-  border: 1px solid rgb(130, 25, 25);
-  color: #ffffff;
-}
-
-.btn-danger:hover{
   background-color: rgb(130, 25, 25);
   border: 1px solid rgb(130, 25, 25);
   color: #ffffff;
