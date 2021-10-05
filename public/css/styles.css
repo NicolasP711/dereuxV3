@@ -231,8 +231,8 @@ img.displayed {
 
 .asc{
   text-decoration: none;
-  background-color: rgb(148, 161, 135);
-  color: #000000;
+  background-color: rgb(156, 122, 190);
+  color: #ffffff;
   padding: 5px;
   border-radius: 5px;
 }
@@ -243,8 +243,8 @@ img.displayed {
 
 .desc{
   text-decoration: none;
-  background-color: rgb(148, 161, 135);
-  color: #000000;
+  background-color: rgb(156, 122, 190);
+  color: #ffffff;
   padding: 5px;
   border-radius: 5px;
 }
@@ -255,11 +255,10 @@ img.displayed {
 
 .pagination a{
   text-decoration: none;
-  background-color: rgb(148, 161, 135);
-  color: #000000;
+  background-color: rgb(156, 122, 190);
+  color: #ffffff;
   padding: 5px;
   border-radius: 2px;
-  color: #000000;
   margin: 5px;
 }
 
