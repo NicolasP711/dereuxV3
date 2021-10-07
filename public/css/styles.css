@@ -294,6 +294,10 @@ img.displayed {
   color: rgb(130, 25, 25);
 }
 
+.fa-trash:hover{
+  color: rgb(170, 65, 65);
+}
+
 li{
   list-style: none;
 }
@@ -304,8 +308,8 @@ li{
 }
 
 #artworkImg {
-	max-width: 100%;
-	height: auto;
+	max-width: 75vw;
+	max-height: 75vh;
 }
 
 #artworkCardImg {
@@ -357,6 +361,11 @@ li{
   color: #ffffff;
 }
 
+#deleteBtn:hover{
+  background-color: rgb(170, 65, 65);
+  color: #ffffff;
+}
+
 #deleteIcon{
   color: rgb(130, 25, 25);
 }
@@ -366,9 +375,20 @@ li{
   color: #ffffff;
 }
 
+#deleteBlogIndex:hover{
+  background-color: rgb(170, 65, 65);
+  color: #ffffff;
+}
+
 .btn-danger{
   background-color: rgb(130, 25, 25);
   border: 1px solid rgb(130, 25, 25);
+  color: #ffffff;
+}
+
+.btn-danger:hover{
+  background-color: rgb(170, 65, 65);
+  border: 1px solid rgb(170, 65, 65);
   color: #ffffff;
 }
 
