@@ -6,7 +6,7 @@
   {% include 'partials/flashes/error.html.twig' %}
   {% include 'partials/flashes/success.html.twig' %}
   <h1 class="h2 text-center blogArticle mt-4 mb-2 col-12"><b>{{artwork.title|striptags|slice(0, 100)}}</b></h1>
-  <p class="mb-4 text-center">Créée par <b>{{ artwork.artist }}</b> en <b>{{ artwork.yearOfCreation }}</b></p>
+  <p class="mb-4 text-center">Créée par <b>{{ artwork.artist }}</b> en {% if artwork.yearOfCreation is empty %}<b>date inconnue</b>{% else %}<b>{{ artwork.yearOfCreation }}</b>{% endif %}</p>
 
   <article>
       <img id="artworkImg" class="d-block me-auto ms-auto my-4" src="{{ asset('img/artworks/' ~ artwork.picture)}}" alt="{{ artwork.title }}">

@@ -48,6 +48,10 @@ body{
   background-color: rgb(170, 65, 65);
 }
 
+#artworkCard{
+  max-height: 169px;
+}
+
 @media (min-width: 768px) {
 
   .bd-placeholder-img-lg {
@@ -348,6 +352,11 @@ li{
 
 #editBlogIndex{
   background-color: rgb(3, 26, 107);
+  color: #ffffff;
+}
+
+#editBlogIndex:hover{
+  background-color: rgb(43, 66, 147);
   color: #ffffff;
 }
 
