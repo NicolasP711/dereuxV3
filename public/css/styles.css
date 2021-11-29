@@ -22,6 +22,10 @@ body{
   user-select: none;
 }
 
+#artworkCard{
+  max-height: 169px;
+}
+
 @media (min-width: 768px) {
 
   .bd-placeholder-img-lg {
@@ -200,40 +204,37 @@ img.displayed {
 }
 
 .sortable:hover{
-  color: #382646;
+  color: rgb(116, 82, 150);
 }
 
 .asc{
   text-decoration: none;
-  background-color: rgb(148, 161, 135);
-  color: #000000;
+  color: rgb(116, 82, 150);
   padding: 5px;
   border-radius: 5px;
 }
 
 .asc:hover{
-  color: #382646;
+  color: rgb(116, 82, 150);
 }
 
 .desc{
   text-decoration: none;
-  background-color: rgb(148, 161, 135);
-  color: #000000;
+  color: rgb(116, 82, 150);
   padding: 5px;
   border-radius: 5px;
 }
 
 .desc:hover{
-  color: #382646;
+  color: rgb(116, 82, 150);
 }
 
 .pagination a{
   text-decoration: none;
-  background-color: rgb(148, 161, 135);
-  color: #000000;
+  background-color: rgb(116, 82, 150);
+  color: #ffffff;
   padding: 5px;
   border-radius: 2px;
-  color: #000000;
   margin: 5px;
 }
 
@@ -288,12 +289,17 @@ li{
 	height: 200px;
 }
 
-.defaultBtn{
+.defaultBtn, .defaultBtn:hover{
   background-color: rgb(41, 82, 74);
   color: #ffffff;
 }
 
-.altBtn{
+.btn:focus,.btn:active,.btn-close:focus,.btn-close:active {
+  outline: none;
+  box-shadow: none;
+}
+
+.altBtn, .altBtn:hover{
   background-color: rgb(116, 82, 150);
   color: #ffffff;
 }
@@ -322,7 +328,7 @@ li{
   color: #ffffff;
 }
 
-.adminBtn{
+.adminBtn, adminBtn:hover{
   background-color: rgb(3, 26, 107);
   color: #ffffff;
 }
@@ -341,13 +347,7 @@ li{
   color: #ffffff;
 }
 
-.btn-danger{
-  background-color: rgb(130, 25, 25);
-  border: 1px solid rgb(130, 25, 25);
-  color: #ffffff;
-}
-
-.btn-danger:hover{
+.btn-danger, .btn-danger:hover{
   background-color: rgb(130, 25, 25);
   border: 1px solid rgb(130, 25, 25);
   color: #ffffff;

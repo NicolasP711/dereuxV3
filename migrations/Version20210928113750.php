@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210926194320 extends AbstractMigration
+final class Version20210928113750 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,7 @@ final class Version20210926194320 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE article (id INT AUTO_INCREMENT NOT NULL, author_id INT DEFAULT NULL, title VARCHAR(100) NOT NULL, content VARCHAR(10000) NOT NULL, slug VARCHAR(255) NOT NULL, publication_date DATETIME NOT NULL, UNIQUE INDEX UNIQ_23A0E66989D9B62 (slug), INDEX IDX_23A0E66F675F31B (author_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE article (id INT AUTO_INCREMENT NOT NULL, author_id INT DEFAULT NULL, title VARCHAR(100) NOT NULL, content TEXT NOT NULL, slug VARCHAR(255) NOT NULL, publication_date DATETIME NOT NULL, UNIQUE INDEX UNIQ_23A0E66989D9B62 (slug), INDEX IDX_23A0E66F675F31B (author_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE article_comment (id INT AUTO_INCREMENT NOT NULL, author_id INT NOT NULL, article_id INT NOT NULL, content VARCHAR(2000) NOT NULL, slug VARCHAR(255) NOT NULL, publication_date DATETIME NOT NULL, UNIQUE INDEX UNIQ_79A616DB989D9B62 (slug), INDEX IDX_79A616DBF675F31B (author_id), INDEX IDX_79A616DB7294869C (article_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE artwork (id INT AUTO_INCREMENT NOT NULL, author_id INT DEFAULT NULL, title VARCHAR(150) NOT NULL, description TEXT NOT NULL, picture VARCHAR(50) NOT NULL, artist VARCHAR(150) NOT NULL, publication_date DATETIME NOT NULL, slug VARCHAR(255) NOT NULL, year_of_creation INT DEFAULT NULL, UNIQUE INDEX UNIQ_881FC576989D9B62 (slug), INDEX IDX_881FC576F675F31B (author_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE artwork_comment (id INT AUTO_INCREMENT NOT NULL, author_id INT NOT NULL, artwork_id INT NOT NULL, content VARCHAR(2000) NOT NULL, slug VARCHAR(255) NOT NULL, publication_date DATETIME NOT NULL, UNIQUE INDEX UNIQ_6730D037989D9B62 (slug), INDEX IDX_6730D037F675F31B (author_id), INDEX IDX_6730D037DB8FFA4 (artwork_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
