@@ -36,6 +36,7 @@ class ContactFormType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Adresse email',
+                'help' => 'Afin que nous puissons vous répondre',
                 'constraints' => [
                     new Email([
                         'message' => 'L\'adresse email renseignée n\'est pas une adresse email valide'

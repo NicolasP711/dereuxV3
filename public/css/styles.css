@@ -22,6 +22,32 @@ body{
   user-select: none;
 }
 
+.btn:focus, .btn:active, .btn-close:focus , .btn-close:active{
+  outline: none;
+  box-shadow: none;
+}
+
+.defaultBtn:hover{
+  color: #ffffff;
+  background-color: rgb(81, 122, 114);
+}
+
+.altBtn:hover{
+  color: #ffffff;
+  background-color: rgb(156, 122, 190);
+}
+
+.adminBtn:hover{
+  color: #ffffff;
+  background-color: rgb(43, 66, 147);
+}
+
+.btn-danger:hover{
+  color: #ffffff;
+  border: 1px solid rgb(170, 65, 65);
+  background-color: rgb(170, 65, 65);
+}
+
 #artworkCard{
   max-height: 169px;
 }
@@ -209,7 +235,8 @@ img.displayed {
 
 .asc{
   text-decoration: none;
-  color: rgb(116, 82, 150);
+  background-color: rgb(156, 122, 190);
+  color: #ffffff;
   padding: 5px;
   border-radius: 5px;
 }
@@ -220,7 +247,8 @@ img.displayed {
 
 .desc{
   text-decoration: none;
-  color: rgb(116, 82, 150);
+  background-color: rgb(156, 122, 190);
+  color: #ffffff;
   padding: 5px;
   border-radius: 5px;
 }
@@ -231,7 +259,7 @@ img.displayed {
 
 .pagination a{
   text-decoration: none;
-  background-color: rgb(116, 82, 150);
+  background-color: rgb(156, 122, 190);
   color: #ffffff;
   padding: 5px;
   border-radius: 2px;
@@ -270,6 +298,10 @@ img.displayed {
   color: rgb(130, 25, 25);
 }
 
+.fa-trash:hover{
+  color: rgb(170, 65, 65);
+}
+
 li{
   list-style: none;
 }
@@ -280,8 +312,8 @@ li{
 }
 
 #artworkImg {
-	max-width: 100%;
-	height: auto;
+	max-width: 75vw;
+	max-height: 75vh;
 }
 
 #artworkCardImg {
@@ -328,13 +360,23 @@ li{
   color: #ffffff;
 }
 
-.adminBtn, adminBtn:hover{
+#editBlogIndex:hover{
+  background-color: rgb(43, 66, 147);
+  color: #ffffff;
+}
+
+.adminBtn{
   background-color: rgb(3, 26, 107);
   color: #ffffff;
 }
 
 #deleteBtn{
   background-color: rgb(130, 25, 25);
+  color: #ffffff;
+}
+
+#deleteBtn:hover{
+  background-color: rgb(170, 65, 65);
   color: #ffffff;
 }
 
@@ -347,9 +389,20 @@ li{
   color: #ffffff;
 }
 
-.btn-danger, .btn-danger:hover{
+#deleteBlogIndex:hover{
+  background-color: rgb(170, 65, 65);
+  color: #ffffff;
+}
+
+.btn-danger{
   background-color: rgb(130, 25, 25);
   border: 1px solid rgb(130, 25, 25);
+  color: #ffffff;
+}
+
+.btn-danger:hover{
+  background-color: rgb(170, 65, 65);
+  border: 1px solid rgb(170, 65, 65);
   color: #ffffff;
 }
 
