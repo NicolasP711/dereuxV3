@@ -230,7 +230,7 @@ img.displayed {
 }
 
 .sortable:hover{
-  color: #382646;
+  color: rgb(116, 82, 150);
 }
 
 .asc{
@@ -242,7 +242,7 @@ img.displayed {
 }
 
 .asc:hover{
-  color: #382646;
+  color: rgb(116, 82, 150);
 }
 
 .desc{
@@ -254,7 +254,7 @@ img.displayed {
 }
 
 .desc:hover{
-  color: #382646;
+  color: rgb(116, 82, 150);
 }
 
 .pagination a{
@@ -321,12 +321,17 @@ li{
 	height: 200px;
 }
 
-.defaultBtn{
+.defaultBtn, .defaultBtn:hover{
   background-color: rgb(41, 82, 74);
   color: #ffffff;
 }
 
-.altBtn{
+.btn:focus,.btn:active,.btn-close:focus,.btn-close:active {
+  outline: none;
+  box-shadow: none;
+}
+
+.altBtn, .altBtn:hover{
   background-color: rgb(116, 82, 150);
   color: #ffffff;
 }
