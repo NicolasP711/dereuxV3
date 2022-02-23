@@ -19,17 +19,9 @@
         {{ form_help(form.content) }}
     </div>
     {{ form_errors(form) }}
-    <div class="form-group mb-3">
-        <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}"></div>
-    </div>
     {{ form_end(form) }}
 
     <a class="btn defaultBtn my-4 me-1" href="{{ path('blog_index') }}">Retour au blog</a>
     <a class="btn adminBtn my-4 me-1" href="{{ path('blog_admin') }}">Gestion du blog</a>
 
-{% endblock %}
-
-{% block stylesheets %}
-    {# Insertion du fichier JS dans le block stylesheets, ce n'est pas une erreur, la documentation de Recaptcha préconise en effet d'intégrer ce fichier JS dans le head #}
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}

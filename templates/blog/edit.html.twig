@@ -3,7 +3,7 @@
 {% block title %}Édition article{% endblock %}
 
 {% block body %}
-    <h1 class="h2 my-4 text-center">Édition</h1>
+    <h1 class="h2 text-center my-4">Éditer l'article :  {{ article.title|length > 20 ? article.title|slice(0, 20) ~ '…' : article.title  }}</h1>
 
     {{ form_start(form) }}
     <div class="form-group mb-3">
@@ -19,9 +19,6 @@
         {{ form_help(form.content) }}
     </div>
     {{ form_errors(form) }}
-    <div class="form-group mb-3">
-        <div class="g-recaptcha" data-sitekey="{{ google_recaptcha_site_key }}"></div>
-    </div>
     {{ form_end(form) }}
 
     <div id="profilBtn" class="mt-5">
@@ -32,9 +29,4 @@
             <button id="deleteBtn" class="btn mb-5">Supprimer</button>
         </form>
     </div>
-{% endblock %}
-
-{% block stylesheets %}
-    {# Insertion du fichier JS dans le block stylesheets, ce n'est pas une erreur, la documentation de Recaptcha préconise en effet d'intégrer ce fichier JS dans le head #}
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}

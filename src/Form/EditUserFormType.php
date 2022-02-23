@@ -58,9 +58,6 @@ class EditUserFormType extends AbstractType
             'mapped' => false,
             'required' => true,
             'constraints' => [
-                new NotBlank([
-                    'message' => 'Merci de renseigner votre mot de passe actuel'
-                ]),
                 new UserPassword([
                     'message' => 'Le mot de passe doit correspondre au mot de passe actuel'
                 ]),

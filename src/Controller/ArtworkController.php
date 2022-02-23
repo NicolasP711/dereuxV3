@@ -90,46 +90,37 @@ class ArtworkController extends AbstractController
      * @Route("/admin/nouvelle-oeuvre", name="artwork_new")
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function new(Request $request, RecaptchaValidator $recaptcha): Response
+    public function new(Request $request): Response
     {
         $artwork = new Artwork();
         $form = $this->createForm(ArtworkType::class, $artwork);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()){
+        if ($form->isSubmitted() && $form->isValid()){
 
-            if(!$recaptcha->verify( $request->request->get('g-recaptcha-response'), $request->server->get('REMOTE_ADDR') )){
+            $picture = $form->get('picture')->getData();
 
-                // Ajout d'une nouvelle erreur manuellement dans le formulaire
-                $form->addError(new FormError('Veuillez remplir le captcha de sécurité'));
-            }
+            $newFileName = md5( random_bytes(100) . time() ) . '.' . $picture->guessExtension();
 
-            if($form->isValid()) {
+            $artwork->setPicture($newFileName);
 
-                $picture = $form->get('picture')->getData();
+            $artwork->setPublicationDate( new DateTime() );
 
-                $newFileName = md5( random_bytes(100) . time() ) . '.' . $picture->guessExtension();
+            $artwork->setAuthor($this->getUser());
 
-                $artwork->setPicture($newFileName);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($artwork);
+            $entityManager->flush();
 
-                $artwork->setPublicationDate( new DateTime() );
+            $picture->move(
+                $this->getParameter('artwork.photo.directory'),
+                $newFileName
+            );
 
-                $artwork->setAuthor($this->getUser());
-
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($artwork);
-                $entityManager->flush();
-
-                $picture->move(
-                    $this->getParameter('artwork.photo.directory'),
-                    $newFileName
-                );
-
-                $this->addFlash('success', 'Oeuvre publiée avec succès.');
+            $this->addFlash('success', 'Oeuvre publiée avec succès.');
 
 
-                return $this->redirectToRoute('artwork_index', [], Response::HTTP_SEE_OTHER);
-            }
+            return $this->redirectToRoute('artwork_index', [], Response::HTTP_SEE_OTHER);
         }
 
 
@@ -150,40 +141,31 @@ class ArtworkController extends AbstractController
         $form = $this->createForm(ArtworkType::class, $artwork);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()){
+        if ($form->isSubmitted() && $form->isValid()){
 
-            if(!$recaptcha->verify( $request->request->get('g-recaptcha-response'), $request->server->get('REMOTE_ADDR') )){
+            $picture = $form->get('picture')->getData();
 
-                // Ajout d'une nouvelle erreur manuellement dans le formulaire
-                $form->addError(new FormError('Veuillez remplir le captcha de sécurité'));
-            }
+            $newFileName = md5( random_bytes(100) . time() ) . '.' . $picture->guessExtension();
 
-            if ($form->isValid()) {
+            $artwork->setPicture($newFileName);
 
-                $picture = $form->get('picture')->getData();
+            $artwork->setPublicationDate( new DateTime() );
 
-                $newFileName = md5( random_bytes(100) . time() ) . '.' . $picture->guessExtension();
+            $artwork->setAuthor($this->getUser());
 
-                $artwork->setPicture($newFileName);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($artwork);
+            $entityManager->flush();
 
-                $artwork->setPublicationDate( new DateTime() );
+            $picture->move(
+                $this->getParameter('artwork.photo.directory'),
+                $newFileName
+            );
 
-                $artwork->setAuthor($this->getUser());
-
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($artwork);
-                $entityManager->flush();
-
-                $picture->move(
-                    $this->getParameter('artwork.photo.directory'),
-                    $newFileName
-                );
-
-                $this->addFlash('success', 'Oeuvre publiée avec succès.');
+            $this->addFlash('success', 'Oeuvre publiée avec succès.');
 
 
-                return $this->redirectToRoute('admin_artwork_index', [], Response::HTTP_SEE_OTHER);
-            }
+            return $this->redirectToRoute('admin_artwork_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('artwork/new.html.twig', [
@@ -332,46 +314,38 @@ class ArtworkController extends AbstractController
      * @Route("/admin/editer/{slug}", name="artwork_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function edit(Request $request, Artwork $artwork, RecaptchaValidator $recaptcha): Response
+    public function edit(Request $request, Artwork $artwork): Response
     {
         $oldFileName = $artwork->getPicture();
 
         $form = $this->createForm(ArtworkType::class, $artwork);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()){
+        if ($form->isSubmitted() && $form->isValid()){
 
-            if(!$recaptcha->verify( $request->request->get('g-recaptcha-response'), $request->server->get('REMOTE_ADDR') )){
 
-                // Ajout d'une nouvelle erreur manuellement dans le formulaire
-                $form->addError(new FormError('Veuillez remplir le captcha de sécurité'));
+            $picture = $form->get('picture')->getData();
+
+            $newFileName = md5( random_bytes(100) . time() ) . '.' . $picture->guessExtension();
+
+            if($artwork->getPicture() != null){
+                unlink($this->getParameter('artwork.photo.directory') . $oldFileName );
             }
 
-            if ($form->isValid()) {
-
-                $picture = $form->get('picture')->getData();
-
-                $newFileName = md5( random_bytes(100) . time() ) . '.' . $picture->guessExtension();
-
-                if($artwork->getPicture() != null){
-                    unlink($this->getParameter('artwork.photo.directory') . $oldFileName );
-                }
-
-                $artwork->setPicture($newFileName);
+            $artwork->setPicture($newFileName);
 
 
-                $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager()->flush();
 
-                $picture->move(
-                    $this->getParameter('artwork.photo.directory'),
-                    $newFileName
-                );
+            $picture->move(
+                $this->getParameter('artwork.photo.directory'),
+                $newFileName
+            );
 
-                $this->addFlash('success', 'Oeuvre éditée avec succès.');
+            $this->addFlash('success', 'Oeuvre éditée avec succès.');
 
 
-                return $this->redirectToRoute('artwork_show', ['slug' => $artwork->getSlug()], Response::HTTP_SEE_OTHER);
-            }
+            return $this->redirectToRoute('artwork_show', ['slug' => $artwork->getSlug()], Response::HTTP_SEE_OTHER);
 
         }
 
@@ -385,45 +359,36 @@ class ArtworkController extends AbstractController
      * @Route("/admin/admin-editer/{slug}", name="admin_artwork_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_ADMIN')")
      */
-    public function adminEdit(Request $request, Artwork $artwork, RecaptchaValidator $recaptcha): Response
+    public function adminEdit(Request $request, Artwork $artwork): Response
     {
         $oldFileName = $artwork->getPicture();
 
         $form = $this->createForm(ArtworkType::class, $artwork);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()){
+        if ($form->isSubmitted() && $form->isValid()){
 
-            if(!$recaptcha->verify( $request->request->get('g-recaptcha-response'), $request->server->get('REMOTE_ADDR') )){
+            $picture = $form->get('picture')->getData();
 
-                // Ajout d'une nouvelle erreur manuellement dans le formulaire
-                $form->addError(new FormError('Veuillez remplir le captcha de sécurité'));
+            $newFileName = md5( random_bytes(100) . time() ) . '.' . $picture->guessExtension();
+
+            if($artwork->getPicture() != null){
+                unlink($this->getParameter('artwork.photo.directory') . $oldFileName );
             }
 
-            if ($form->isValid()) {
-
-                $picture = $form->get('picture')->getData();
-
-                $newFileName = md5( random_bytes(100) . time() ) . '.' . $picture->guessExtension();
-
-                if($artwork->getPicture() != null){
-                    unlink($this->getParameter('artwork.photo.directory') . $oldFileName );
-                }
-
-                $artwork->setPicture($newFileName);
+            $artwork->setPicture($newFileName);
 
 
-                $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager()->flush();
 
-                $picture->move(
-                    $this->getParameter('artwork.photo.directory'),
-                    $newFileName
-                );
+            $picture->move(
+                $this->getParameter('artwork.photo.directory'),
+                $newFileName
+            );
 
-                $this->addFlash('success', 'Oeuvre éditée avec succès.');
+            $this->addFlash('success', 'Oeuvre éditée avec succès.');
 
-                return $this->redirectToRoute('admin_artwork_index', ['slug' => $artwork->getSlug()], Response::HTTP_SEE_OTHER);
-            }
+            return $this->redirectToRoute('admin_artwork_index', ['slug' => $artwork->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('artwork/edit.html.twig', [
